@@ -1,0 +1,185 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Web backend for Vikingr",
+        "description": "The main api for Vikingr",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/companies/{company_pk}/opportunities/": {
+            "post": {
+                "tags": [
+                    "opportunities"
+                ],
+                "summary": "Create Opportunity",
+                "operationId": "create_opportunity_api_companies__company_pk__opportunities__post",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    },
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "company_pk",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "title": "Company Pk",
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "parent_pk",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "title": "Parent Pk",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "identity",
+                        "in": "cookie",
+                        "required": false,
+                        "schema": {
+                            "title": "Identity",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOpportunity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateOpportunity": {
+                "title": "CreateOpportunity",
+                "required": [
+                    "uid",
+                    "name",
+                    "details",
+                    "score"
+                ],
+                "type": "object",
+                "properties": {
+                    "uid": {
+                        "title": "Uid",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "details": {
+                        "title": "Details",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/OpportunityScore"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "OpportunityScore": {
+                "title": "OpportunityScore",
+                "enum": [
+                    "none",
+                    "info",
+                    "low",
+                    "medium",
+                    "high",
+                    "critical",
+                    "unknown"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
