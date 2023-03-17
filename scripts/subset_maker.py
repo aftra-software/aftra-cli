@@ -44,7 +44,7 @@ def test_cases():
         assert result == expected, f"Failure. Actual {result}; Expected {expected}"
 
 
-paths = [
+PATHS = [
     "openapi",
     "info",
     "paths./api/companies/{company_pk}/opportunities/.post",
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     data = json.loads(open(args.filename).read())
-    print(json.dumps(get_subset(data, paths), indent=4))
+    print(json.dumps(get_subset(data, PATHS), indent=4))
