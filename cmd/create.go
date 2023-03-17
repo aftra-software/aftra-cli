@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -43,10 +44,24 @@ You'll need an API key to make this happen`,
 			client := ctx.Value("client").(*openapi.Client)
 			resp, err := openapi.SendIt(ctx, client, company, opportunity)
 			// TODO: handle errors here
-			fmt.Printf("err: %v", err)
-			fmt.Printf("response: %v", resp)
-			fmt.Printf("status: %v", resp.StatusCode)
-			fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
+			if err != nil {
+				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
+				return
+			}
+
+			fmt.Printf("STATUS CODE %d", resp.StatusCode)
+			switch code := resp.StatusCode; {
+			case code == http.StatusUnauthorized:
+				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
+			case code == http.StatusForbidden:
+				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden")
+			case code > 500:
+				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error")
+			case code < 300:
+				fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
+			default:
+				fmt.Fprintf(cmd.OutOrStdout(), "Unrecognized status code %d", code)
+			}
 
 		},
 	}
