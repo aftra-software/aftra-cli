@@ -5,10 +5,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"context"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -40,17 +38,16 @@ You'll need an API key to make this happen`,
 				Details: details,
 			}
 
-			ctx, _ := context.WithDeadline(context.Background(), time.Now().Add(time.Second*300))
-
-			api_key := viper.GetString("api_token")
 			company := viper.GetString("company")
-			host := viper.GetString("host")
-
-			resp, err := openapi.SendIt(ctx, host, api_key, company, opportunity)
+			ctx := cmd.Context()
+			client := ctx.Value("client").(*openapi.Client)
+			resp, err := openapi.SendIt(ctx, client, company, opportunity)
 			// TODO: handle errors here
 			fmt.Printf("err: %v", err)
 			fmt.Printf("response: %v", resp)
 			fmt.Printf("status: %v", resp.StatusCode)
+			fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
+
 		},
 	}
 )
@@ -96,4 +93,5 @@ func init() {
 	createCmd.Flags().StringVar(&name, "name", "", "Name of the opportunity")
 	createCmd.Flags().StringVar(&score, "score", string(openapi.Unknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")
 	createCmd.Flags().StringVar(&detailsStr, "details", "", "Additional details. Comma separated key=value pairs.")
+	createCmd.MarkPersistentFlagRequired("uid")
 }
