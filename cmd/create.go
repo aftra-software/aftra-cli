@@ -31,10 +31,6 @@ var (
 These will become part of the overall picture of your installation.
 You'll need an API key to make this happen`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("create called")
-			fmt.Printf("%v\n", uid)
-			fmt.Printf("%v\n", host)
-
 			details := stringToMap(detailsStr)
 
 			opportunity := openapi.CreateOpportunity{
@@ -46,11 +42,12 @@ You'll need an API key to make this happen`,
 
 			ctx, _ := context.WithDeadline(context.Background(), time.Now().Add(time.Second*300))
 
-			api_key = viper.GetString("api_token")
-			company = viper.GetString("company")
-			fmt.Printf("api_key: %s\n", api_key)
-			fmt.Printf("company: %s\n", company)
+			api_key := viper.GetString("api_token")
+			company := viper.GetString("company")
+			host := viper.GetString("host")
+
 			resp, err := openapi.SendIt(ctx, host, api_key, company, opportunity)
+			// TODO: handle errors here
 			fmt.Printf("err: %v", err)
 			fmt.Printf("response: %v", resp)
 			fmt.Printf("status: %v", resp.StatusCode)

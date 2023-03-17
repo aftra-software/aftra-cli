@@ -29,7 +29,7 @@ func (s *SecurityProviderApiKey) Intercept(ctx context.Context, req *http.Reques
 }
 
 func SendIt(ctx context.Context, server string, apiKey string, companyPk string, opportunity CreateOpportunity) (*http.Response, error) {
-	apiKeyIntercept, _ := NewSecurityProviderApiKey("mykey", apiKey)
+	apiKeyIntercept, _ := NewSecurityProviderApiKey("x-api-key", apiKey)
 	client, _ := NewClient(server, WithRequestEditorFn(apiKeyIntercept.Intercept))
 
 	params := CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams{}

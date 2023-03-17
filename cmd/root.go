@@ -14,9 +14,6 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var (
 	// Used for flags
-	host    string
-	company string
-	api_key string
 	rootCmd = &cobra.Command{
 		Use:   "iris-api",
 		Short: "A brief description of your application",
@@ -46,9 +43,10 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&host, "host", "https://app.vikin.gr", "Iris host")
+	rootCmd.PersistentFlags().String("host", "https://app.vikin.gr", "Iris host")
 	rootCmd.PersistentFlags().String("company", "", "Company value. Should look like Company-XXXX")
 	viper.BindPFlag("company", rootCmd.PersistentFlags().Lookup("company"))
+	viper.BindPFlag("host", rootCmd.PersistentFlags().Lookup("host"))
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.

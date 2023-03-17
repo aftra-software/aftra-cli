@@ -6,3 +6,4 @@ Env Variables:
 
 IRIS_COMPANY
 IRIS_API_TOKEN
+IRIS_HOST
