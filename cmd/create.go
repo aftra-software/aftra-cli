@@ -49,14 +49,13 @@ You'll need an API key to make this happen`,
 				return
 			}
 
-			fmt.Printf("STATUS CODE %d", resp.StatusCode)
 			switch code := resp.StatusCode; {
 			case code == http.StatusUnauthorized:
 				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
 			case code == http.StatusForbidden:
 				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden")
 			case code > 500:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error")
+				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d", code)
 			case code < 300:
 				fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
 			default:
