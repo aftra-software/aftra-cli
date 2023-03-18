@@ -16,14 +16,3 @@ IRIS_HOST
   $ make upgrade
 
 To add additional items to the subset, edit `PATHS` in subset_maker.py
-
-TODO:
-
-- [ ] add tests for create path
-- [ ] add API for getting company back from token and use.
-
----
-
-- [ ] add command for getting config for a token
-- [ ] add command for submission of logs
-- [ ] API for logs (cloudwatch log group per api key)
