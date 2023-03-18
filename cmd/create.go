@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	openapi "github.com/syndis-software/iris-api/pkg/openapi"
 )
 
@@ -39,11 +38,11 @@ You'll need an API key to make this happen`,
 				Details: details,
 			}
 
-			company := viper.GetString("company")
 			ctx := cmd.Context()
 			client := ctx.Value("client").(*openapi.Client)
+			company := ctx.Value("company").(string)
 			resp, err := openapi.SendIt(ctx, client, company, opportunity)
-			// TODO: handle errors here
+
 			if err != nil {
 				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
 				return
@@ -107,5 +106,6 @@ func init() {
 	createCmd.Flags().StringVar(&name, "name", "", "Name of the opportunity")
 	createCmd.Flags().StringVar(&score, "score", string(openapi.Unknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")
 	createCmd.Flags().StringVar(&detailsStr, "details", "", "Additional details. Comma separated key=value pairs.")
-	createCmd.MarkPersistentFlagRequired("uid")
+	createCmd.MarkFlagRequired("uid")
+	createCmd.MarkFlagRequired("name")
 }

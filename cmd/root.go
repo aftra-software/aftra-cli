@@ -6,7 +6,6 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -38,9 +37,6 @@ to quickly create a Cobra application.`,
 			api_key := viper.GetString("api_token")
 			company := viper.GetString("company")
 			host := viper.GetString("host")
-			fmt.Printf("api_key: %v\n", api_key)
-			fmt.Printf("company: %v\n", company)
-			fmt.Printf("host: %v\n", host)
 
 			ctx := cmd.Context()
 			doer := ctx.Value("doer").(openapi.HttpRequestDoer)
@@ -48,6 +44,7 @@ to quickly create a Cobra application.`,
 			apiKeyIntercept, _ := openapi.NewSecurityProviderApiKey("x-api-key", api_key)
 			client, _ := openapi.NewClient(host, openapi.WithRequestEditorFn(apiKeyIntercept.Intercept), openapi.WithHTTPClient(doer))
 			ctx = context.WithValue(ctx, "client", client)
+			ctx = context.WithValue(ctx, "company", company)
 			cmd.SetContext(ctx)
 		},
 	}
