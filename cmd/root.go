@@ -39,12 +39,12 @@ to quickly create a Cobra application.`,
 			host := viper.GetString("host")
 
 			ctx := cmd.Context()
-			doer := ctx.Value("doer").(openapi.HttpRequestDoer)
+			doer := ctx.Value(doerKey).(openapi.HttpRequestDoer)
 
 			apiKeyIntercept, _ := openapi.NewSecurityProviderApiKey("x-api-key", api_key)
 			client, _ := openapi.NewClient(host, openapi.WithRequestEditorFn(apiKeyIntercept.Intercept), openapi.WithHTTPClient(doer))
-			ctx = context.WithValue(ctx, "client", client)
-			ctx = context.WithValue(ctx, "company", company)
+			ctx = context.WithValue(ctx, clientKey, client)
+			ctx = context.WithValue(ctx, companyKey, company)
 			cmd.SetContext(ctx)
 		},
 	}
@@ -53,7 +53,7 @@ to quickly create a Cobra application.`,
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute(ctx context.Context, doer openapi.HttpRequestDoer) {
-	ctx = context.WithValue(ctx, "doer", doer)
+	ctx = context.WithValue(ctx, doerKey, doer)
 	err := rootCmd.ExecuteContext(ctx)
 	if err != nil {
 		os.Exit(1)

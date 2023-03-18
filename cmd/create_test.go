@@ -33,7 +33,7 @@ func Test_ExecuteCreate(t *testing.T) {
 		rootCmd.SetErr(actual)
 		rootCmd.SetArgs([]string{"create", "--uid=unique101", "--name=foo", "--score=medium", "--details=a=1,b=2"})
 
-		ctx := context.WithValue(context.Background(), "doer", mockDoer) // TODO: move to use special type
+		ctx := context.WithValue(context.Background(), doerKey, mockDoer)
 		createCmd.SetContext(ctx)
 
 		err := rootCmd.ExecuteContext(ctx)

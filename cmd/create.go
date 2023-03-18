@@ -39,8 +39,8 @@ You'll need an API key to make this happen`,
 			}
 
 			ctx := cmd.Context()
-			client := ctx.Value("client").(*openapi.Client)
-			company := ctx.Value("company").(string)
+			client := ctx.Value(clientKey).(*openapi.Client)
+			company := ctx.Value(companyKey).(string)
 			resp, err := openapi.SendIt(ctx, client, company, opportunity)
 
 			if err != nil {
