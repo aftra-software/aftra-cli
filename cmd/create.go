@@ -41,7 +41,7 @@ You'll need an API key to make this happen`,
 			ctx := cmd.Context()
 			client := ctx.Value(clientKey).(*openapi.Client)
 			company := ctx.Value(companyKey).(string)
-			resp, err := openapi.SendIt(ctx, client, company, opportunity)
+			resp, err := openapi.DoCreateOpportunity(ctx, client, company, opportunity)
 
 			if err != nil {
 				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
