@@ -86,10 +86,136 @@
                     }
                 }
             }
+        },
+        "/api/token/": {
+            "get": {
+                "tags": [
+                    "api_token"
+                ],
+                "summary": "Get Token Api",
+                "operationId": "Get token info",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MaskedToken"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                },
+                "security": [
+                    {
+                        "APIKeyHeader": []
+                    }
+                ]
+            }
+        },
+        "/api/token/logs": {
+            "post": {
+                "tags": [
+                    "api_token"
+                ],
+                "summary": "Submit Log",
+                "operationId": "Submit logs for token",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Logs",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/SubmitLogEvent"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "APIKeyHeader": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "MaskedToken": {
+                "title": "MaskedToken",
+                "required": [
+                    "name",
+                    "id",
+                    "company",
+                    "config"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "company": {
+                        "title": "Company",
+                        "type": "string"
+                    },
+                    "config": {
+                        "title": "Config",
+                        "type": "string"
+                    }
+                }
+            },
+            "SubmitLogEvent": {
+                "title": "SubmitLogEvent",
+                "required": [
+                    "timestamp",
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "integer"
+                    },
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
             "CreateOpportunity": {
                 "title": "CreateOpportunity",
                 "required": [

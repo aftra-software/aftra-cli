@@ -47,8 +47,22 @@ type HTTPValidationError struct {
 	Detail *[]ValidationError `json:"detail,omitempty"`
 }
 
+// MaskedToken defines model for MaskedToken.
+type MaskedToken struct {
+	Company string `json:"company"`
+	Config  string `json:"config"`
+	Id      string `json:"id"`
+	Name    string `json:"name"`
+}
+
 // OpportunityScore An enumeration.
 type OpportunityScore string
+
+// SubmitLogEvent defines model for SubmitLogEvent.
+type SubmitLogEvent struct {
+	Message   string `json:"message"`
+	Timestamp int    `json:"timestamp"`
+}
 
 // ValidationError defines model for ValidationError.
 type ValidationError struct {
@@ -74,8 +88,14 @@ type CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams struct {
 	Identity *string `form:"identity,omitempty" json:"identity,omitempty"`
 }
 
+// SubmitLogsForTokenJSONBody defines parameters for SubmitLogsForToken.
+type SubmitLogsForTokenJSONBody = []SubmitLogEvent
+
 // CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody defines body for CreateOpportunityApiCompaniesCompanyPkOpportunitiesPost for application/json ContentType.
 type CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody = CreateOpportunity
+
+// SubmitLogsForTokenJSONRequestBody defines body for SubmitLogsForToken for application/json ContentType.
+type SubmitLogsForTokenJSONRequestBody = SubmitLogsForTokenJSONBody
 
 // AsValidationErrorLoc0 returns the union data inside the ValidationError_Loc_Item as a ValidationErrorLoc0
 func (t ValidationError_Loc_Item) AsValidationErrorLoc0() (ValidationErrorLoc0, error) {
@@ -216,6 +236,14 @@ type ClientInterface interface {
 	CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBody(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	CreateOpportunityApiCompaniesCompanyPkOpportunitiesPost(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, body CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetTokenInfo request
+	GetTokenInfo(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SubmitLogsForToken request with any body
+	SubmitLogsForTokenWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SubmitLogsForToken(ctx context.Context, body SubmitLogsForTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBody(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -232,6 +260,42 @@ func (c *Client) CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBody
 
 func (c *Client) CreateOpportunityApiCompaniesCompanyPkOpportunitiesPost(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, body CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCreateOpportunityApiCompaniesCompanyPkOpportunitiesPostRequest(c.Server, companyPk, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetTokenInfo(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetTokenInfoRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SubmitLogsForTokenWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSubmitLogsForTokenRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SubmitLogsForToken(ctx context.Context, body SubmitLogsForTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSubmitLogsForTokenRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -324,6 +388,73 @@ func NewCreateOpportunityApiCompaniesCompanyPkOpportunitiesPostRequestWithBody(s
 	return req, nil
 }
 
+// NewGetTokenInfoRequest generates requests for GetTokenInfo
+func NewGetTokenInfoRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/token/")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSubmitLogsForTokenRequest calls the generic SubmitLogsForToken builder with application/json body
+func NewSubmitLogsForTokenRequest(server string, body SubmitLogsForTokenJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSubmitLogsForTokenRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewSubmitLogsForTokenRequestWithBody generates requests for SubmitLogsForToken with any type of body
+func NewSubmitLogsForTokenRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/api/token/logs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 func (c *Client) applyEditors(ctx context.Context, req *http.Request, additionalEditors []RequestEditorFn) error {
 	for _, r := range c.RequestEditors {
 		if err := r(ctx, req); err != nil {
@@ -371,6 +502,14 @@ type ClientWithResponsesInterface interface {
 	CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBodyWithResponse(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse, error)
 
 	CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithResponse(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, body CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse, error)
+
+	// GetTokenInfo request
+	GetTokenInfoWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetTokenInfoResponse, error)
+
+	// SubmitLogsForToken request with any body
+	SubmitLogsForTokenWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SubmitLogsForTokenResponse, error)
+
+	SubmitLogsForTokenWithResponse(ctx context.Context, body SubmitLogsForTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*SubmitLogsForTokenResponse, error)
 }
 
 type CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse struct {
@@ -396,6 +535,51 @@ func (r CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse) StatusC
 	return 0
 }
 
+type GetTokenInfoResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *MaskedToken
+}
+
+// Status returns HTTPResponse.Status
+func (r GetTokenInfoResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetTokenInfoResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SubmitLogsForTokenResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *interface{}
+	JSON422      *HTTPValidationError
+}
+
+// Status returns HTTPResponse.Status
+func (r SubmitLogsForTokenResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SubmitLogsForTokenResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 // CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBodyWithResponse request with arbitrary body returning *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse
 func (c *ClientWithResponses) CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBodyWithResponse(ctx context.Context, companyPk string, params *CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse, error) {
 	rsp, err := c.CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithBody(ctx, companyPk, params, contentType, body, reqEditors...)
@@ -411,6 +595,32 @@ func (c *ClientWithResponses) CreateOpportunityApiCompaniesCompanyPkOpportunitie
 		return nil, err
 	}
 	return ParseCreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse(rsp)
+}
+
+// GetTokenInfoWithResponse request returning *GetTokenInfoResponse
+func (c *ClientWithResponses) GetTokenInfoWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetTokenInfoResponse, error) {
+	rsp, err := c.GetTokenInfo(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetTokenInfoResponse(rsp)
+}
+
+// SubmitLogsForTokenWithBodyWithResponse request with arbitrary body returning *SubmitLogsForTokenResponse
+func (c *ClientWithResponses) SubmitLogsForTokenWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SubmitLogsForTokenResponse, error) {
+	rsp, err := c.SubmitLogsForTokenWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSubmitLogsForTokenResponse(rsp)
+}
+
+func (c *ClientWithResponses) SubmitLogsForTokenWithResponse(ctx context.Context, body SubmitLogsForTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*SubmitLogsForTokenResponse, error) {
+	rsp, err := c.SubmitLogsForToken(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSubmitLogsForTokenResponse(rsp)
 }
 
 // ParseCreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse parses an HTTP response from a CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostWithResponse call
@@ -433,6 +643,65 @@ func ParseCreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse(rsp *h
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest HTTPValidationError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetTokenInfoResponse parses an HTTP response from a GetTokenInfoWithResponse call
+func ParseGetTokenInfoResponse(rsp *http.Response) (*GetTokenInfoResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetTokenInfoResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest MaskedToken
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSubmitLogsForTokenResponse parses an HTTP response from a SubmitLogsForTokenWithResponse call
+func ParseSubmitLogsForTokenResponse(rsp *http.Response) (*SubmitLogsForTokenResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SubmitLogsForTokenResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest interface{}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
 		var dest HTTPValidationError
