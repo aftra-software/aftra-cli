@@ -40,7 +40,7 @@ Some useful env variables to ensure are set are:
 			doer := ctx.Value(doerKey).(openapi.HttpRequestDoer)
 
 			apiKeyIntercept, _ := openapi.NewSecurityProviderApiKey("x-api-key", api_key)
-			client, _ := openapi.NewClient(host, openapi.WithRequestEditorFn(apiKeyIntercept.Intercept), openapi.WithHTTPClient(doer))
+			client, _ := openapi.NewClientWithResponses(host, openapi.WithRequestEditorFn(apiKeyIntercept.Intercept), openapi.WithHTTPClient(doer))
 			ctx = context.WithValue(ctx, clientKey, client)
 			ctx = context.WithValue(ctx, companyKey, company)
 			cmd.SetContext(ctx)

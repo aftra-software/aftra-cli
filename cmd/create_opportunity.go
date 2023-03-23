@@ -32,7 +32,7 @@ var opportunityCmd = &cobra.Command{
 		}
 
 		ctx := cmd.Context()
-		client := ctx.Value(clientKey).(*openapi.Client)
+		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
 		company := ctx.Value(companyKey).(string)
 		resp, err := openapi.DoCreateOpportunity(ctx, client, company, opportunity)
 

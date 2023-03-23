@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_ExecuteCreate(t *testing.T) {
+func Test_ExecuteCreateOpportunity(t *testing.T) {
 	type test struct {
 		serverResponse int
 		expectedOutput string
@@ -25,7 +25,7 @@ func Test_ExecuteCreate(t *testing.T) {
 
 	for _, tc := range tests {
 		mockDoer := &MockHTTP{
-			Response:      http.Response{StatusCode: tc.serverResponse, Status: "Unauthorized"},
+			Response:      http.Response{StatusCode: tc.serverResponse, Status: ""},
 			ResponseError: nil,
 		}
 		actual := new(bytes.Buffer)

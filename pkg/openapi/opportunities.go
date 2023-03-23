@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func DoCreateOpportunity(ctx context.Context, client *Client, companyPk string, opportunity CreateOpportunity) (*http.Response, error) {
+func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, companyPk string, opportunity CreateOpportunity) (*http.Response, error) {
 
 	params := CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams{}
 	return client.CreateOpportunityApiCompaniesCompanyPkOpportunitiesPost(

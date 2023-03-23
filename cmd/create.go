@@ -25,7 +25,7 @@ var (
 
 You'll need an API key to make this happen`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Error: must also specify a resource like opportunity")
+			fmt.Println("Error: must also specify a resource. eg opportunity")
 		},
 	}
 )
