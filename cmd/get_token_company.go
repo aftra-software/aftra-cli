@@ -14,13 +14,12 @@ import (
 // companyCmd represents the company command
 var getTokenCompanyCmd = &cobra.Command{
 	Use:   "company",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Get the company associated with this token",
+	Long: `Get the company associated with this token
+	
+Some commands require a company id. Use this command to get the company from the 
+API. This can be then set as the environment variable IRIS_COMPANY for future use.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)

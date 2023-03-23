@@ -13,11 +13,6 @@ import (
 // createCmd represents the create command
 
 var (
-	uid        string
-	name       string
-	score      string
-	detailsStr string
-
 	createCmd = &cobra.Command{
 		Use:   "create",
 		Short: "Create entities inside Iris",

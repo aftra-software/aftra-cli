@@ -14,48 +14,55 @@ import (
 )
 
 // opportunityCmd represents the opportunity command
-var opportunityCmd = &cobra.Command{
-	Use:   "opportunity",
-	Short: "Create internal opportunities inside Iris",
-	Long: `Use the Iris API to create internal opportunities
+var (
+	uid        string
+	name       string
+	score      string
+	detailsStr string
+
+	opportunityCmd = &cobra.Command{
+		Use:   "opportunity",
+		Short: "Create internal opportunities inside Iris",
+		Long: `Use the Iris API to create internal opportunities
 
 	These will become part of the overall picture of your installation.
 	You'll need an API key to make this happen`,
-	Run: func(cmd *cobra.Command, args []string) {
-		details := stringToMap(detailsStr)
+		Run: func(cmd *cobra.Command, args []string) {
+			details := stringToMap(detailsStr)
 
-		opportunity := openapi.CreateOpportunity{
-			Name:    name,
-			Uid:     uid,
-			Score:   openapi.OpportunityScore(score),
-			Details: details,
-		}
+			opportunity := openapi.CreateOpportunity{
+				Name:    name,
+				Uid:     uid,
+				Score:   openapi.OpportunityScore(score),
+				Details: details,
+			}
 
-		ctx := cmd.Context()
-		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		company := ctx.Value(companyKey).(string)
-		resp, err := openapi.DoCreateOpportunity(ctx, client, company, opportunity)
+			ctx := cmd.Context()
+			client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
+			company := ctx.Value(companyKey).(string)
+			resp, err := openapi.DoCreateOpportunity(ctx, client, company, opportunity)
 
-		if err != nil {
-			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
-			return
-		}
+			if err != nil {
+				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
+				return
+			}
 
-		switch code := resp.StatusCode; {
-		case code == http.StatusUnauthorized:
-			fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
-		case code == http.StatusForbidden:
-			fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden")
-		case code > 500:
-			fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d", code)
-		case code < 300:
-			fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
-		default:
-			fmt.Fprintf(cmd.OutOrStdout(), "Unrecognized status code %d", code)
-		}
+			switch code := resp.StatusCode; {
+			case code == http.StatusUnauthorized:
+				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
+			case code == http.StatusForbidden:
+				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden")
+			case code > 500:
+				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d", code)
+			case code < 300:
+				fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
+			default:
+				fmt.Fprintf(cmd.OutOrStdout(), "Unrecognized status code %d", code)
+			}
 
-	},
-}
+		},
+	}
+)
 
 func stringToMap(str string) map[string]string {
 	result := make(map[string]string)

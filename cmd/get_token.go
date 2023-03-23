@@ -15,13 +15,14 @@ import (
 // tokenCmd represents the token command
 var getTokenCmd = &cobra.Command{
 	Use:   "token",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Get token information for currently active token",
+	Long: `Get token information for currently active token
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Without args, this will output the full json text representing the token.
+
+Supply "config" or "company" arguments to get escaped versions for 
+use in setup scripts.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)

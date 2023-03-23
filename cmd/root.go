@@ -63,8 +63,8 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().String("host", "https://app.vikin.gr", "Iris host")
-	rootCmd.PersistentFlags().String("company", "", "Company value. Should look like Company-XXXX")
+	rootCmd.PersistentFlags().String("host", "https://app.vikin.gr", "Iris host (IRIS_HOST)")
+	rootCmd.PersistentFlags().String("company", "", "Company ID. Should look like Company-XXXX (IRIS_COMPANY)")
 	viper.BindPFlag("company", rootCmd.PersistentFlags().Lookup("company"))
 	viper.BindPFlag("host", rootCmd.PersistentFlags().Lookup("host"))
 
