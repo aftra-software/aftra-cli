@@ -44,7 +44,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 			}
 
 			// TODO: Move this stuff into some generic error handler
-			// TODO: Add tests around status codes of the command
+			// TODO: Add tests around status codes of the commands
 			switch code := resp.StatusCode; {
 			case code == http.StatusUnauthorized:
 				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
@@ -59,6 +59,8 @@ the token config in iris. Simply pass in any string and it will appear there.
 
 		} else {
 			// Assume we're in stdin mode.
+			// TODO: Batch up and submit every so often, let's say once every 10 seconds for now
+			// and also on exit
 		}
 
 	},
