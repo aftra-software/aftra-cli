@@ -16,3 +16,9 @@ IRIS_HOST
   $ make upgrade
 
 To add additional items to the subset, edit `PATHS` in subset_maker.py
+
+## Commands
+
+iris-api create opportunity
+iris-api get token
+iris-api log

@@ -31,10 +31,10 @@ func Test_ExecuteCreate(t *testing.T) {
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)
 		rootCmd.SetErr(actual)
-		rootCmd.SetArgs([]string{"create", "--uid=unique101", "--name=foo", "--score=medium", "--details=a=1,b=2"})
+		rootCmd.SetArgs([]string{"create", "opportunity", "--uid=unique101", "--name=foo", "--score=medium", "--details=a=1,b=2"})
 
 		ctx := context.WithValue(context.Background(), doerKey, mockDoer)
-		createCmd.SetContext(ctx)
+		opportunityCmd.SetContext(ctx)
 
 		err := rootCmd.ExecuteContext(ctx)
 
