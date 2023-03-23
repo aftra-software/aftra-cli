@@ -9853,7 +9853,8 @@
         "properties": {
           "timestamp": {
             "title": "Timestamp",
-            "type": "integer"
+            "type": "integer",
+            "format": "int64"
           },
           "message": {
             "title": "Message",

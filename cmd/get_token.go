@@ -26,7 +26,7 @@ use in setup scripts.
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		tokenInfo, err := openapi.DoFetchToken(ctx, client)
+		tokenInfo, err := client.GetTokenInfoWithResponse(ctx)
 
 		if err != nil {
 			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)

@@ -61,7 +61,7 @@ type OpportunityScore string
 // SubmitLogEvent defines model for SubmitLogEvent.
 type SubmitLogEvent struct {
 	Message   string `json:"message"`
-	Timestamp int    `json:"timestamp"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 // ValidationError defines model for ValidationError.
@@ -659,7 +659,6 @@ func ParseCreateOpportunityApiCompaniesCompanyPkOpportunitiesPostResponse(rsp *h
 // ParseGetTokenInfoResponse parses an HTTP response from a GetTokenInfoWithResponse call
 func ParseGetTokenInfoResponse(rsp *http.Response) (*GetTokenInfoResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
-	
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err

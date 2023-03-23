@@ -23,7 +23,7 @@ API. This can be then set as the environment variable IRIS_COMPANY for future us
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		tokenInfo, err := openapi.DoFetchToken(ctx, client)
+		tokenInfo, err := client.GetTokenInfoWithResponse(ctx)
 
 		if err != nil {
 			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)

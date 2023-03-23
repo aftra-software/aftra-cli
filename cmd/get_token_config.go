@@ -22,7 +22,7 @@ The output is suitable for being piped into a file for future use`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		tokenInfo, err := openapi.DoFetchToken(ctx, client)
+		tokenInfo, err := client.GetTokenInfoWithResponse(ctx)
 
 		if err != nil {
 			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)

@@ -52,7 +52,7 @@ var (
 				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
 			case code == http.StatusForbidden:
 				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden")
-			case code > 500:
+			case code >= 500:
 				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d", code)
 			case code < 300:
 				fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
