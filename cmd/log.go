@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 Syndis ehf. <syndis@syndis.is>
 
 */
 package cmd
@@ -71,7 +71,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 			<-done
 
 			close(messages)
-
+			close(stop)
 		}
 
 	},
@@ -123,7 +123,6 @@ func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bo
 			done <- true
 			return
 		case <-control:
-			fmt.Printf("%s: Total received %d\n", time.Now().Format(time.RFC3339), count)
 			upload(ctx, logs, stdErr)
 			logs = nil
 		}
