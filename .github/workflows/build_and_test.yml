@@ -27,12 +27,6 @@ jobs:
 
       - name: Generate
         run: |
-          env | grep GO
-          ls ~/go
-          echo "bin contents"
-          ls ~/go/bin
-          echo "--------"
-          echo $PATH
           go generate -v ./...
 
       - name: Build
