@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -18,64 +17,67 @@ import (
 )
 
 // logCmd represents the log command
-var logCmd = &cobra.Command{
-	Use:   "log",
-	Short: "Submit a log message for the current token",
-	Long: `Submit a log message for the current token
+var (
+	logCmd = &cobra.Command{
+		Use:   "log",
+		Short: "Submit a log message for the current token",
+		Long: `Submit a log message for the current token
 	
 Log messages can be viewed against the token in the Iris UI. This can provide a
 useful feedback loop if you are configuring your token-using-application via
 the token config in iris. Simply pass in any string and it will appear there.
 `,
-	Run: func(cmd *cobra.Command, args []string) {
-		ctx := cmd.Context()
+		Run: func(cmd *cobra.Command, args []string) {
+			ctx := cmd.Context()
 
-		if len(args) > 0 {
-			// Log a single message
-			logs := make([]openapi.SubmitLogEvent, 0, 1)
-			logs = append(logs, openapi.SubmitLogEvent{
-				Message:   args[0],
-				Timestamp: time.Now().UnixMilli(),
-			})
-			upload(ctx, logs, cmd.ErrOrStderr())
+			if len(args) > 0 {
+				// Log a single message
+				logs := make([]openapi.SubmitLogEvent, 0, 1)
+				logs = append(logs, openapi.SubmitLogEvent{
+					Message:   args[0],
+					Timestamp: time.Now().UnixMilli(),
+				})
+				upload(ctx, logs, cmd.ErrOrStderr())
 
-		} else {
-			// Assume we're in stdin mode.
-			// 4 channels
-			//  - message handler
-			//	- stop (used to indicate exit)
-			//  - ticker (controls how frequently we save)
-			//  - done (used to force main thread to wait for goroutine completion)
+			} else {
+				// Assume we're in stdin mode.
+				// 4 channels
+				//  - message handler
+				//	- stop (used to indicate exit)
+				//  - ticker (controls how frequently we save)
+				//  - done (used to force main thread to wait for goroutine completion)
 
-			// 1 worker
-			//  - api_worker: Add scanned text to a list. If it gets told by ticker to upload
-			//                do that.
+				// 1 worker
+				//  - api_worker: Add scanned text to a list. If it gets told by ticker to upload
+				//                do that.
 
-			scanner := bufio.NewScanner(os.Stdin)
+				stdIn := ctx.Value(stdInKey).(io.Reader)
+				scanner := bufio.NewScanner(stdIn)
 
-			messages := make(chan string)
-			done := make(chan bool)
-			stop := make(chan bool)
+				messages := make(chan string)
+				done := make(chan bool)
+				stop := make(chan bool)
 
-			var uploadFrequency time.Duration = 3 * time.Second
-			ticker := time.NewTicker(uploadFrequency)
+				var uploadFrequency time.Duration = 3 * time.Second
+				ticker := time.NewTicker(uploadFrequency)
 
-			go api_worker(messages, ticker.C, stop, done, ctx, cmd.ErrOrStderr())
+				go api_worker(messages, ticker.C, stop, done, ctx, cmd.ErrOrStderr())
 
-			for scanner.Scan() {
-				messages <- scanner.Text()
+				for scanner.Scan() {
+					messages <- scanner.Text()
+				}
+
+				stop <- true
+
+				<-done
+
+				close(messages)
+				close(stop)
 			}
 
-			stop <- true
-
-			<-done
-
-			close(messages)
-			close(stop)
-		}
-
-	},
-}
+		},
+	}
+)
 
 func upload(ctx context.Context, logs []openapi.SubmitLogEvent, stdErr io.Writer) {
 	if len(logs) == 0 {
@@ -132,4 +134,5 @@ func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bo
 
 func init() {
 	rootCmd.AddCommand(logCmd)
+
 }

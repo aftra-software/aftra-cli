@@ -53,6 +53,7 @@ Some useful env variables to ensure are set are:
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute(ctx context.Context, doer openapi.HttpRequestDoer) {
 	ctx = context.WithValue(ctx, doerKey, doer)
+	ctx = context.WithValue(ctx, stdInKey, os.Stdin)
 	err := rootCmd.ExecuteContext(ctx)
 	if err != nil {
 		os.Exit(1)

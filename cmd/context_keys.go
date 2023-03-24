@@ -6,4 +6,5 @@ const (
 	doerKey key = iota
 	clientKey
 	companyKey
+	stdInKey
 )
