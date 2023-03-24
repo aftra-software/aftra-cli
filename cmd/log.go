@@ -7,6 +7,7 @@ package cmd
 import (
 	"bufio"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"time"
@@ -36,7 +37,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 					Message:   args[0],
 					Timestamp: time.Now().UnixMilli(),
 				})
-				err := upload(ctx, logs, cmd.ErrOrStderr())
+				err := upload(ctx, logs)
 
 				if err != nil {
 					return err
@@ -64,7 +65,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 				var uploadFrequency time.Duration = 3 * time.Second
 				ticker := time.NewTicker(uploadFrequency)
 
-				go api_worker(messages, ticker.C, stop, done, ctx, cmd.ErrOrStderr())
+				go api_worker(messages, ticker.C, stop, done, ctx)
 
 				for scanner.Scan() {
 					messages <- scanner.Text()
@@ -83,7 +84,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 	}
 )
 
-func upload(ctx context.Context, logs []openapi.SubmitLogEvent, stdErr io.Writer) error {
+func upload(ctx context.Context, logs []openapi.SubmitLogEvent) error {
 	if len(logs) == 0 {
 		return nil
 	}
@@ -94,14 +95,28 @@ func upload(ctx context.Context, logs []openapi.SubmitLogEvent, stdErr io.Writer
 	resp, err := client.SubmitLogsForToken(ctx, foo)
 
 	if err != nil {
-		fmt.Fprintf(stdErr, "Error: %s", err)
 		return err
+	}
+
+	obj, err := openapi.ParseSubmitLogsForTokenResponse(resp)
+
+	if err != nil {
+		return err
+	}
+
+	if obj.JSON422 != nil {
+		repr, err := json.MarshalIndent(*obj.JSON422.Detail, "", "\t")
+
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("validation error: %s", repr)
 	}
 
 	return openapi.CheckStatus(resp)
 }
 
-func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bool, done chan<- bool, ctx context.Context, stdErr io.Writer) {
+func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bool, done chan<- bool, ctx context.Context) {
 	logs := make([]openapi.SubmitLogEvent, 0, 1)
 	count := 0
 	for {
@@ -113,11 +128,11 @@ func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bo
 			})
 			count += 1
 		case <-stop:
-			upload(ctx, logs, stdErr)
+			upload(ctx, logs)
 			done <- true
 			return
 		case <-control:
-			upload(ctx, logs, stdErr)
+			upload(ctx, logs)
 			logs = nil
 		}
 	}
