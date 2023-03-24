@@ -43,21 +43,21 @@ var (
 			resp, err := openapi.DoCreateOpportunity(ctx, client, company, opportunity)
 
 			if err != nil {
-				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
+				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s\n", err)
 				return
 			}
 
 			switch code := resp.StatusCode; {
 			case code == http.StatusUnauthorized:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized")
+				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized\n")
 			case code == http.StatusForbidden:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden")
+				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden\n")
 			case code >= 500:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d", code)
+				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d\n", code)
 			case code < 300:
-				fmt.Fprintf(cmd.OutOrStdout(), "%s created", uid)
+				fmt.Fprintf(cmd.OutOrStdout(), "%s created\n", uid)
 			default:
-				fmt.Fprintf(cmd.OutOrStdout(), "Unrecognized status code %d", code)
+				fmt.Fprintf(cmd.OutOrStdout(), "Unrecognized status code %d\n", code)
 			}
 
 		},
@@ -67,9 +67,6 @@ var (
 func stringToMap(str string) map[string]string {
 	result := make(map[string]string)
 
-	if str == "" {
-		return result
-	}
 	// split the string into key-value pairs
 	pairs := strings.Split(str, ",")
 	// loop through each key-value pair
@@ -91,7 +88,6 @@ func stringToMap(str string) map[string]string {
 
 func init() {
 	createCmd.AddCommand(opportunityCmd)
-
 	opportunityCmd.Flags().StringVar(&uid, "uid", "", "Unique identifier for the opportunity")
 	opportunityCmd.Flags().StringVar(&name, "name", "", "Name of the opportunity")
 	opportunityCmd.Flags().StringVar(&score, "score", string(openapi.Unknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")
