@@ -92,15 +92,6 @@ func stringToMap(str string) map[string]string {
 func init() {
 	createCmd.AddCommand(opportunityCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// opportunityCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// opportunityCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	opportunityCmd.Flags().StringVar(&uid, "uid", "", "Unique identifier for the opportunity")
 	opportunityCmd.Flags().StringVar(&name, "name", "", "Name of the opportunity")
 	opportunityCmd.Flags().StringVar(&score, "score", string(openapi.Unknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")

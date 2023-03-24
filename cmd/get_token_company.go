@@ -36,14 +36,4 @@ API. This can be then set as the environment variable IRIS_COMPANY for future us
 
 func init() {
 	getTokenCmd.AddCommand(getTokenCompanyCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// companyCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// companyCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
