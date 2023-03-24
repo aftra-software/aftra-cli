@@ -21,7 +21,9 @@ jobs:
           go-version: 1.18
 
       - name: Install dependencies
-        run: go get -v .
+        run: |
+          go get -v .
+          go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.12.4
 
       - name: Generate
         run: |
