@@ -5,9 +5,7 @@ Copyright © 2023 Syndis ehf. <syndis@syndis.is>
 package cmd
 
 import (
-	"errors"
 	"fmt"
-	"net/http"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -48,19 +46,11 @@ var (
 				return err
 			}
 
-			switch code := resp.StatusCode; {
-			case code == http.StatusUnauthorized:
-				return fmt.Errorf("unauthorized")
-			case code == http.StatusForbidden:
-				return errors.New("forbidden")
-			case code >= 500:
-				return fmt.Errorf("server error: %d", code)
-			case code < 300:
+			err = openapi.CheckStatus(resp)
+			if err == nil {
 				fmt.Fprintf(cmd.OutOrStdout(), "%s created\n", uid)
-				return nil
-			default:
-				return fmt.Errorf("unrecognized status code %d", code)
 			}
+			return err
 		},
 	}
 )

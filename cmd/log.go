@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"net/http"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -79,9 +78,9 @@ the token config in iris. Simply pass in any string and it will appear there.
 	}
 )
 
-func upload(ctx context.Context, logs []openapi.SubmitLogEvent, stdErr io.Writer) {
+func upload(ctx context.Context, logs []openapi.SubmitLogEvent, stdErr io.Writer) error {
 	if len(logs) == 0 {
-		return
+		return nil
 	}
 	client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
 
@@ -91,24 +90,12 @@ func upload(ctx context.Context, logs []openapi.SubmitLogEvent, stdErr io.Writer
 
 	if err != nil {
 		fmt.Fprintf(stdErr, "Error: %s", err)
-		return
+		return err
 	}
 
-	// TODO: Move this stuff into some generic error handler
-	// TODO: Add tests around status codes of the commands
-	switch code := resp.StatusCode; {
-	case code == http.StatusUnauthorized:
-		fmt.Fprintf(stdErr, "Unauthorized")
-	case code == http.StatusForbidden:
-		fmt.Fprintf(stdErr, "Forbidden")
-	case code >= 500:
-		fmt.Fprintf(stdErr, "Server Error: %d", code)
-	case code <= 200:
-	default:
-		fmt.Fprintf(stdErr, "Unrecognized status code %d", code)
-	}
-
+	return openapi.CheckStatus(resp)
 }
+
 func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bool, done chan<- bool, ctx context.Context, stdErr io.Writer) {
 	logs := make([]openapi.SubmitLogEvent, 0, 1)
 	count := 0
