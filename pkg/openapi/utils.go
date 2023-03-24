@@ -13,6 +13,8 @@ func CheckStatus(resp *http.Response) error {
 		return fmt.Errorf("unauthorized")
 	case code == http.StatusForbidden:
 		return errors.New("forbidden")
+	case code == 422:
+		return errors.New("validation")
 	case code >= 500:
 		return fmt.Errorf("server error: %d", code)
 	case code < 300:

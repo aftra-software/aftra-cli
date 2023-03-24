@@ -29,7 +29,11 @@ func Test_ExecuteCreateOpportunity(t *testing.T) {
 
 	for _, tc := range tests {
 		mockDoer := &MockHTTP{
-			Response:      http.Response{StatusCode: tc.serverResponse, Status: ""},
+			Response: http.Response{
+				StatusCode: tc.serverResponse,
+				Status:     "",
+				Body:       ioutil.NopCloser(bytes.NewBufferString("null")),
+			},
 			ResponseError: nil,
 		}
 		actual := new(bytes.Buffer)
@@ -71,7 +75,11 @@ func Test_ExecuteCreateOpportunityDetails(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			detailsStr = ""
 			mockDoer := &MockHTTP{
-				Response:      http.Response{StatusCode: 200, Status: ""},
+				Response: http.Response{
+					StatusCode: 200,
+					Status:     "",
+					Body:       ioutil.NopCloser(bytes.NewBufferString("null")),
+				},
 				ResponseError: nil,
 			}
 			actual := new(bytes.Buffer)
