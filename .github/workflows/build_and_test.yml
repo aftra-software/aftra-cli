@@ -6,6 +6,9 @@ on:
       - main
   pull_request: {}
 
+env:
+  GOPATH: "/home/runner/go"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,10 +21,17 @@ jobs:
           go-version: 1.18
 
       - name: Install dependencies
-        run: go get .
+        run: go get -v .
 
       - name: Generate
-        run: go generate -v ./...
+        run: |
+          env | grep GO
+          ls ~/go
+          echo "bin contents"
+          ls ~/go/bin
+          echo "--------"
+          echo $PATH
+          go generate -v ./...
 
       - name: Build
         run: go build -v ./...
