@@ -22,11 +22,7 @@ var (
 		Use:          "iris-api",
 		SilenceUsage: true,
 		Short:        "CLI for the Iris API",
-		Long: `CLI for using the IRIS API
-		
-Some useful env variables to ensure are set are:
-- IRIS_API_TOKEN
-		`,
+		Long:         `CLI for using the IRIS API`,
 
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Fprint(cmd.ErrOrStderr(), "Error: must also specify a command")

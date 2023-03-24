@@ -20,17 +20,18 @@ var getTokenCompanyCmd = &cobra.Command{
 Some commands require a company id. Use this command to get the company from the 
 API. This can be then set as the environment variable IRIS_COMPANY for future use.
 `,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		tokenInfo, err := client.GetTokenInfoWithResponse(ctx)
+
+		tokenInfo, err := openapi.DoGetTokenInfo(ctx, client)
 
 		if err != nil {
-			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
-			return
+			return err
 		}
+		fmt.Fprintf(cmd.OutOrStdout(), "%s\n", tokenInfo.Company)
+		return nil
 
-		fmt.Fprintf(cmd.OutOrStdout(), "%s\n", tokenInfo.JSON200.Company)
 	},
 }
 

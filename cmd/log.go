@@ -26,7 +26,7 @@ Log messages can be viewed against the token in the Iris UI. This can provide a
 useful feedback loop if you are configuring your token-using-application via
 the token config in iris. Simply pass in any string and it will appear there.
 `,
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 
 			if len(args) > 0 {
@@ -36,7 +36,11 @@ the token config in iris. Simply pass in any string and it will appear there.
 					Message:   args[0],
 					Timestamp: time.Now().UnixMilli(),
 				})
-				upload(ctx, logs, cmd.ErrOrStderr())
+				err := upload(ctx, logs, cmd.ErrOrStderr())
+
+				if err != nil {
+					return err
+				}
 
 			} else {
 				// Assume we're in stdin mode.
@@ -73,6 +77,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 				close(messages)
 				close(stop)
 			}
+			return nil
 
 		},
 	}

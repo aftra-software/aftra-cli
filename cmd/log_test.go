@@ -17,13 +17,14 @@ func Test_ExecuteLog_Single(t *testing.T) {
 	type test struct {
 		serverResponse int
 		expectedOutput string
+		errorExpected  bool
 	}
 
 	tests := map[string]test{
-		"success": {serverResponse: 200, expectedOutput: ""},
-		"401":     {serverResponse: 401, expectedOutput: "Unauthorized"},
-		"403":     {serverResponse: 403, expectedOutput: "Forbidden"},
-		"500":     {serverResponse: 500, expectedOutput: "Server Error: 500"},
+		"success": {serverResponse: 200, expectedOutput: "", errorExpected: false},
+		"401":     {serverResponse: 401, expectedOutput: "Error: unauthorized\n", errorExpected: true},
+		"403":     {serverResponse: 403, expectedOutput: "Error: forbidden\n", errorExpected: true},
+		"500":     {serverResponse: 500, expectedOutput: "Error: server error: 500\n", errorExpected: true},
 	}
 
 	for name, tc := range tests {
@@ -45,7 +46,12 @@ func Test_ExecuteLog_Single(t *testing.T) {
 
 			err := rootCmd.ExecuteContext(ctx)
 
-			assert.Equal(t, nil, err)
+			if tc.errorExpected {
+				assert.NotNil(t, err)
+			} else {
+				assert.Equal(t, nil, err)
+			}
+
 			assert.Equal(t, len(mockDoer.Requests), 1)
 
 			body, _ := ioutil.ReadAll(mockDoer.Requests[0].Body)

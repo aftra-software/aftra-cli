@@ -19,18 +19,19 @@ var getTokenConfigCmd = &cobra.Command{
 	Long: `Get the config for a token.
 
 The output is suitable for being piped into a file for future use`,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		tokenInfo, err := client.GetTokenInfoWithResponse(ctx)
+
+		tokenInfo, err := openapi.DoGetTokenInfo(ctx, client)
 
 		if err != nil {
-			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
-			return
+			return err
 		}
 
-		s, _ := strconv.Unquote(`"` + tokenInfo.JSON200.Config + `"`)
+		s, _ := strconv.Unquote(`"` + tokenInfo.Config + `"`)
 		fmt.Fprint(cmd.OutOrStdout(), s)
+		return nil
 	},
 }
 

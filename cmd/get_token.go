@@ -23,23 +23,24 @@ Without args, this will output the full json text representing the token.
 Supply "config" or "company" arguments to get escaped versions for 
 use in setup scripts.
 `,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		ctx := cmd.Context()
 		client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
-		tokenInfo, err := client.GetTokenInfoWithResponse(ctx)
+
+		tokenInfo, err := openapi.DoGetTokenInfo(ctx, client)
 
 		if err != nil {
-			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s", err)
-			return
+			return err
 		}
 
-		s, err := json.MarshalIndent(tokenInfo.JSON200, "", "\t")
+		s, err := json.MarshalIndent(tokenInfo, "", "\t")
 
 		if err != nil {
-			fmt.Fprintf(cmd.ErrOrStderr(), "Failed to unmarshall: %s", err)
-			return
+			return err
 		}
 		fmt.Fprintf(cmd.OutOrStdout(), "%s\n", string(s))
+
+		return nil
 	},
 }
 
