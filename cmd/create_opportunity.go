@@ -5,6 +5,7 @@ Copyright © 2023 Syndis ehf. <syndis@syndis.is>
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -21,13 +22,14 @@ var (
 	detailsStr string
 
 	opportunityCmd = &cobra.Command{
-		Use:   "opportunity",
-		Short: "Create internal opportunities inside Iris",
+		Use:          "opportunity",
+		SilenceUsage: true,
+		Short:        "Create internal opportunities inside Iris",
 		Long: `Use the Iris API to create internal opportunities
 
 	These will become part of the overall picture of your installation.
 	You'll need an API key to make this happen`,
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			details := stringToMap(detailsStr)
 
 			opportunity := openapi.CreateOpportunity{
@@ -43,23 +45,22 @@ var (
 			resp, err := openapi.DoCreateOpportunity(ctx, client, company, opportunity)
 
 			if err != nil {
-				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %s\n", err)
-				return
+				return err
 			}
 
 			switch code := resp.StatusCode; {
 			case code == http.StatusUnauthorized:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Unauthorized\n")
+				return fmt.Errorf("unauthorized")
 			case code == http.StatusForbidden:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Forbidden\n")
+				return errors.New("forbidden")
 			case code >= 500:
-				fmt.Fprintf(cmd.ErrOrStderr(), "Server Error: %d\n", code)
+				return fmt.Errorf("server error: %d", code)
 			case code < 300:
 				fmt.Fprintf(cmd.OutOrStdout(), "%s created\n", uid)
+				return nil
 			default:
-				fmt.Fprintf(cmd.OutOrStdout(), "Unrecognized status code %d\n", code)
+				return fmt.Errorf("unrecognized status code %d", code)
 			}
-
 		},
 	}
 )

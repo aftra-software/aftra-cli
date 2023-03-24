@@ -5,7 +5,7 @@ Copyright © 2023 Syndis ehf. <syndis@syndis.is>
 package cmd
 
 import (
-	"fmt"
+	"errors"
 
 	"github.com/spf13/cobra"
 )
@@ -19,8 +19,8 @@ var (
 		Long: `Use the Iris API to create things.
 
 You'll need an API key to make this happen`,
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Fprint(cmd.ErrOrStderr(), "Error: must also specify a resource. eg opportunity")
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return errors.New("must also specify a resource. eg opportunity")
 		},
 	}
 )

@@ -19,8 +19,9 @@ import (
 var (
 	// Used for flags
 	rootCmd = &cobra.Command{
-		Use:   "iris-api",
-		Short: "CLI for the Iris API",
+		Use:          "iris-api",
+		SilenceUsage: true,
+		Short:        "CLI for the Iris API",
 		Long: `CLI for using the IRIS API
 		
 Some useful env variables to ensure are set are:

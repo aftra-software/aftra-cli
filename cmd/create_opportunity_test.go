@@ -16,14 +16,15 @@ func Test_ExecuteCreateOpportunity(t *testing.T) {
 	type test struct {
 		serverResponse int
 		expectedOutput string
+		errorExpected  bool
 	}
 
 	tests := []test{
-		{serverResponse: 200, expectedOutput: "unique101 created"},
-		{serverResponse: 401, expectedOutput: "Unauthorized"},
-		{serverResponse: 403, expectedOutput: "Forbidden"},
-		{serverResponse: 490, expectedOutput: "Unrecognized status code 490"},
-		{serverResponse: 503, expectedOutput: "Server Error: 503"},
+		{serverResponse: 200, expectedOutput: "unique101 created\n", errorExpected: false},
+		{serverResponse: 401, expectedOutput: "Error: unauthorized\n", errorExpected: true},
+		{serverResponse: 403, expectedOutput: "Error: forbidden\n", errorExpected: true},
+		{serverResponse: 490, expectedOutput: "Error: unrecognized status code 490\n", errorExpected: true},
+		{serverResponse: 503, expectedOutput: "Error: server error: 503\n", errorExpected: true},
 	}
 
 	for _, tc := range tests {
@@ -41,7 +42,11 @@ func Test_ExecuteCreateOpportunity(t *testing.T) {
 
 		err := rootCmd.ExecuteContext(ctx)
 
-		assert.Equal(t, nil, err)
+		if tc.errorExpected {
+			assert.NotNil(t, err)
+		} else {
+			assert.Equal(t, nil, err)
+		}
 		assert.Equal(t, len(mockDoer.Requests), 1)
 		assert.Equal(t, tc.expectedOutput, actual.String())
 	}
