@@ -7,8 +7,6 @@ package cmd
 import (
 	"bufio"
 	"context"
-	"encoding/json"
-	"fmt"
 	"io"
 	"time"
 
@@ -96,21 +94,6 @@ func upload(ctx context.Context, logs []openapi.SubmitLogEvent) error {
 
 	if err != nil {
 		return err
-	}
-
-	obj, err := openapi.ParseSubmitLogsForTokenResponse(resp)
-
-	if err != nil {
-		return err
-	}
-
-	if obj.JSON422 != nil {
-		repr, err := json.MarshalIndent(*obj.JSON422.Detail, "", "\t")
-
-		if err != nil {
-			return err
-		}
-		return fmt.Errorf("validation error: %s", repr)
 	}
 
 	return openapi.CheckStatus(resp)
