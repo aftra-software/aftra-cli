@@ -1,6 +1,7 @@
 before:
   hooks:
-    - go mod tidy
+    - go get -v .
+    - go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.12.4
     - go generate ./...
 
 builds:
