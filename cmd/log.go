@@ -54,8 +54,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 				//  - api_worker: Add scanned text to a list. If it gets told by ticker to upload
 				//                do that.
 
-				stdIn := ctx.Value(stdInKey).(io.Reader)
-				scanner := bufio.NewScanner(stdIn)
+				scanner := bufio.NewScanner(cmd.InOrStdin())
 
 				messages := make(chan string)
 				done := make(chan bool)

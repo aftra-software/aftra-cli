@@ -118,10 +118,10 @@ func Test_ExecuteLog_Stdin(t *testing.T) {
 			outErr := new(bytes.Buffer)
 			rootCmd.SetOut(outStd)
 			rootCmd.SetErr(outErr)
+			rootCmd.SetIn(stdinInput)
 			rootCmd.SetArgs([]string{"log"})
 
 			ctx := context.WithValue(context.Background(), doerKey, mockDoer)
-			ctx = context.WithValue(ctx, stdInKey, stdinInput)
 			logCmd.SetContext(ctx)
 
 			err := rootCmd.ExecuteContext(ctx)
