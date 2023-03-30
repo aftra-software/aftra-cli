@@ -28,7 +28,7 @@ func CheckStatus(resp *http.Response) error {
 			if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 				return err
 			}
-			repr, err = json.MarshalIndent(*dest.Detail, "", "\t")
+			repr, err = json.Marshal(*dest.Detail)
 			if err != nil {
 				return err
 			}

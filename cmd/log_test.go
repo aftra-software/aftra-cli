@@ -15,17 +15,27 @@ import (
 
 func Test_ExecuteLog_Single(t *testing.T) {
 	type test struct {
-		serverResponse int
-		expectedOutput string
-		errorExpected  bool
+		serverResponse        int
+		serverResponseContent string
+		expectedOutput        string
+		errorExpected         bool
 	}
 
 	tests := map[string]test{
-		"success": {serverResponse: 200, expectedOutput: "", errorExpected: false},
-		"401":     {serverResponse: 401, expectedOutput: "Error: unauthorized\n", errorExpected: true},
-		"403":     {serverResponse: 403, expectedOutput: "Error: forbidden\n", errorExpected: true},
-		"500":     {serverResponse: 500, expectedOutput: "Error: server error: 500\n", errorExpected: true},
+		"success": {serverResponse: 200, serverResponseContent: "", expectedOutput: "", errorExpected: false},
+		"401":     {serverResponse: 401, serverResponseContent: "", expectedOutput: "Error: unauthorized\n", errorExpected: true},
+		"403":     {serverResponse: 403, serverResponseContent: "", expectedOutput: "Error: forbidden\n", errorExpected: true},
+		"422": {
+			serverResponse:        422,
+			serverResponseContent: "{\"detail\":[{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]}",
+			expectedOutput:        "Error: validation error: [{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]\n",
+			errorExpected:         true,
+		},
+		"500": {serverResponse: 500, serverResponseContent: "", expectedOutput: "Error: server error: 500\n", errorExpected: true},
 	}
+
+	header := make(http.Header, 1)
+	header.Set("Content-Type", "application/json")
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
@@ -33,6 +43,8 @@ func Test_ExecuteLog_Single(t *testing.T) {
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
+					Body:       ioutil.NopCloser(bytes.NewBufferString(tc.serverResponseContent)),
+					Header:     header,
 				},
 				ResponseError: nil,
 			}
@@ -67,35 +79,65 @@ func Test_ExecuteLog_Single(t *testing.T) {
 }
 
 func Test_ExecuteLog_Stdin(t *testing.T) {
-	stdinInput := strings.NewReader("abcde\nfoobar")
 
-	mockDoer := &MockHTTP{
-		Response: http.Response{
-			StatusCode: 200,
-			Status:     "",
-		},
-		ResponseError: nil,
+	type test struct {
+		serverResponse        int
+		serverResponseContent string
+		expectedErrOutput     string
 	}
-	actual := new(bytes.Buffer)
-	rootCmd.SetOut(actual)
-	rootCmd.SetErr(actual)
-	rootCmd.SetArgs([]string{"log"})
 
-	ctx := context.WithValue(context.Background(), doerKey, mockDoer)
-	ctx = context.WithValue(ctx, stdInKey, stdinInput)
-	logCmd.SetContext(ctx)
+	tests := map[string]test{
+		"success": {serverResponse: 200, serverResponseContent: "", expectedErrOutput: ""},
+		"401":     {serverResponse: 403, serverResponseContent: "", expectedErrOutput: "Error: forbidden\n"},
+		"422": {
+			serverResponse:        422,
+			serverResponseContent: "{\"detail\":[{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]}",
+			expectedErrOutput:     "Error: validation error: [{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]\n",
+		},
+		"500": {serverResponse: 500, serverResponseContent: "", expectedErrOutput: "Error: server error: 500\n"},
+	}
 
-	err := rootCmd.ExecuteContext(ctx)
+	header := make(http.Header, 1)
+	header.Set("Content-Type", "application/json")
 
-	assert.Equal(t, nil, err)
-	assert.Equal(t, len(mockDoer.Requests), 1)
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
 
-	body, _ := ioutil.ReadAll(mockDoer.Requests[0].Body)
-	var submitted []openapi.SubmitLogEvent
-	_ = json.Unmarshal(body, &submitted)
+			stdinInput := strings.NewReader("abcde\nfoobar")
 
-	assert.Equal(t, len(submitted), 2)
-	assert.Equal(t, "abcde", submitted[0].Message)
-	assert.Equal(t, "foobar", submitted[1].Message)
+			mockDoer := &MockHTTP{
+				Response: http.Response{
+					StatusCode: tc.serverResponse,
+					Status:     "",
+					Body:       ioutil.NopCloser(bytes.NewBufferString(tc.serverResponseContent)),
+					Header:     header,
+				},
+				ResponseError: nil,
+			}
+			outStd := new(bytes.Buffer)
+			outErr := new(bytes.Buffer)
+			rootCmd.SetOut(outStd)
+			rootCmd.SetErr(outErr)
+			rootCmd.SetArgs([]string{"log"})
 
+			ctx := context.WithValue(context.Background(), doerKey, mockDoer)
+			ctx = context.WithValue(ctx, stdInKey, stdinInput)
+			logCmd.SetContext(ctx)
+
+			err := rootCmd.ExecuteContext(ctx)
+
+			assert.Equal(t, nil, err)
+			assert.Equal(t, len(mockDoer.Requests), 1)
+
+			body, _ := ioutil.ReadAll(mockDoer.Requests[0].Body)
+			var submitted []openapi.SubmitLogEvent
+			_ = json.Unmarshal(body, &submitted)
+
+			assert.Equal(t, len(submitted), 2)
+			assert.Equal(t, "abcde", submitted[0].Message)
+			assert.Equal(t, "foobar", submitted[1].Message)
+			assert.Equal(t, "", outStd.String())
+			assert.Contains(t, outErr.String(), tc.expectedErrOutput)
+		})
+	}
 }

@@ -7,6 +7,7 @@ package cmd
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"io"
 	"time"
 
@@ -63,7 +64,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 				var uploadFrequency time.Duration = 3 * time.Second
 				ticker := time.NewTicker(uploadFrequency)
 
-				go api_worker(messages, ticker.C, stop, done, ctx)
+				go api_worker(messages, ticker.C, stop, done, ctx, cmd.ErrOrStderr())
 
 				for scanner.Scan() {
 					messages <- scanner.Text()
@@ -99,9 +100,10 @@ func upload(ctx context.Context, logs []openapi.SubmitLogEvent) error {
 	return openapi.CheckStatus(resp)
 }
 
-func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bool, done chan<- bool, ctx context.Context) {
+func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bool, done chan<- bool, ctx context.Context, errOut io.Writer) {
 	logs := make([]openapi.SubmitLogEvent, 0, 1)
 	count := 0
+	var err error
 	for {
 		select {
 		case message := <-messages:
@@ -111,11 +113,17 @@ func api_worker(messages <-chan string, control <-chan time.Time, stop <-chan bo
 			})
 			count += 1
 		case <-stop:
-			upload(ctx, logs)
+			err = upload(ctx, logs)
+			if err != nil {
+				fmt.Fprintf(errOut, "%s Error: %s\n", time.Now().Format(time.RFC3339), err.Error())
+			}
 			done <- true
 			return
 		case <-control:
-			upload(ctx, logs)
+			err = upload(ctx, logs)
+			if err != nil {
+				fmt.Fprintf(errOut, "%s Error: %s\n", time.Now().Format(time.RFC3339), err.Error())
+			}
 			logs = nil
 		}
 	}
