@@ -13,10 +13,10 @@ import (
 )
 
 // configCmd represents the config command
-var getTokenConfigCmd = &cobra.Command{
+var getScanConfigCmd = &cobra.Command{
 	Use:   "config",
-	Short: "Get the config for a token",
-	Long: `Get the config for a token.
+	Short: "Get the config for a scanner",
+	Long: `Get the config for a scanner.
 
 The output is suitable for being piped into a file for future use`,
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -36,5 +36,5 @@ The output is suitable for being piped into a file for future use`,
 }
 
 func init() {
-	getTokenCmd.AddCommand(getTokenConfigCmd)
+	getCmd.AddCommand(getScanConfigCmd)
 }

@@ -48,14 +48,16 @@ PATHS = [
     "openapi",
     "info",
     "paths./api/companies/{company_pk}/opportunities/.post",
-    "paths./api/token/.get",
-    "paths./api/token/logs.post",
+    "paths./api/integrations/syndis-scan/{config_name}.get",
+    "paths./api/integrations/syndis-scan/{config_name}/logs.post",
     "components.schemas.MaskedToken",
     "components.schemas.SubmitLogEvent",
     "components.schemas.CreateOpportunity",
     "components.schemas.HTTPValidationError",
     "components.schemas.OpportunityScore",
     "components.schemas.ValidationError",
+    "components.schemas.SyndisScanTypes",
+    "components.schemas.SyndisScanConfig",
 ]
 
 
