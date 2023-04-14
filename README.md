@@ -9,6 +9,7 @@ Env Variables:
 
 - IRIS_HOST: Location of the host. Used during testing of the CLI client.
 
+
 ## Rebuilding the openapi-based structs
 
 - go generate ./...
@@ -17,14 +18,14 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 
 ## Example usage
 
-| Command                           | Description                                                       |
-| --------------------------------- | ----------------------------------------------------------------- |
-| `iris-api create opportunity`     | Create an internal opportunity in Iris                            |
-| `iris-api get token`              | Get current token information in json format                      |
-| `iris-api get token config`       | Get current token config information only                         |
-| `iris-api get token company`      | Get current token company information only                        |
-| `iris-api log <msg>`              | Log the contents of msg to Iris. It will be viewable viat the API |
-| `your_command.sh \| iris-api log` | Log from stdout to Iris. It will be viewable viat the API         |
+| Command                                                            | Description                                                       |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| `iris-api create opportunity`                                      | Create an internal opportunity in Iris                            |
+| `iris-api get token`                                               | Get current token information in json format                      |
+| `iris-api get token company`                                       | Get current token company information only                        |
+| `iris-api get config <scan-type> <scan-name> `                     | Get a scan config                                                 |
+| `iris-api log <scan-type> <scan-name> <msg>`                       | Log the contents of msg to Iris. It will be viewable viat the API |
+| `your_command.sh \| iris-api log <scan-type> <scan-name>`          | Log from stdout to Iris. It will be viewable viat the API         |
 
 ### Create opportunity
 
@@ -44,9 +45,10 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 
     `$ export IRIS_COMPANY=$(iris-api get token company)`
 
-3.  (Optional) Get any config associated with the token, and put somewhere that your script uses
+3.  (Optional) Get any config required, and put somewhere that your script uses. The name is that defined on the
+    config via the web UI.
 
-    `$ iris-api get token config > config.ini`
+    `$ iris-api get config syndis-scan myscanner > config.ini`
 
 4.  Create an opportunity
 
@@ -54,4 +56,5 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 
 5.  Log out messages from stdin
 
-    `$ ./my_opportunity_finder.sh | iris-api log`
+    `$ ./my_opportunity_finder.sh | iris-api log syndis-scan myscanner`
+
