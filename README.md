@@ -22,11 +22,11 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 | ------------------------------------------------------------------ | ----------------------------------------------------------------- |
 | `iris-api create opportunity`                                      | Create an internal opportunity in Iris                            |
 | `iris-api get token`                                               | Get current token information in json format                      |
-| `iris-api get token company`                                       | Get current token company information only                        |
+| `iris-api get company`                                             | Get current token company information only                        |
 | `iris-api get config <scan-type> <scan-name> `                     | Get a scan config                                                 |
 | `iris-api log <scan-type> <scan-name> <msg>`                       | Log the contents of msg to Iris. It will be viewable viat the API |
 | `your_command.sh \| iris-api log <scan-type> <scan-name>`          | Log from stdout to Iris. It will be viewable viat the API         |
-
+        
 ### Create opportunity
 
 - uid: This should uniquely identify the opportunity. Creating with the same uid will result

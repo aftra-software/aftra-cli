@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_ExecuteGetTokenConfig(t *testing.T) {
+func Test_ExecuteGetCompany(t *testing.T) {
 	type test struct {
 		serverResponse     int
 		serverResponseData string
@@ -20,10 +20,8 @@ func Test_ExecuteGetTokenConfig(t *testing.T) {
 	tests := []test{
 		{
 			serverResponse:     200,
-			serverResponseData: `{"company": "Company-123", "config": "some multiline\\nconfiguration\\nor ini file", "id": "123", "name": "FirstKey"}`,
-			expectedOutput: `some multiline
-configuration
-or ini file`,
+			serverResponseData: `{"company": "Company-123", "id": "123", "name": "FirstKey"}`,
+			expectedOutput:     "Company-123\n",
 		},
 	}
 
@@ -43,10 +41,10 @@ or ini file`,
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)
 		rootCmd.SetErr(actual)
-		rootCmd.SetArgs([]string{"get", "token", "config"})
+		rootCmd.SetArgs([]string{"get", "company"})
 
 		ctx := context.WithValue(context.Background(), doerKey, mockDoer)
-		getTokenConfigCmd.SetContext(ctx)
+		getCompanyCmd.SetContext(ctx)
 
 		err := rootCmd.ExecuteContext(ctx)
 

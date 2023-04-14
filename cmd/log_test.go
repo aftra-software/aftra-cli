@@ -51,7 +51,7 @@ func Test_ExecuteLog_Single(t *testing.T) {
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
-			rootCmd.SetArgs([]string{"log", "My log message"})
+			rootCmd.SetArgs([]string{"log", "syndis", "scan-name", "My log message"})
 
 			ctx := context.WithValue(context.Background(), doerKey, mockDoer)
 			logCmd.SetContext(ctx)
@@ -119,7 +119,7 @@ func Test_ExecuteLog_Stdin(t *testing.T) {
 			rootCmd.SetOut(outStd)
 			rootCmd.SetErr(outErr)
 			rootCmd.SetIn(stdinInput)
-			rootCmd.SetArgs([]string{"log"})
+			rootCmd.SetArgs([]string{"log", "syndis", "scan-name"})
 
 			ctx := context.WithValue(context.Background(), doerKey, mockDoer)
 			logCmd.SetContext(ctx)
