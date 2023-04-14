@@ -9,3 +9,7 @@ upgrade:
 	oapi-codegen --package=openapi -generate=types,client -o $(mkfile_dir)/pkg/openapi/openapi.gen.go $(mkfile_dir)/scripts/openapi-subset.json
 	rm $(mkfile_dir)/scripts/openapi.json
 	rm $(mkfile_dir)/scripts/openapi-subset.json
+
+release:
+	git tag $(RELEASE)
+	git push --tags
