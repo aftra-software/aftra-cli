@@ -5,8 +5,7 @@ import (
 	"encoding/json"
 )
 
-//  change this to be getconfig, switch on scan-type
-func DoGetScanConfig(ctx context.Context, scanType string, configName string, client *ClientWithResponses) (string, error) {
+func DoGetScanConfig(ctx context.Context, configName string, client *ClientWithResponses) (string, error) {
 
 	resp, err := client.GetSyndisConfigInfo(ctx, configName)
 

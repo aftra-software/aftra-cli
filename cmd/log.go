@@ -32,7 +32,7 @@ the token config in iris. Simply pass in any string and it will appear there.
 			scanType, scanName := args[0], args[1]
 
 			switch {
-			case scanType == "syndis":
+			case ScanType(scanType) == syndis:
 				if len(args) > 2 {
 					// Log a single message
 					logs := make([]openapi.SubmitLogEvent, 0, 1)
