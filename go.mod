@@ -1,4 +1,4 @@
-module github.com/syndis-software/iris-api
+module github.com/syndis-software/aftra-api
 
 go 1.18
 

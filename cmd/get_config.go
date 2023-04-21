@@ -8,7 +8,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	openapi "github.com/syndis-software/iris-api/pkg/openapi"
+	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
 )
 
 // getCmd represents the get command

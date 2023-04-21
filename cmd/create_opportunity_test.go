@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	openapi "github.com/syndis-software/iris-api/pkg/openapi"
+	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
 )
 
 func Test_ExecuteCreateOpportunity(t *testing.T) {

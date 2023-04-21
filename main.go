@@ -8,7 +8,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/syndis-software/iris-api/cmd"
+	"github.com/syndis-software/aftra-api/cmd"
 )
 
 func main() {

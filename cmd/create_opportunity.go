@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	openapi "github.com/syndis-software/iris-api/pkg/openapi"
+	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
 )
 
 // opportunityCmd represents the opportunity command
@@ -22,8 +22,8 @@ var (
 	opportunityCmd = &cobra.Command{
 		Use:          "opportunity",
 		SilenceUsage: true,
-		Short:        "Create internal opportunities inside Iris",
-		Long: `Use the Iris API to create internal opportunities
+		Short:        "Create internal opportunities inside Aftra",
+		Long: `Use the Aftra API to create internal opportunities
 
 	These will become part of the overall picture of your installation.
 	You'll need an API key to make this happen`,

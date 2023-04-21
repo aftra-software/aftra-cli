@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/syndis-software/iris-api/pkg/openapi"
+	"github.com/syndis-software/aftra-api/pkg/openapi"
 )
 
 func Test_ExecuteLog_Single(t *testing.T) {
