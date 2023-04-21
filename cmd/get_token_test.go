@@ -20,10 +20,9 @@ func Test_ExecuteGetToken(t *testing.T) {
 	tests := []test{
 		{
 			serverResponse:     200,
-			serverResponseData: "{\"company\": \"Company-123\", \"config\": \"some multiline\\nconfiguration\\nor ini file\", \"id\": \"123\", \"name\": \"FirstKey\"}",
+			serverResponseData: "{\"company\": \"Company-123\", \"id\": \"123\", \"name\": \"FirstKey\"}",
 			expectedOutput: `{
 	"company": "Company-123",
-	"config": "some multiline\nconfiguration\nor ini file",
 	"id": "123",
 	"name": "FirstKey"
 }

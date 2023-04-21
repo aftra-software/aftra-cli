@@ -12,7 +12,7 @@ import (
 )
 
 // companyCmd represents the company command
-var getTokenCompanyCmd = &cobra.Command{
+var getCompanyCmd = &cobra.Command{
 	Use:   "company",
 	Short: "Get the company associated with this token",
 	Long: `Get the company associated with this token
@@ -36,5 +36,5 @@ API. This can be then set as the environment variable IRIS_COMPANY for future us
 }
 
 func init() {
-	getTokenCmd.AddCommand(getTokenCompanyCmd)
+	getCmd.AddCommand(getCompanyCmd)
 }
