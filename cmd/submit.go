@@ -12,17 +12,15 @@ import (
 	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
 )
 
-// logCmd represents the log command
 var (
 	submitCmd = &cobra.Command{
-		Use:   "submit [scan-type] [scan-name]",
+		Use:   "submit [scan-type] [scan-name] [scan-result]",
 		Args:  cobra.MatchAll(cobra.ExactArgs(3), cobra.OnlyValidArgs),
-		Short: "Submit a log message for the current token",
-		Long: `Submit a log message for the current token
+		Short: "Submit a json formatted scan result",
+		Long: `Submit a json formatted scan result
 	
-Log messages can be viewed against the token in the Aftra UI. This can provide a
-useful feedback loop if you are configuring your token-using-application via
-the token config in aftra. Simply pass in any string and it will appear there.
+Submit a scan result in the format for given scan-type. For example in
+nessus format for syndis scans.
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -32,7 +30,8 @@ the token config in aftra. Simply pass in any string and it will appear there.
 			switch {
 			case ScanType(scanType) == syndis:
 
-				// Log a single message
+				// Submit a set of scan events
+
 				var scans []openapi.SyndisInternalScanEvent
 				err := json.Unmarshal([]byte(message), &scans)
 
