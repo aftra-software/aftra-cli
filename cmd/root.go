@@ -12,17 +12,17 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	openapi "github.com/syndis-software/iris-api/pkg/openapi"
+	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var (
 	// Used for flags
 	rootCmd = &cobra.Command{
-		Use:          "iris-api",
+		Use:          "aftra-api",
 		SilenceUsage: true,
-		Short:        "CLI for the Iris API",
-		Long:         `CLI for using the IRIS API`,
+		Short:        "CLI for the Aftra API",
+		Long:         `CLI for using the AFTRA API`,
 
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Fprint(cmd.ErrOrStderr(), "Error: must also specify a command")
@@ -57,12 +57,12 @@ func Execute(ctx context.Context, doer openapi.HttpRequestDoer) {
 
 func init() {
 
-	rootCmd.PersistentFlags().String("host", "https://app.vikin.gr", "Iris host (IRIS_HOST)")
-	rootCmd.PersistentFlags().String("company", "", "Company ID. Should look like Company-XXXX (IRIS_COMPANY)")
+	rootCmd.PersistentFlags().String("host", "https://app.vikin.gr", "Aftra host (AFTRA_HOST)")
+	rootCmd.PersistentFlags().String("company", "", "Company ID. Should look like Company-XXXX (AFTRA_COMPANY)")
 	viper.BindPFlag("company", rootCmd.PersistentFlags().Lookup("company"))
 	viper.BindPFlag("host", rootCmd.PersistentFlags().Lookup("host"))
 
-	viper.SetEnvPrefix("iris")
+	viper.SetEnvPrefix("aftra")
 	viper.AutomaticEnv()
 
 }

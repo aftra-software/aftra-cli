@@ -1,7 +1,7 @@
 mkfile_dir:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 build:
-	go build cli/iris/main.go
+	go build cli/aftra/main.go
 
 upgrade:
 	curl https://app.vikin.gr/api/openapi.json > $(mkfile_dir)/scripts/openapi.json 

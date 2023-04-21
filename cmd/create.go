@@ -15,8 +15,8 @@ import (
 var (
 	createCmd = &cobra.Command{
 		Use:   "create",
-		Short: "Create entities inside Iris",
-		Long: `Use the Iris API to create things.
+		Short: "Create entities inside Aftra",
+		Long: `Use the Aftra API to create things.
 
 You'll need an API key to make this happen`,
 		RunE: func(cmd *cobra.Command, args []string) error {

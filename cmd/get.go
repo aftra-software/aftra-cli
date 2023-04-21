@@ -13,8 +13,8 @@ import (
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",
-	Short: "Get Iris resources (eg tokens)",
-	Long:  `Get Iris resources via the API`,
+	Short: "Get Aftra resources (eg tokens)",
+	Long:  `Get Aftra resources via the API`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Fprint(cmd.ErrOrStderr(), "Error: must also specify a command")
 	},
