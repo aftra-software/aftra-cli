@@ -27,7 +27,7 @@ The output is suitable for being piped into a file for future use`,
 
 		switch {
 		case ScanType(scanType) == syndis:
-			configInfo, err := openapi.DoGetScanConfig(ctx, scanName, client)
+			configInfo, err := openapi.DoGetSyndisScanConfig(ctx, scanName, client)
 			if err != nil {
 				return err
 			}

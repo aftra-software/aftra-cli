@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 )
 
-func DoGetScanConfig(ctx context.Context, configName string, client *ClientWithResponses) (string, error) {
+func DoGetSyndisScanConfig(ctx context.Context, configName string, client *ClientWithResponses) (string, error) {
 
 	resp, err := client.GetSyndisConfigInfo(ctx, configName)
 
