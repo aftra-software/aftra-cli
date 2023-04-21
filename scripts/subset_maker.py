@@ -51,6 +51,7 @@ PATHS = [
     "paths./api/token/.get",
     "paths./api/integrations/syndis-scan/{scan_name}/config.get",
     "paths./api/integrations/syndis-scan/{scan_name}/logs.post",
+    "paths./api/integrations/syndis-scan/{scan_name}/scan.post",
     "components.schemas.MaskedToken",
     "components.schemas.SubmitLogEvent",
     "components.schemas.CreateOpportunity",
@@ -59,6 +60,8 @@ PATHS = [
     "components.schemas.ValidationError",
     "components.schemas.SyndisScanTypes",
     "components.schemas.SyndisScanConfig",
+    "components.schemas.SyndisInternalScanEvent",
+    "components.schemas.SyndisRiskScore",
 ]
 
 
