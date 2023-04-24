@@ -17,12 +17,13 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 
 ## Example usage
 
-| Command                                                    | Description                                                       |
-| ---------------------------------------------------------- | ----------------------------------------------------------------- |
+| Command                                                    | Description                                                        |
+| ---------------------------------------------------------- | -------------------------------------------------------------------|
 | `aftra-api create opportunity`                             | Create an internal opportunity in Aftra                            |
-| `aftra-api get token`                                      | Get current token information in json format                      |
-| `aftra-api get company`                                    | Get current token company information only                        |
-| `aftra-api get config <scan-type> <scan-name> `            | Get a scan config                                                 |
+| `aftra-api submit <scan-type> <scan-name> <msg>`           | Submit a raw scan event to the specified scanner                   |
+| `aftra-api get token`                                      | Get current token information in json format                       |
+| `aftra-api get company`                                    | Get current token company information only                         |
+| `aftra-api get config <scan-type> <scan-name> `            | Get a scan config                                                  |
 | `aftra-api log <scan-type> <scan-name> <msg>`              | Log the contents of msg to Aftra. It will be viewable viat the API |
 | `your_command.sh \| aftra-api log <scan-type> <scan-name>` | Log from stdout to Aftra. It will be viewable viat the API         |
 

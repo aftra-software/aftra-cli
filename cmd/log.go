@@ -20,12 +20,12 @@ var (
 	logCmd = &cobra.Command{
 		Use:   "log [scan-type] [scan-name]",
 		Args:  cobra.MatchAll(cobra.RangeArgs(2, 3), cobra.OnlyValidArgs),
-		Short: "Submit a log message for the current token",
-		Long: `Submit a log message for the current token
+		Short: "Submit a log message for the given scan integration.",
+		Long: `Submit a log message for the given scan integration.
 	
-Log messages can be viewed against the token in the Aftra UI. This can provide a
+Log messages can be viewed against the scanner in the Aftra UI. This can provide a
 useful feedback loop if you are configuring your token-using-application via
-the token config in aftra. Simply pass in any string and it will appear there.
+the config in aftra. Simply pass in any string and it will appear there.
 `,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()

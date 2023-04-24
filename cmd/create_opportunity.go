@@ -78,7 +78,7 @@ func init() {
 	createCmd.AddCommand(opportunityCmd)
 	opportunityCmd.Flags().StringVar(&uid, "uid", "", "Unique identifier for the opportunity")
 	opportunityCmd.Flags().StringVar(&name, "name", "", "Name of the opportunity")
-	opportunityCmd.Flags().StringVar(&score, "score", string(openapi.Unknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")
+	opportunityCmd.Flags().StringVar(&score, "score", string(openapi.OpportunityScoreUnknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")
 	opportunityCmd.Flags().StringVar(&detailsStr, "details", "", "Additional details. Comma separated key=value pairs.")
 	opportunityCmd.MarkFlagRequired("uid")
 	opportunityCmd.MarkFlagRequired("name")
