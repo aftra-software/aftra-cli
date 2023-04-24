@@ -27,27 +27,27 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 			expectedOutput:        "",
 			errorExpected:         false,
 		},
-		// "401": {
-		// 	serverResponse:        401,
-		// 	serverResponseContent: "",
-		// 	expectedOutput:        "Error: unauthorized\n",
-		// 	errorExpected:         true},
-		// "403": {
-		// 	serverResponse:        403,
-		// 	serverResponseContent: "",
-		// 	expectedOutput:        "Error: forbidden\n",
-		// 	errorExpected:         true},
-		// "422": {
-		// 	serverResponse:        422,
-		// 	serverResponseContent: "{\"detail\":[{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]}",
-		// 	expectedOutput:        "Error: validation error: [{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]\n",
-		// 	errorExpected:         true,
-		// },
-		// "500": {
-		// 	serverResponse:        500,
-		// 	serverResponseContent: "",
-		// 	expectedOutput:        "Error: server error: 500\n",
-		// 	errorExpected:         true},
+		"401": {
+			serverResponse:        401,
+			serverResponseContent: "",
+			expectedOutput:        "Error: unauthorized\n",
+			errorExpected:         true},
+		"403": {
+			serverResponse:        403,
+			serverResponseContent: "",
+			expectedOutput:        "Error: forbidden\n",
+			errorExpected:         true},
+		"422": {
+			serverResponse:        422,
+			serverResponseContent: "{\"detail\":[{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]}",
+			expectedOutput:        "Error: validation error: [{\"loc\":[\"body\",0,\"messages\"],\"msg\":\"field required\",\"type\":\"value_error.missing\"}]\n",
+			errorExpected:         true,
+		},
+		"500": {
+			serverResponse:        500,
+			serverResponseContent: "",
+			expectedOutput:        "Error: server error: 500\n",
+			errorExpected:         true},
 	}
 
 	header := make(http.Header, 1)
