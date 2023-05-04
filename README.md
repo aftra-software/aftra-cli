@@ -44,17 +44,21 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 
 2.  Export company id as AFTRA_COMPANY
 
-    `$ export AFTRA_COMPANY=$(aftra-api get token company)`
+    `$ export AFTRA_COMPANY=$(aftra-api get company)`
 
 3.  (Optional) Get any config required, and put somewhere that your script uses. The name is that defined on the
     config via the web UI.
 
-    `$ aftra-api get config syndis-scan myscanner > config.ini`
+    `$ aftra-api get config syndis myscanner > config.ini`
 
-4.  Create an opportunity
+4.  Create an opportunity (optional)
 
     `$ aftra-api create opportunity --uid=<uid> --name=<name> --score=<score> --details=<details>`
 
-5.  Log out messages from stdin
+5.  Submit results directly, to be converted into opportunities (optional)
 
-    `$ ./my_opportunity_finder.sh | aftra-api log syndis-scan myscanner`
+    `$ aftra-api submit syndis myscanner -f <json-filename>`
+
+6.  Log out messages from stdin
+
+    `$ ./my_opportunity_finder.sh | aftra-api log syndis myscanner`
