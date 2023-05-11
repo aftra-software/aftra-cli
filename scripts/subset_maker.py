@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 
 
-def get_subset(data, paths):
+def get_subset(data, paths, exclude_paths):
     output = defaultdict(dict)
     for path in paths:
         focus_in = data
@@ -17,6 +17,14 @@ def get_subset(data, paths):
             focus_out[step] = out
             focus_out = out
         focus_out[final_key] = focus_in[final_key]
+
+    for path in exclude_paths:
+        steps = path.split(".")[:-1]
+        final_key = path.split(".")[-1]
+        focus_out = output
+        for step in steps:
+            focus_out = focus_out[step]
+        del focus_out[final_key]
 
     return output
 
@@ -48,6 +56,7 @@ PATHS = [
     "openapi",
     "info",
     "paths./api/companies/{company_pk}/opportunities/.post",
+    "paths./api/companies/{parent_pk}/syndis-scans.get",
     "paths./api/token/.get",
     "paths./api/integrations/syndis-scan/{scan_name}/config.get",
     "paths./api/integrations/syndis-scan/{scan_name}/logs.post",
@@ -57,13 +66,22 @@ PATHS = [
     "components.schemas.CreateOpportunity",
     "components.schemas.HTTPValidationError",
     "components.schemas.OpportunityScore",
-    "components.schemas.ValidationError",
+    "components.schemas.PaginatedEntityCollection_SyndisScanEntity_",
     "components.schemas.SyndisScanTypes",
     "components.schemas.SyndisScanConfig",
+    "components.schemas.SyndisScanEntity",
     "components.schemas.SyndisInternalScanEvent",
     "components.schemas.SyndisRiskScore",
+    "components.schemas.ValidationError",
 ]
 
+EXCLUDE_PATHS = [
+    "components.schemas.SyndisScanEntity.properties.created",
+    "components.schemas.SyndisScanEntity.properties.updated",
+    "components.schemas.SyndisScanEntity.properties.pk",
+    "components.schemas.SyndisScanEntity.properties.sk",
+    "components.schemas.SyndisScanEntity.properties.entityType",
+]
 
 # test_cases()
 if __name__ == "__main__":
@@ -76,4 +94,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     data = json.loads(open(args.filename).read())
-    print(json.dumps(get_subset(data, PATHS), indent=4))
+    print(json.dumps(get_subset(data, PATHS, EXCLUDE_PATHS), indent=4))
