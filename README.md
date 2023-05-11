@@ -24,6 +24,7 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 | `aftra-api submit <scan-type> <scan-name> --filename <filename>` | Submit a file of raw scan events to the specified scanner          |
 | `aftra-api get token`                                            | Get current token information in json format                       |
 | `aftra-api get company`                                          | Get current token company information only                         |
+| `aftra-api get config <scan-type> `                              | Get all scan configs                                               |
 | `aftra-api get config <scan-type> <scan-name> `                  | Get a scan config                                                  |
 | `aftra-api log <scan-type> <scan-name> <msg>`                    | Log the contents of msg to Aftra. It will be viewable viat the API |
 | `your_command.sh \| aftra-api log <scan-type> <scan-name>`       | Log from stdout to Aftra. It will be viewable viat the API         |
