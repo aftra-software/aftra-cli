@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 Syndis ehf. <syndis@syndis.is>
-
 */
 package cmd
 
@@ -12,14 +11,14 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
+	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var (
 	// Used for flags
 	rootCmd = &cobra.Command{
-		Use:          "aftra-api",
+		Use:          "aftra-cli",
 		SilenceUsage: true,
 		Short:        "CLI for the Aftra API",
 		Long:         `CLI for using the AFTRA API`,

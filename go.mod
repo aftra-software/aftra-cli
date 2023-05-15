@@ -1,4 +1,4 @@
-module github.com/syndis-software/aftra-api
+module github.com/syndis-software/aftra-cli
 
 go 1.18
 

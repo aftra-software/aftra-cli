@@ -1,6 +1,5 @@
 /*
 Copyright © 2023 Syndis ehf. <syndis@syndis.is>
-
 */
 package cmd
 
@@ -11,7 +10,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
+	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 var (
