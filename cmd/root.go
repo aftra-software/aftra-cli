@@ -56,7 +56,7 @@ func Execute(ctx context.Context, doer openapi.HttpRequestDoer) {
 
 func init() {
 
-	rootCmd.PersistentFlags().String("host", "https://app.vikin.gr", "Aftra host (AFTRA_HOST)")
+	rootCmd.PersistentFlags().String("host", "https://app.aftra.io", "Aftra host (AFTRA_HOST)")
 	rootCmd.PersistentFlags().String("company", "", "Company ID. Should look like Company-XXXX (AFTRA_COMPANY)")
 	viper.BindPFlag("company", rootCmd.PersistentFlags().Lookup("company"))
 	viper.BindPFlag("host", rootCmd.PersistentFlags().Lookup("host"))
