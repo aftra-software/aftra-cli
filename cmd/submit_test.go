@@ -58,7 +58,8 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 	submitCmd_message = ""
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			mockDoer := &MockHTTP{
+			m := make(map[string]Response)
+			m["/api/integrations/syndis-scan/scan-name/scan"] = Response{
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
@@ -67,6 +68,8 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 				},
 				ResponseError: nil,
 			}
+
+			mockDoer := &MockHTTP{Responses: m}
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
@@ -86,10 +89,11 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 			assert.Equal(t, len(mockDoer.Requests), 1)
 
 			body, _ := ioutil.ReadAll(mockDoer.Requests[0].Body)
-			var submitted []openapi.SyndisInternalScanEvent
+
+			var submitted openapi.BodySubmitScanResults
 			_ = json.Unmarshal(body, &submitted)
 
-			assert.Equal(t, 1, len(submitted))
+			assert.Equal(t, 1, len(*submitted.Events))
 			assert.Equal(t, tc.expectedOutput, actual.String())
 		})
 	}
@@ -120,7 +124,9 @@ func Test_ExecuteSubmit_Single_JsonParsing(t *testing.T) {
 	header.Set("Content-Type", "application/json")
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			mockDoer := &MockHTTP{
+
+			m := make(map[string]Response)
+			m["/api/integrations/syndis-scan/scan-name/scan"] = Response{
 				Response: http.Response{
 					StatusCode: 200,
 					Status:     "",
@@ -129,6 +135,9 @@ func Test_ExecuteSubmit_Single_JsonParsing(t *testing.T) {
 				},
 				ResponseError: nil,
 			}
+
+			mockDoer := &MockHTTP{Responses: m}
+
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
@@ -191,7 +200,8 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 			defer os.Remove(file.Name())
 			file.Write([]byte(tc.fileContent))
 
-			mockDoer := &MockHTTP{
+			m := make(map[string]Response)
+			m["/api/integrations/syndis-scan/scan-name/scan"] = Response{
 				Response: http.Response{
 					StatusCode: 200,
 					Status:     "",
@@ -200,6 +210,25 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 				},
 				ResponseError: nil,
 			}
+			upload_response := &openapi.BlobSignedUploadURLResponse{
+				Bucket: "bucket",
+				Key:    "key",
+				Url:    "http://foo.com",
+			}
+			b, _ := json.Marshal(upload_response)
+
+			m["/api/companies//blobs/upload"] = Response{
+				Response: http.Response{
+					StatusCode: 200,
+					Status:     "",
+					Body:       ioutil.NopCloser(bytes.NewBuffer(b)),
+					Header:     header,
+				},
+				ResponseError: nil,
+			}
+
+			mockDoer := &MockHTTP{Responses: m}
+
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
@@ -220,7 +249,7 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 				expectedRequests = 1
 			}
 
-			assert.Equal(t, expectedRequests, len(mockDoer.Requests))
+			assert.Equal(t, expectedRequests, mockDoer.CountRequests("/api/integrations/syndis-scan/scan-name/scan"))
 			assert.Equal(t, tc.expectedOutput, actual.String())
 		})
 	}

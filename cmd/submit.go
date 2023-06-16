@@ -44,6 +44,12 @@ nessus format for syndis scans.
 				var results openapi.BodySubmitScanResults
 				// Submit a set of scan events
 				if submitCmd_filename != "" {
+					// We attempt to parse the contents to see if its a valid json file
+					err := validate_json_file(submitCmd_filename)
+					if err != nil {
+						return err
+					}
+
 					company := ctx.Value(companyKey).(string)
 					// Upload the file
 					// 1 Get a signed upload url
@@ -51,6 +57,7 @@ nessus format for syndis scans.
 					if err != nil {
 						return err
 					}
+
 					// 2 Upload the file
 					err = upload_file(uploadInfo.Url, submitCmd_filename, uploadInfo.Fields)
 					if err != nil {
@@ -88,6 +95,18 @@ nessus format for syndis scans.
 	}
 )
 
+func validate_json_file(filename string) error {
+	var scans []openapi.SyndisInternalScanEvent
+	jsonFile, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	// defer the closing of our jsonFile so that we can parse it later on
+	defer jsonFile.Close()
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	err = json.Unmarshal(byteValue, &scans)
+	return err
+}
 func createMultipartForm(filepath string, fields map[string]string) (bytes.Buffer, *multipart.Writer, error) {
 	var b bytes.Buffer
 
