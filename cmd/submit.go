@@ -93,16 +93,8 @@ func createMultipartForm(filepath string, fields map[string]string) (bytes.Buffe
 
 	w := multipart.NewWriter(&b)
 	var fw io.Writer
-
 	file, err := os.Open(filepath)
 	if err != nil {
-		return b, nil, err
-	}
-
-	if fw, err = w.CreateFormFile("file", file.Name()); err != nil {
-		return b, nil, err
-	}
-	if _, err = io.Copy(fw, file); err != nil {
 		return b, nil, err
 	}
 
@@ -113,6 +105,13 @@ func createMultipartForm(filepath string, fields map[string]string) (bytes.Buffe
 		if _, err = io.Copy(fw, strings.NewReader(val)); err != nil {
 			return b, nil, err
 		}
+	}
+
+	if fw, err = w.CreateFormFile("file", file.Name()); err != nil {
+		return b, nil, err
+	}
+	if _, err = io.Copy(fw, file); err != nil {
+		return b, nil, err
 	}
 
 	w.Close()
