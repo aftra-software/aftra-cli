@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/syndis-software/aftra-api/pkg/openapi"
+	"github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
