@@ -17,8 +17,6 @@ type Response struct {
 
 func (c *MockHTTP) Do(req *http.Request) (*http.Response, error) {
 	c.Requests = append(c.Requests, *req)
-	fmt.Println("IN DO---------")
-	fmt.Println(req.URL.Path)
 	response, ok := c.Responses[req.URL.Path]
 	if !ok {
 		return nil, errors.New(fmt.Sprintf("URL %s not found in mapping", req.URL.Path))
