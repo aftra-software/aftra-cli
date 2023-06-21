@@ -44,8 +44,15 @@ nessus format for syndis scans.
 				var results openapi.BodySubmitScanResults
 				// Submit a set of scan events
 				if submitCmd_filename != "" {
+					jsonFile, err := os.Open(submitCmd_filename)
+					if err != nil {
+						return err
+					}
+					defer jsonFile.Close()
+					contents, _ := ioutil.ReadAll(jsonFile)
+
 					// We attempt to parse the contents to see if its a valid json file
-					err := validate_json_file(submitCmd_filename)
+					err = validate_json_file(contents)
 					if err != nil {
 						return err
 					}
@@ -59,7 +66,7 @@ nessus format for syndis scans.
 					}
 
 					// 2 Upload the file
-					err = upload_file(uploadInfo.Url, submitCmd_filename, uploadInfo.Fields)
+					err = upload_file(uploadInfo.Url, contents, jsonFile.Name(), uploadInfo.Fields)
 					if err != nil {
 						return err
 					}
@@ -95,27 +102,16 @@ nessus format for syndis scans.
 	}
 )
 
-func validate_json_file(filename string) error {
+func validate_json_file(contents []byte) error {
 	var scans []openapi.SyndisInternalScanEvent
-	jsonFile, err := os.Open(filename)
-	if err != nil {
-		return err
-	}
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	err = json.Unmarshal(byteValue, &scans)
-	return err
+	return json.Unmarshal(contents, &scans)
 }
-func createMultipartForm(filepath string, fields map[string]string) (bytes.Buffer, *multipart.Writer, error) {
+func createMultipartForm(contents []byte, filename string, fields map[string]string) (bytes.Buffer, *multipart.Writer, error) {
 	var b bytes.Buffer
 
 	w := multipart.NewWriter(&b)
 	var fw io.Writer
-	file, err := os.Open(filepath)
-	if err != nil {
-		return b, nil, err
-	}
+	var err error
 
 	for key, val := range fields {
 		if fw, err = w.CreateFormField(key); err != nil {
@@ -126,10 +122,10 @@ func createMultipartForm(filepath string, fields map[string]string) (bytes.Buffe
 		}
 	}
 
-	if fw, err = w.CreateFormFile("file", file.Name()); err != nil {
+	if fw, err = w.CreateFormFile("file", filename); err != nil {
 		return b, nil, err
 	}
-	if _, err = io.Copy(fw, file); err != nil {
+	if _, err = io.Copy(fw, bytes.NewBuffer(contents)); err != nil {
 		return b, nil, err
 	}
 
@@ -137,8 +133,8 @@ func createMultipartForm(filepath string, fields map[string]string) (bytes.Buffe
 	return b, w, nil
 }
 
-func upload_file(url string, filepath string, fields map[string]string) error {
-	byteBuffer, multiWriter, err := createMultipartForm(filepath, fields)
+func upload_file(url string, contents []byte, filename string, fields map[string]string) error {
+	byteBuffer, multiWriter, err := createMultipartForm(contents, filename, fields)
 	if err != nil {
 		return err
 	}
