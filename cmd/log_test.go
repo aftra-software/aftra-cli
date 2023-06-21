@@ -39,7 +39,8 @@ func Test_ExecuteLog_Single(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			mockDoer := &MockHTTP{
+			m := make(map[string]Response)
+			m["/api/integrations/syndis-scan/scan-name/logs"] = Response{
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
@@ -48,6 +49,8 @@ func Test_ExecuteLog_Single(t *testing.T) {
 				},
 				ResponseError: nil,
 			}
+			mockDoer := &MockHTTP{Responses: m}
+
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
@@ -105,7 +108,8 @@ func Test_ExecuteLog_Stdin(t *testing.T) {
 
 			stdinInput := strings.NewReader("abcde\nfoobar")
 
-			mockDoer := &MockHTTP{
+			m := make(map[string]Response)
+			m["/api/integrations/syndis-scan/scan-name/logs"] = Response{
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
@@ -114,6 +118,8 @@ func Test_ExecuteLog_Stdin(t *testing.T) {
 				},
 				ResponseError: nil,
 			}
+			mockDoer := &MockHTTP{Responses: m}
+
 			outStd := new(bytes.Buffer)
 			outErr := new(bytes.Buffer)
 			rootCmd.SetOut(outStd)
