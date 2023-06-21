@@ -57,6 +57,7 @@ PATHS = [
     "info",
     "paths./api/companies/{company_pk}/opportunities/.post",
     "paths./api/companies/{parent_pk}/syndis-scans.get",
+    "paths./api/companies/{parent_pk}/blobs/upload",
     "paths./api/token/.get",
     "paths./api/integrations/syndis-scan/{scan_name}/config.get",
     "paths./api/integrations/syndis-scan/{scan_name}/logs.post",
@@ -73,6 +74,9 @@ PATHS = [
     "components.schemas.SyndisInternalScanEvent",
     "components.schemas.SyndisRiskScore",
     "components.schemas.ValidationError",
+    "components.schemas.Body_Submit_scan_results",
+    "components.schemas.BlobUploadInfo",
+    "components.schemas.BlobSignedUploadURLResponse",
 ]
 
 EXCLUDE_PATHS = [

@@ -29,7 +29,8 @@ func Test_ExecuteGetTokenConfig(t *testing.T) {
 		header := make(http.Header, 1)
 		header.Set("Content-Type", "application/json")
 
-		mockDoer := &MockHTTP{
+		m := make(map[string]Response)
+		m["/api/integrations/syndis-scan/scan-name/config"] = Response{
 			Response: http.Response{
 				StatusCode: tc.serverResponse,
 				Status:     "",
@@ -38,6 +39,7 @@ func Test_ExecuteGetTokenConfig(t *testing.T) {
 			},
 			ResponseError: nil,
 		}
+		mockDoer := &MockHTTP{Responses: m}
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)
 		rootCmd.SetErr(actual)
@@ -103,8 +105,9 @@ func Test_ExecuteGetAllConfigsForType(t *testing.T) {
 	for _, tc := range tests {
 		header := make(http.Header, 1)
 		header.Set("Content-Type", "application/json")
-
-		mockDoer := &MockHTTP{
+		m := make(map[string]Response)
+		// Company is blank in tests
+		m["/api/companies//syndis-scans"] = Response{
 			Response: http.Response{
 				StatusCode: tc.serverResponse,
 				Status:     "",
@@ -113,6 +116,8 @@ func Test_ExecuteGetAllConfigsForType(t *testing.T) {
 			},
 			ResponseError: nil,
 		}
+		mockDoer := &MockHTTP{Responses: m}
+
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)
 		rootCmd.SetErr(actual)

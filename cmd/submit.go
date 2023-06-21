@@ -5,10 +5,16 @@ Copyright © 2023 Syndis ehf. <syndis@syndis.is>
 package cmd
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"mime/multipart"
+	"net/http"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	openapi "github.com/syndis-software/aftra-api/pkg/openapi"
@@ -35,29 +41,53 @@ nessus format for syndis scans.
 			switch {
 			case ScanType(scanType) == syndis:
 
-				var scans []openapi.SyndisInternalScanEvent
+				var results openapi.BodySubmitScanResults
 				// Submit a set of scan events
 				if submitCmd_filename != "" {
 					jsonFile, err := os.Open(submitCmd_filename)
-					// if we os.Open returns an error then handle it
 					if err != nil {
 						return err
 					}
-					// defer the closing of our jsonFile so that we can parse it later on
 					defer jsonFile.Close()
-					byteValue, _ := ioutil.ReadAll(jsonFile)
-					err = json.Unmarshal(byteValue, &scans)
+					contents, _ := ioutil.ReadAll(jsonFile)
+
+					// We attempt to parse the contents to see if its a valid json file
+					err = validate_json_file(contents)
 					if err != nil {
 						return err
 					}
+
+					company := ctx.Value(companyKey).(string)
+					// Upload the file
+					// 1 Get a signed upload url
+					uploadInfo, err := openapi.DoGetUploadURL(ctx, client, company)
+					if err != nil {
+						return err
+					}
+
+					// 2 Upload the file
+					err = upload_file(uploadInfo.Url, contents, jsonFile.Name(), uploadInfo.Fields)
+					if err != nil {
+						return err
+					}
+
+					// 3 Notify using submit scan results
+					blobInfo := openapi.BlobUploadInfo{
+						Bucket: uploadInfo.Bucket,
+						Key:    uploadInfo.Key,
+					}
+
+					results.BlobUpload = &blobInfo
 				} else {
+					var scans []openapi.SyndisInternalScanEvent
 					err := json.Unmarshal([]byte(submitCmd_message), &scans)
 					if err != nil {
 						return err
 					}
+					results.Events = &scans
 				}
 
-				resp, err := client.SubmitScanResults(ctx, scanName, scans)
+				resp, err := client.SubmitScanResults(ctx, scanName, results)
 
 				if err != nil {
 					return err
@@ -71,6 +101,64 @@ nessus format for syndis scans.
 		},
 	}
 )
+
+func validate_json_file(contents []byte) error {
+	var scans []openapi.SyndisInternalScanEvent
+	return json.Unmarshal(contents, &scans)
+}
+func createMultipartForm(contents []byte, filename string, fields map[string]string) (bytes.Buffer, *multipart.Writer, error) {
+	var b bytes.Buffer
+
+	w := multipart.NewWriter(&b)
+	var fw io.Writer
+	var err error
+
+	for key, val := range fields {
+		if fw, err = w.CreateFormField(key); err != nil {
+			return b, nil, err
+		}
+		if _, err = io.Copy(fw, strings.NewReader(val)); err != nil {
+			return b, nil, err
+		}
+	}
+
+	if fw, err = w.CreateFormFile("file", filename); err != nil {
+		return b, nil, err
+	}
+	if _, err = io.Copy(fw, bytes.NewBuffer(contents)); err != nil {
+		return b, nil, err
+	}
+
+	w.Close()
+	return b, w, nil
+}
+
+func upload_file(url string, contents []byte, filename string, fields map[string]string) error {
+	byteBuffer, multiWriter, err := createMultipartForm(contents, filename, fields)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("POST", url, &byteBuffer)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", multiWriter.FormDataContentType())
+
+	// Submit the request
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	b, _ := ioutil.ReadAll(resp.Body)
+	if resp.StatusCode >= 400 {
+		return errors.New(string(b))
+	}
+	return nil
+}
 
 func init() {
 
