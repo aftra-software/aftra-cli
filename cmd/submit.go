@@ -28,7 +28,7 @@ var (
 		Args:  cobra.MatchAll(cobra.ExactArgs(2), cobra.OnlyValidArgs),
 		Short: "Submit a json formatted scan result",
 		Long: `Submit a json formatted scan result
-	
+
 Submit a scan result in the format for given scan-type. For example in
 nessus format for syndis scans.
 `,
