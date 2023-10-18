@@ -16,3 +16,4 @@
 
 aftra-cli
 dist/
+/scripts/__pycache__/

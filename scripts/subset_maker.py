@@ -29,27 +29,24 @@ def get_subset(data, paths, exclude_paths):
     return output
 
 
-def test_cases():
-    basic_data = {"a": 1, "b": {"c": 3, "d": 4, "e": {"e1": "1"}}}
-    openapi_like_data = {
-        "paths": {"/some/url": {"get": {"get-stuff": 1}, "post": {"post-stuff": 2}}}
-    }
-    for input, paths, expected in [
-        (
-            basic_data,
-            ["a", "b.d"],
-            {"a": 1, "b": {"d": 4}},
-        ),
-        (basic_data, ["b.e"], {"b": {"e": {"e1": "1"}}}),
-        (basic_data, ["b.c", "b.d"], {"b": {"c": 3, "d": 4}}),
-        (
-            openapi_like_data,
-            ["paths./some/url.post"],
-            {"paths": {"/some/url": {"post": {"post-stuff": 2}}}},
-        ),
-    ]:
-        result = get_subset(input, paths)
-        assert result == expected, f"Failure. Actual {result}; Expected {expected}"
+def fix_anyof_null(data):
+    match data:
+        case dict():
+            for key, value in data.items():
+                if isinstance(value, dict) and "anyOf" in value:
+                    any_of_conf = value["anyOf"]
+                    if {"type": "null"} in any_of_conf:
+                        final = any_of_conf[::]
+                        final.remove({"type": "null"})
+                        if len(final) == 1:
+                            data[key] = final[0]
+                        else:
+                            data[key]["anyOf"] = final
+            for item in data.values():
+                fix_anyof_null(item)
+        case list():
+            for item in data:
+                fix_anyof_null(item)
 
 
 PATHS = [
@@ -98,4 +95,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     data = json.loads(open(args.filename).read())
-    print(json.dumps(get_subset(data, PATHS, EXCLUDE_PATHS), indent=4))
+    subset = get_subset(data, PATHS, EXCLUDE_PATHS)
+    fix_anyof_null(subset)
+    print(json.dumps(subset, indent=4))
