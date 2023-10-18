@@ -64,15 +64,20 @@ func Test_ExecuteCreateOpportunity(t *testing.T) {
 func Test_ExecuteCreateOpportunityDetails(t *testing.T) {
 	type test struct {
 		details                  string
-		expectedDetailsSubmitted map[string]string
+		expectedDetailsSubmitted map[string]openapi.CreateOpportunity_Details_AdditionalProperties
 	}
 
+	one := openapi.CreateOpportunity_Details_AdditionalProperties{}
+	one.FromCreateOpportunityDetails0("one")
+	two := openapi.CreateOpportunity_Details_AdditionalProperties{}
+	two.FromCreateOpportunityDetails1(2)
+
 	tests := map[string]test{
-		"notgiven":  {details: "", expectedDetailsSubmitted: map[string]string{}},
-		"empty":     {details: "--details=", expectedDetailsSubmitted: map[string]string{}},
-		"single":    {details: "--details=a=1", expectedDetailsSubmitted: map[string]string{"a": "1"}},
-		"double":    {details: "--details=a=1,b=2", expectedDetailsSubmitted: map[string]string{"a": "1", "b": "2"}},
-		"duplicate": {details: "--details=a=1,a=2", expectedDetailsSubmitted: map[string]string{"a": "2"}},
+		"notgiven":  {details: "", expectedDetailsSubmitted: map[string]openapi.CreateOpportunity_Details_AdditionalProperties{}},
+		"empty":     {details: "--details=", expectedDetailsSubmitted: map[string]openapi.CreateOpportunity_Details_AdditionalProperties{}},
+		"single":    {details: "--details=a=one", expectedDetailsSubmitted: map[string]openapi.CreateOpportunity_Details_AdditionalProperties{"a": one}},
+		"double":    {details: "--details=a=one,b=2", expectedDetailsSubmitted: map[string]openapi.CreateOpportunity_Details_AdditionalProperties{"a": one, "b": two}},
+		"duplicate": {details: "--details=a=one,a=2", expectedDetailsSubmitted: map[string]openapi.CreateOpportunity_Details_AdditionalProperties{"a": two}},
 	}
 
 	for name, tc := range tests {

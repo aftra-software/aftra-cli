@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -71,7 +72,12 @@ func stringToMap(str string) (map[string]openapi.CreateOpportunity_Details_Addit
 
 		// add the key-value pair to the map
 		r := openapi.CreateOpportunity_Details_AdditionalProperties{}
-		err := r.FromCreateOpportunityDetails0(kv[1])
+		var err error
+		if v_int, err := strconv.Atoi(kv[1]); err == nil {
+			err = r.FromCreateOpportunityDetails1(v_int)
+		} else {
+			err = r.FromCreateOpportunityDetails0(kv[1])
+		}
 		if err != nil {
 			return nil, err
 		}
