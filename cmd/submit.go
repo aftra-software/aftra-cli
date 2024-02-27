@@ -78,12 +78,14 @@ nessus format for syndis scans.
 
 					results.BlobUpload = &blobInfo
 				} else {
-					var scans []openapi.SyndisInternalScanEvent
+					var scans []openapi.SyndisInternalScanEventSyndisRiskScore
 					err := json.Unmarshal([]byte(submitCmd_message), &scans)
 					if err != nil {
 						return err
 					}
-					results.Events = &scans
+					events := openapi.BodySubmitScanResults_Events{}
+					events.FromBodySubmitScanResultsEvents1(scans)
+					results.Events = &events
 				}
 
 				resp, err := client.SubmitScanResults(ctx, scanName, results)
@@ -102,7 +104,7 @@ nessus format for syndis scans.
 )
 
 func validate_json_file(contents []byte) error {
-	var scans []openapi.SyndisInternalScanEvent
+	var scans []openapi.SyndisInternalScanEventSyndisRiskScore
 	return json.Unmarshal(contents, &scans)
 }
 func createMultipartForm(contents []byte, filename string, fields map[string]string) (bytes.Buffer, *multipart.Writer, error) {

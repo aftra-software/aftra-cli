@@ -16,7 +16,7 @@ import (
 var (
 	uid        string
 	name       string
-	score      string
+	score      int
 	detailsStr string
 
 	opportunityCmd = &cobra.Command{
@@ -91,7 +91,7 @@ func init() {
 	createCmd.AddCommand(opportunityCmd)
 	opportunityCmd.Flags().StringVar(&uid, "uid", "", "Unique identifier for the opportunity")
 	opportunityCmd.Flags().StringVar(&name, "name", "", "Name of the opportunity")
-	opportunityCmd.Flags().StringVar(&score, "score", string(openapi.OpportunityScoreUnknown), "Risk score of the opportunity (critical, high, medium, low, info, none, unknown)")
+	opportunityCmd.Flags().IntVar(&score, "score", -1, "Risk score of the opportunity (critical (5), high (4), medium (3), low (2), info (1), none (0), unknown (-1))")
 	opportunityCmd.Flags().StringVar(&detailsStr, "details", "", "Additional details. Comma separated key=value pairs.")
 	opportunityCmd.MarkFlagRequired("uid")
 	opportunityCmd.MarkFlagRequired("name")

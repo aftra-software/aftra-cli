@@ -93,7 +93,8 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 			var submitted openapi.BodySubmitScanResults
 			_ = json.Unmarshal(body, &submitted)
 
-			assert.Equal(t, 1, len(*submitted.Events))
+			events, _ := submitted.Events.AsBodySubmitScanResultsEvents1()
+			assert.Equal(t, 1, len(events))
 			assert.Equal(t, tc.expectedOutput, actual.String())
 		})
 	}
