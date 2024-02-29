@@ -43,7 +43,7 @@ func Test_ExecuteCreateOpportunity(t *testing.T) {
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)
 		rootCmd.SetErr(actual)
-		rootCmd.SetArgs([]string{"create", "opportunity", "--uid=unique101", "--name=foo", "--score=medium", "--details=a=1,b=2"})
+		rootCmd.SetArgs([]string{"create", "opportunity", "--uid=unique101", "--name=foo", "--score=3", "--details=a=1,b=2"})
 
 		ctx := context.WithValue(context.Background(), doerKey, mockDoer)
 		opportunityCmd.SetContext(ctx)
@@ -96,7 +96,7 @@ func Test_ExecuteCreateOpportunityDetails(t *testing.T) {
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
-			rootCmd.SetArgs([]string{"create", "opportunity", "--uid=unique101", "--name=foo", "--score=medium", tc.details})
+			rootCmd.SetArgs([]string{"create", "opportunity", "--uid=unique101", "--name=foo", "--score=3", tc.details})
 
 			ctx := context.WithValue(context.Background(), doerKey, mockDoer)
 			opportunityCmd.SetContext(ctx)
