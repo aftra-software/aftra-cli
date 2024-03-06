@@ -57,3 +57,41 @@ func Test_ExecuteGetOpportunities(t *testing.T) {
 	}
 
 }
+
+func Test_ValidationGetOpportunities(t *testing.T) {
+	type test struct {
+		updatedSinceArg       string
+		limitArg              string
+		expectedOutputPartial string
+	}
+
+	tests := []test{
+		{
+			updatedSinceArg:       "wrong-format",
+			limitArg:              "100",
+			expectedOutputPartial: "Error: invalid time format",
+		},
+		{
+			updatedSinceArg:       "2024-01-01T00:00:00Z",
+			limitArg:              "abc",
+			expectedOutputPartial: "Error: invalid argument \"abc\" for \"--limit\" flag",
+		},
+	}
+
+	for _, tc := range tests {
+
+		mockDoer := &MockHTTP{}
+		actual := new(bytes.Buffer)
+		rootCmd.SetOut(actual)
+		rootCmd.SetErr(actual)
+		rootCmd.SetArgs([]string{"get", "opportunities", "--updated-since", tc.updatedSinceArg, "--limit", tc.limitArg})
+
+		ctx := context.WithValue(context.Background(), doerKey, mockDoer)
+		getConfigCmd.SetContext(ctx)
+
+		rootCmd.ExecuteContext(ctx)
+
+		assert.Contains(t, actual.String(), tc.expectedOutputPartial)
+	}
+
+}
