@@ -128,7 +128,6 @@ Output is JSON format`,
 					}
 
 				}
-				// fmt.Printf("TOTAL: %d, FETCHED: %d\n", totalForSearch, totalFetched)
 			}
 
 			return nil
