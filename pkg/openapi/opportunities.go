@@ -40,3 +40,19 @@ func DoGetOpportunities(ctx context.Context, client *ClientWithResponses, compan
 	return opportunities.JSON200, nil
 
 }
+
+func DoPostResolution(ctx context.Context, client *ClientWithResponses, companyPk string, opportunityUid string, update ResolutionUpdate) error {
+
+	params := PostUpdateOpportunityResolutionParams{}
+	resp, err := client.PostUpdateOpportunityResolution(ctx, companyPk, opportunityUid, &params, PostUpdateOpportunityResolutionJSONRequestBody(update))
+
+	if err != nil {
+		return err
+	}
+
+	err = CheckStatus(resp)
+	if err != nil {
+		return err
+	}
+	return nil
+}

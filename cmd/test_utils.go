@@ -27,11 +27,10 @@ func (c *MockHTTP) pop(path string) (Response, error) {
 	if len(arr) == 0 {
 		return Response{}, errors.New(fmt.Sprintf("URL %s has no more responses", path))
 	}
-	response := arr[0]
 
-	arrCopy := make([]Response, len(arr)-1)
-	copy(arrCopy, arr[1:])
-	c.Responses[path] = arrCopy
+	response, remainingResponseList := arr[0], arr[1:]
+	c.Responses[path] = remainingResponseList
+
 	return response, nil
 
 }
