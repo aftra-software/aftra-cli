@@ -8,6 +8,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.8.4
+	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225
 )
 
 require (
