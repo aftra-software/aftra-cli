@@ -26,7 +26,8 @@ To add additional items to the subset of openapi schema being used, edit `PATHS`
 | `aftra-cli get company`                                                  | Get current token company information only                         |
 | `aftra-cli get config <scan-type> `                                      | Get all scan configs                                               |
 | `aftra-cli get config <scan-type> <scan-name> `                          | Get a scan config                                                  |
-| `aftra-cli get opportunities --limit=<limit> --updated-since=<datetime>` |                                                                    |
+| `aftra-cli get opportunities --limit=<limit> --updated-since=<datetime>` | Filter all opportunities                                           |
+| `aftra-cli update resolution <uid> <status> --comment <comment>`         | Update the resolution status of an opportunity                     |
 | `aftra-cli log <scan-type> <scan-name> <msg>`                            | Log the contents of msg to Aftra. It will be viewable viat the API |
 | `your_command.sh \| aftra-cli log <scan-type> <scan-name>`               | Log from stdout to Aftra. It will be viewable viat the API         |
 
