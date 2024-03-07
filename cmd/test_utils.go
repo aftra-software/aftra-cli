@@ -8,18 +8,39 @@ import (
 
 type MockHTTP struct {
 	Requests  []http.Request
-	Responses map[string]Response
+	Responses map[string][]Response
 }
 type Response struct {
 	Response      http.Response
 	ResponseError error
 }
 
+func (c *MockHTTP) AddResponse(path string, resp Response) {
+	c.Responses[path] = append(c.Responses[path], resp)
+}
+func (c *MockHTTP) pop(path string) (Response, error) {
+
+	arr, ok := c.Responses[path]
+	if !ok {
+		return Response{}, errors.New(fmt.Sprintf("URL %s not found in mapping", path))
+	}
+	if len(arr) == 0 {
+		return Response{}, errors.New(fmt.Sprintf("URL %s has no more responses", path))
+	}
+	response := arr[0]
+
+	arrCopy := make([]Response, len(arr)-1)
+	copy(arrCopy, arr[1:])
+	c.Responses[path] = arrCopy
+	return response, nil
+
+}
 func (c *MockHTTP) Do(req *http.Request) (*http.Response, error) {
 	c.Requests = append(c.Requests, *req)
-	response, ok := c.Responses[req.URL.Path]
-	if !ok {
-		return nil, errors.New(fmt.Sprintf("URL %s not found in mapping", req.URL.Path))
+	response, err := c.pop(req.URL.Path)
+
+	if err != nil {
+		return nil, err
 	}
 	return &response.Response, response.ResponseError
 }

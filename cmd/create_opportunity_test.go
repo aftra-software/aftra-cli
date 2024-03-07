@@ -28,17 +28,18 @@ func Test_ExecuteCreateOpportunity(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		m := make(map[string]Response)
-		// Company is blank in tests
-		m["/api/companies//opportunities/"] = Response{
+
+		m := make(map[string][]Response)
+		mockDoer := &MockHTTP{Responses: m}
+
+		mockDoer.AddResponse("/api/companies//opportunities/", Response{
 			Response: http.Response{
 				StatusCode: tc.serverResponse,
 				Status:     "",
 				Body:       ioutil.NopCloser(bytes.NewBufferString("null")),
 			},
 			ResponseError: nil,
-		}
-		mockDoer := &MockHTTP{Responses: m}
+		})
 
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)
@@ -83,16 +84,18 @@ func Test_ExecuteCreateOpportunityDetails(t *testing.T) {
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
 			detailsStr = ""
-			m := make(map[string]Response)
-			m["/api/companies//opportunities/"] = Response{
+			m := make(map[string][]Response)
+			mockDoer := &MockHTTP{Responses: m}
+
+			mockDoer.AddResponse("/api/companies//opportunities/", Response{
 				Response: http.Response{
 					StatusCode: 200,
 					Status:     "",
 					Body:       ioutil.NopCloser(bytes.NewBufferString("null")),
 				},
 				ResponseError: nil,
-			}
-			mockDoer := &MockHTTP{Responses: m}
+			})
+
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)

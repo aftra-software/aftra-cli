@@ -58,8 +58,9 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 	submitCmd_message = ""
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			m := make(map[string]Response)
-			m["/api/integrations/syndis-scan/scan-name/scan"] = Response{
+			m := make(map[string][]Response)
+			mockDoer := &MockHTTP{Responses: m}
+			mockDoer.AddResponse("/api/integrations/syndis-scan/scan-name/scan", Response{
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
@@ -67,9 +68,8 @@ func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {
 					Header:     header,
 				},
 				ResponseError: nil,
-			}
+			})
 
-			mockDoer := &MockHTTP{Responses: m}
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
 			rootCmd.SetErr(actual)
@@ -126,8 +126,9 @@ func Test_ExecuteSubmit_Single_JsonParsing(t *testing.T) {
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
 
-			m := make(map[string]Response)
-			m["/api/integrations/syndis-scan/scan-name/scan"] = Response{
+			m := make(map[string][]Response)
+			mockDoer := &MockHTTP{Responses: m}
+			mockDoer.AddResponse("/api/integrations/syndis-scan/scan-name/scan", Response{
 				Response: http.Response{
 					StatusCode: 200,
 					Status:     "",
@@ -135,9 +136,7 @@ func Test_ExecuteSubmit_Single_JsonParsing(t *testing.T) {
 					Header:     header,
 				},
 				ResponseError: nil,
-			}
-
-			mockDoer := &MockHTTP{Responses: m}
+			})
 
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
@@ -201,8 +200,9 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 			defer os.Remove(file.Name())
 			file.Write([]byte(tc.fileContent))
 
-			m := make(map[string]Response)
-			m["/api/integrations/syndis-scan/scan-name/scan"] = Response{
+			m := make(map[string][]Response)
+			mockDoer := &MockHTTP{Responses: m}
+			mockDoer.AddResponse("/api/integrations/syndis-scan/scan-name/scan", Response{
 				Response: http.Response{
 					StatusCode: 200,
 					Status:     "",
@@ -210,15 +210,14 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 					Header:     header,
 				},
 				ResponseError: nil,
-			}
+			})
 			upload_response := &openapi.BlobSignedUploadURLResponse{
 				Bucket: "bucket",
 				Key:    "key",
 				Url:    "http://foo.com",
 			}
 			b, _ := json.Marshal(upload_response)
-
-			m["/api/companies//blobs/upload"] = Response{
+			mockDoer.AddResponse("/api/companies//blobs/upload", Response{
 				Response: http.Response{
 					StatusCode: 200,
 					Status:     "",
@@ -226,9 +225,7 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 					Header:     header,
 				},
 				ResponseError: nil,
-			}
-
-			mockDoer := &MockHTTP{Responses: m}
+			})
 
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)

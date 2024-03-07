@@ -12,6 +12,7 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"strings"
 	"time"
 
@@ -21,7 +22,7 @@ import (
 
 // getCmd represents the get command
 
-func GetTime(s string) (time.Time, error) {
+func getTime(s string) (time.Time, error) {
 	// Taken from proposed implementation of parsing times in cobra
 	// https://github.com/spf13/pflag/pull/348/files
 	s = strings.TrimSpace(s)
@@ -45,6 +46,14 @@ func GetTime(s string) (time.Time, error) {
 	return time.Time{}, fmt.Errorf("invalid time format `%s` must be one of: %s", s, formatsString)
 }
 
+func validateLimit(l int) error {
+	// limit can either be -1 or 0 < l <= 1000
+	if (limit == -1) || (limit > 0 && limit <= 1000) {
+		return nil
+	}
+	return fmt.Errorf("limit should be -1 (everything) or less than 1000: %d", l)
+}
+
 var (
 	limit        int
 	updatedSince string
@@ -60,26 +69,68 @@ Output is JSON format`,
 			client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
 			company := ctx.Value(companyKey).(string)
 
-			lastUpdatedGte, err := GetTime(updatedSince)
+			lastUpdatedGte, err := getTime(updatedSince)
+
+			if err != nil {
+				return err
+			}
+			err = validateLimit(limit)
 
 			if err != nil {
 				return err
 			}
 
-			opportunities, err := openapi.DoGetOpportunities(ctx, client, company, &lastUpdatedGte, &limit)
+			var order openapi.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParamsOrder = "asc"
+			var sort openapi.SortOptions = "timestamp_last_updated"
 
-			if err != nil {
-				return err
+			var startFrom = 0
+			var totalFetched = 0
+
+			//  if limit is -1 (unset), we want all opportunities
+			//  if limit is <1000 we want one page of opportunities up to that count
+			var batchSize int
+			var totalForSearch = -1
+			if limit == -1 {
+				batchSize = 1000
+			} else {
+				batchSize = limit
 			}
 
-			for _, oppo := range opportunities.Opportunities {
-				txt, err := json.Marshal(oppo)
+			for totalForSearch == -1 || totalFetched < totalForSearch {
+				params := openapi.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams{
+					TimestampLastUpdatedGte: &lastUpdatedGte,
+					Sort:                    &sort,
+					Order:                   &order,
+					Limit:                   &batchSize,
+					StartFrom:               &startFrom,
+				}
+
+				opportunities, err := openapi.DoGetOpportunities(ctx, client, company, params)
+
 				if err != nil {
 					return err
 				}
-				fmt.Fprintf(cmd.OutOrStdout(), "%s\n", txt)
 
+				for _, oppo := range opportunities.Opportunities {
+					txt, err := json.Marshal(oppo)
+					if err != nil {
+						return err
+					}
+					fmt.Fprintf(cmd.OutOrStdout(), "%s\n", txt)
+					totalFetched += 1
+					startFrom += 1
+				}
+				if totalForSearch == -1 {
+					if limit == -1 {
+						totalForSearch = opportunities.Total
+					} else {
+						totalForSearch = int(math.Min(float64(limit), float64(opportunities.Total)))
+					}
+
+				}
+				// fmt.Printf("TOTAL: %d, FETCHED: %d\n", totalForSearch, totalFetched)
 			}
+
 			return nil
 		},
 	}
@@ -87,7 +138,7 @@ Output is JSON format`,
 
 func init() {
 	getCmd.AddCommand(getOpportunitiesCmd)
-	getOpportunitiesCmd.Flags().IntVar(&limit, "limit", 100, "Max number of opportunities to retrieve")
+	getOpportunitiesCmd.Flags().IntVar(&limit, "limit", -1, "Max number of opportunities to retrieve")
 	getOpportunitiesCmd.Flags().StringVar(&updatedSince, "updated-since", "2020-01-01T00:00:00Z", "Only fetch opportunities updated since")
 
 }

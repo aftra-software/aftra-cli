@@ -2,7 +2,6 @@ package openapi
 
 import (
 	"context"
-	"time"
 )
 
 func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, companyPk string, opportunity CreateOpportunity) error {
@@ -21,17 +20,8 @@ func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, compa
 	return CheckStatus(resp)
 }
 
-func DoGetOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, lastUpdatedGte *time.Time, limit *int) (*SearchedOpportunitiesResponse, error) {
+func DoGetOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams) (*SearchedOpportunitiesResponse, error) {
 
-	var order SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParamsOrder = "asc"
-	var sort SortOptions = "timestamp_last_updated"
-
-	params := SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams{
-		TimestampLastUpdatedGte: lastUpdatedGte,
-		Sort:                    &sort,
-		Order:                   &order,
-		Limit:                   limit,
-	}
 	resp, err := client.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3Get(ctx, companyPk, &params)
 	if err != nil {
 		return nil, err
@@ -42,7 +32,6 @@ func DoGetOpportunities(ctx context.Context, client *ClientWithResponses, compan
 	if err != nil {
 		return nil, err
 	}
-
 	opportunities, err := ParseSearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetResponse(resp)
 
 	if err != nil {
