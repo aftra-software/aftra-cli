@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// getCmd represents the get command
 var updateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "update Aftra resources (eg resolutions)",

@@ -1,8 +1,5 @@
 // Get opportunities usage
-
-// aftra-cli list opportunities --updated-since=DT --limit=100
-
-// aftra-cli update-resolution $UID $RESOLUTION
+// aftra-cli get opportunities --updated-since=DT --limit=100
 
 /*
 Copyright © 2023 Syndis ehf. <syndis@syndis.is>

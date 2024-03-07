@@ -1,8 +1,5 @@
-// Get opportunities usage
-
-// aftra-cli list opportunities --updated-since=DT --limit=100
-
-// aftra-cli update-resolution $UID $RESOLUTION
+// Update Resolution usage
+// aftra-cli update-resolution $UID $RESOLUTION --comment=""
 
 /*
 Copyright © 2023 Syndis ehf. <syndis@syndis.is>
@@ -16,8 +13,6 @@ import (
 	"github.com/syndis-software/aftra-cli/pkg/openapi"
 	"golang.org/x/exp/slices"
 )
-
-// getCmd represents the get command
 
 func validateResolution(resolution string) error {
 
