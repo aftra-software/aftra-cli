@@ -20,7 +20,7 @@ func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, compa
 	return CheckStatus(resp)
 }
 
-func DoGetOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams) (*SearchedOpportunitiesResponse, error) {
+func DoSearchOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams) (*SearchedOpportunitiesResponse, error) {
 
 	resp, err := client.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3Get(ctx, companyPk, &params)
 	if err != nil {

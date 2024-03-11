@@ -102,7 +102,7 @@ Output is JSON format`,
 					StartFrom:               &startFrom,
 				}
 
-				opportunities, err := openapi.DoGetOpportunities(ctx, client, company, params)
+				opportunities, err := openapi.DoSearchOpportunities(ctx, client, company, params)
 
 				if err != nil {
 					return err
