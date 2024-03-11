@@ -39,8 +39,10 @@ func Test_ExecuteLog_Single(t *testing.T) {
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			m := make(map[string]Response)
-			m["/api/integrations/syndis-scan/scan-name/logs"] = Response{
+			m := make(map[string][]Response)
+			mockDoer := &MockHTTP{Responses: m}
+			// Company is blank in tests
+			mockDoer.AddResponse("/api/integrations/syndis-scan/scan-name/logs", Response{
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
@@ -48,8 +50,7 @@ func Test_ExecuteLog_Single(t *testing.T) {
 					Header:     header,
 				},
 				ResponseError: nil,
-			}
-			mockDoer := &MockHTTP{Responses: m}
+			})
 
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)
@@ -108,8 +109,10 @@ func Test_ExecuteLog_Stdin(t *testing.T) {
 
 			stdinInput := strings.NewReader("abcde\nfoobar")
 
-			m := make(map[string]Response)
-			m["/api/integrations/syndis-scan/scan-name/logs"] = Response{
+			m := make(map[string][]Response)
+			mockDoer := &MockHTTP{Responses: m}
+			// Company is blank in tests
+			mockDoer.AddResponse("/api/integrations/syndis-scan/scan-name/logs", Response{
 				Response: http.Response{
 					StatusCode: tc.serverResponse,
 					Status:     "",
@@ -117,8 +120,7 @@ func Test_ExecuteLog_Stdin(t *testing.T) {
 					Header:     header,
 				},
 				ResponseError: nil,
-			}
-			mockDoer := &MockHTTP{Responses: m}
+			})
 
 			outStd := new(bytes.Buffer)
 			outErr := new(bytes.Buffer)

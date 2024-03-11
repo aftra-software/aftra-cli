@@ -28,8 +28,11 @@ func Test_ExecuteGetCompany(t *testing.T) {
 	for _, tc := range tests {
 		header := make(http.Header, 1)
 		header.Set("Content-Type", "application/json")
-		m := make(map[string]Response)
-		m["/api/token/"] = Response{
+
+		m := make(map[string][]Response)
+		mockDoer := &MockHTTP{Responses: m}
+
+		mockDoer.AddResponse("/api/token/", Response{
 			Response: http.Response{
 				StatusCode: tc.serverResponse,
 				Status:     "",
@@ -37,8 +40,7 @@ func Test_ExecuteGetCompany(t *testing.T) {
 				Header:     header,
 			},
 			ResponseError: nil,
-		}
-		mockDoer := &MockHTTP{Responses: m}
+		})
 
 		actual := new(bytes.Buffer)
 		rootCmd.SetOut(actual)

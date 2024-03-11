@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 
 
-def get_subset(data, paths, exclude_paths):
+def get_subset(data, paths, exclude_paths, replace_with_raw_paths):
     output = defaultdict(dict)
     for path in paths:
         focus_in = data
@@ -26,6 +26,15 @@ def get_subset(data, paths, exclude_paths):
             focus_out = focus_out[step]
         del focus_out[final_key]
 
+    # We need to replace some things because the oapi-codegen
+    # creates invalid golang code in the case of large merges by enum it seems
+    for path, replacement in replace_with_raw_paths.items():
+        steps = path.split(".")[:-1]
+        final_key = path.split(".")[-1]
+        focus_out = output
+        for step in steps:
+            focus_out = focus_out[step]
+        focus_out[final_key] = replacement
     return output
 
 
@@ -59,13 +68,26 @@ PATHS = [
     "paths./api/integrations/syndis-scan/{scan_name}/config.get",
     "paths./api/integrations/syndis-scan/{scan_name}/logs.post",
     "paths./api/integrations/syndis-scan/{scan_name}/scan.post",
+    "paths./api/companies/{company_pk}/opportunities/{opportunity_uid}/",
+    "paths./api/companies/{company_pk}/opportunities/v3",
     "components.schemas.MaskedToken",
     "components.schemas.SubmitLogEvent",
     "components.schemas.CreateOpportunity",
     "components.schemas.HTTPValidationError",
     "components.schemas.OpportunityScore",
     "components.schemas.PaginatedEntityCollection_SyndisScanEntity_",
+    "components.schemas.Secret",
     "components.schemas.SyndisScanTypes",
+    "components.schemas.SyndisCISScanEntry",
+    "components.schemas.CISScanResult",
+    "components.schemas.ScoreLevel",
+    "components.schemas.Exposure",
+    "components.schemas.SortOptions",
+    "components.schemas.OpportunityResolution",
+    "components.schemas.OpportunityScore",
+    "components.schemas.OpportunityModelType",
+    "components.schemas.ResolutionUpdate",
+    "components.schemas.SearchedOpportunitiesResponse",
     "components.schemas.SyndisScanConfig",
     "components.schemas.SyndisScanEntity",
     "components.schemas.SyndisInternalScanEvent_SyndisCISResult_",
@@ -86,6 +108,12 @@ EXCLUDE_PATHS = [
     "components.schemas.SyndisScanEntity.properties.entityType",
 ]
 
+PATHS_REPLACED = {
+    "components.schemas.SearchedOpportunitiesResponse.properties.opportunities.items": {
+        "type": "object"
+    }
+}
+
 # test_cases()
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -97,6 +125,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     data = json.loads(open(args.filename).read())
-    subset = get_subset(data, PATHS, EXCLUDE_PATHS)
+    subset = get_subset(data, PATHS, EXCLUDE_PATHS, PATHS_REPLACED)
     fix_anyof_null(subset)
     print(json.dumps(subset, indent=4))

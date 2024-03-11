@@ -19,3 +19,40 @@ func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, compa
 
 	return CheckStatus(resp)
 }
+
+func DoSearchOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams) (*SearchedOpportunitiesResponse, error) {
+
+	resp, err := client.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3Get(ctx, companyPk, &params)
+	if err != nil {
+		return nil, err
+	}
+
+	err = CheckStatus(resp)
+
+	if err != nil {
+		return nil, err
+	}
+	opportunities, err := ParseSearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetResponse(resp)
+
+	if err != nil {
+		return nil, err
+	}
+	return opportunities.JSON200, nil
+
+}
+
+func DoPostResolution(ctx context.Context, client *ClientWithResponses, companyPk string, opportunityUid string, update ResolutionUpdate) error {
+
+	params := PostUpdateOpportunityResolutionParams{}
+	resp, err := client.PostUpdateOpportunityResolution(ctx, companyPk, opportunityUid, &params, PostUpdateOpportunityResolutionJSONRequestBody(update))
+
+	if err != nil {
+		return err
+	}
+
+	err = CheckStatus(resp)
+	if err != nil {
+		return err
+	}
+	return nil
+}
