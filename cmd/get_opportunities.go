@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/spf13/cobra"
 	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
@@ -95,7 +96,7 @@ Output is JSON format`,
 
 			for totalForSearch == -1 || totalFetched < totalForSearch {
 				params := openapi.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams{
-					TimestampLastUpdatedGte: &lastUpdatedGte,
+					TimestampLastUpdatedGte: &openapi_types.Date{lastUpdatedGte},
 					Sort:                    &sort,
 					Order:                   &order,
 					Limit:                   &batchSize,
