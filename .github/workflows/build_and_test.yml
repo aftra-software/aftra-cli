@@ -29,6 +29,10 @@ jobs:
         run: |
           go generate -v ./...
 
+      - name: fleh
+        run: |
+          cat ./pkg/openapi/openapi.gen.go
+
       - name: Build
         run: go build -v ./...
 
