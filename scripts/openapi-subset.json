@@ -696,7 +696,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -705,7 +705,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -714,7 +714,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -723,7 +723,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -732,7 +732,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -741,7 +741,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -750,7 +750,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -759,7 +759,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -768,7 +768,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -777,7 +777,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -786,7 +786,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {
@@ -795,7 +795,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date"
                         }
                     },
                     {

@@ -7,7 +7,7 @@ build:
 
 download-openapi-spec:
 	echo "OPENAPI_HOST is ${OPENAPI_HOST}"
-	curl ${OPENAPI_HOST}/api/openapi.json > $(mkfile_dir)/scripts/openapi.json 
+	curl ${OPENAPI_HOST}/api/openapi.json > $(mkfile_dir)/scripts/openapi.json
 
 update-openapi-subset-spec:
 	python $(mkfile_dir)/scripts/subset_maker.py $(mkfile_dir)/scripts/openapi.json > $(mkfile_dir)/scripts/openapi-subset.json

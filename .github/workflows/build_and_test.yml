@@ -18,12 +18,12 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.18
+          go-version: 1.22
 
       - name: Install dependencies
         run: |
           go get -v .
-          go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.12.4
+          go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.15.0
 
       - name: Generate
         run: |
