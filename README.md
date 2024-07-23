@@ -9,6 +9,15 @@ Env Variables:
 
 - AFTRA_HOST: Location of the host. Used during testing of the CLI client.
 
+## Local setup
+
+Make sure `go/bin` is in your PATH and then run `make build`.
+
+Now you should be able to run the program with `go run . <command>`.
+
+To authenticate correctly see [Getting started](#getting-started).
+
+
 ## Rebuilding the openapi-based structs
 
 - go generate ./...
