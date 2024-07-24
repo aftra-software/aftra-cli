@@ -20,6 +20,23 @@ func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, compa
 	return CheckStatus(resp)
 }
 
+func DoCreateExternalOpportunity(ctx context.Context, client *ClientWithResponses, companyPk string, opportunity CreateOpportunity) error {
+
+	// TODO replace with correct api
+	params := CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams{}
+	resp, err := client.CreateOpportunityApiCompaniesCompanyPkOpportunitiesPost(
+		ctx,
+		companyPk,
+		&params,
+		CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody(opportunity),
+	)
+	if err != nil {
+		return err
+	}
+
+	return CheckStatus(resp)
+}
+
 func DoSearchOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams) (*SearchedOpportunitiesResponse, error) {
 
 	resp, err := client.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3Get(ctx, companyPk, &params)

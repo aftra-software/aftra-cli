@@ -62,6 +62,7 @@ PATHS = [
     "openapi",
     "info",
     "paths./api/companies/{company_pk}/opportunities/.post",
+    "paths./api/companies/{company_pk}/opportunities/external/.post",
     "paths./api/companies/{parent_pk}/syndis-scans.get",
     "paths./api/companies/{parent_pk}/blobs/upload",
     "paths./api/token/.get",
