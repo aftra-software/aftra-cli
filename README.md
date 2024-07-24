@@ -11,7 +11,7 @@ Env Variables:
 
 ## Local setup
 
-Make sure `go/bin` is in your PATH and then run `make build`.
+Make sure `go/bin` is in your PATH and then run `make init`, followed by `make build`.
 
 Now you should be able to run the program with `go run . <command>`.
 

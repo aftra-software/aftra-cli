@@ -2,11 +2,13 @@ mkfile_dir:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 OPENAPI_HOST ?= https://app.aftra.io
 
-build:
+init:
 	echo "Make sure you have go/bin in your PATH"
 	go get .
 	go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.15.0
 	go generate ./...
+
+build:
 	go build ./...
 
 download-openapi-spec:
