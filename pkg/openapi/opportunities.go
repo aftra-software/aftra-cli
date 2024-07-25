@@ -20,15 +20,14 @@ func DoCreateOpportunity(ctx context.Context, client *ClientWithResponses, compa
 	return CheckStatus(resp)
 }
 
-func DoCreateExternalOpportunity(ctx context.Context, client *ClientWithResponses, companyPk string, opportunity CreateOpportunity) error {
+func DoCreateExternalOpportunity(ctx context.Context, client *ClientWithResponses, companyPk string, opportunity CreateExternalOpportunity) error {
 
-	// TODO replace with correct api
-	params := CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostParams{}
-	resp, err := client.CreateOpportunityApiCompaniesCompanyPkOpportunitiesPost(
+	params := CreateExternalOpportunityApiCompaniesCompanyPkOpportunitiesExternalPostParams{}
+	resp, err := client.CreateExternalOpportunityApiCompaniesCompanyPkOpportunitiesExternalPost(
 		ctx,
 		companyPk,
 		&params,
-		CreateOpportunityApiCompaniesCompanyPkOpportunitiesPostJSONRequestBody(opportunity),
+		CreateExternalOpportunityApiCompaniesCompanyPkOpportunitiesExternalPostJSONRequestBody(opportunity),
 	)
 	if err != nil {
 		return err

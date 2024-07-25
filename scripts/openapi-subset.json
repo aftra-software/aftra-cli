@@ -1413,6 +1413,38 @@
                 ],
                 "title": "CreateOpportunity"
             },
+            "CreateExternalOpportunity": {
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "entity_name": {
+                        "type": "string",
+                        "title": "Entity Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/OpportunityScore"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "uid",
+                    "name",
+                    "entity_name",
+                    "description",
+                    "score"
+                ],
+                "title": "CreateExternalOpportunity"
+            },
             "HTTPValidationError": {
                 "properties": {
                     "detail": {

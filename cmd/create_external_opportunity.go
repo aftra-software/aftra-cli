@@ -39,7 +39,7 @@ var (
 			ctx := cmd.Context()
 			client := ctx.Value(clientKey).(*openapi.ClientWithResponses)
 			company := ctx.Value(companyKey).(string)
-			err = openapi.DoCreateExternalOpportunity(ctx, client, company, opportunity)
+			err := openapi.DoCreateExternalOpportunity(ctx, client, company, opportunity)
 
 			if err != nil {
 				return err
@@ -53,12 +53,12 @@ var (
 
 func init() {
 	createCmd.AddCommand(opportunityExternalCmd)
-	opportunityCmd.Flags().StringVar(&externalUid, "uid", "", "Unique identifier for the opportunity")
-	opportunityCmd.Flags().StringVar(&externalName, "name", "", "Name of the opportunity")
-	opportunityCmd.Flags().StringVar(&entityName, "entity", "", "Name of the entity that will be linked to this opportunity")
-	opportunityCmd.Flags().IntVar(&externalScore, "score", -1, "Risk score of the opportunity (critical (5), high (4), medium (3), low (2), info (1), none (0), unknown (-1))")
-	opportunityCmd.Flags().StringVar(&description, "description", "", "The description of the opportunity")
-	opportunityCmd.MarkFlagRequired("uid")
-	opportunityCmd.MarkFlagRequired("name")
-	opportunityCmd.MarkFlagRequired("entity")
+	opportunityExternalCmd.Flags().StringVar(&externalUid, "uid", "", "Unique identifier for the opportunity")
+	opportunityExternalCmd.Flags().StringVar(&externalName, "name", "", "Name of the opportunity")
+	opportunityExternalCmd.Flags().StringVar(&entityName, "entity", "", "Name of the entity that will be linked to this opportunity")
+	opportunityExternalCmd.Flags().IntVar(&externalScore, "score", -1, "Risk score of the opportunity (critical (5), high (4), medium (3), low (2), info (1), none (0), unknown (-1))")
+	opportunityExternalCmd.Flags().StringVar(&description, "description", "", "The description of the opportunity")
+	opportunityExternalCmd.MarkFlagRequired("uid")
+	opportunityExternalCmd.MarkFlagRequired("name")
+	opportunityExternalCmd.MarkFlagRequired("entity")
 }

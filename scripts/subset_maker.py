@@ -74,6 +74,7 @@ PATHS = [
     "components.schemas.MaskedToken",
     "components.schemas.SubmitLogEvent",
     "components.schemas.CreateOpportunity",
+    "components.schemas.CreateExternalOpportunity",
     "components.schemas.HTTPValidationError",
     "components.schemas.OpportunityScore",
     "components.schemas.PaginatedEntityCollection_SyndisScanEntity_",
