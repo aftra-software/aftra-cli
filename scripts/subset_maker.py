@@ -81,7 +81,6 @@ PATHS = [
     "components.schemas.SyndisCISScanEntry",
     "components.schemas.CISScanResult",
     "components.schemas.ScoreLevel",
-    "components.schemas.Exposure",
     "components.schemas.SortOptions",
     "components.schemas.OpportunityResolution",
     "components.schemas.OpportunityScore",
