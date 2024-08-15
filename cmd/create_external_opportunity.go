@@ -22,10 +22,7 @@ var (
 		Use:          "external-opportunity",
 		SilenceUsage: true,
 		Short:        "Create external opportunities inside Aftra",
-		Long: `Use the Aftra API to create external opportunities
-
-	These will become part of the overall picture of your installation.
-	You'll need an API key to make this happen`,
+		Long:         `Use the Aftra API to create external opportunities`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 
 			opportunity := openapi.CreateExternalOpportunity{
@@ -41,11 +38,10 @@ var (
 			company := ctx.Value(companyKey).(string)
 			err := openapi.DoCreateExternalOpportunity(ctx, client, company, opportunity)
 
-			if err != nil {
-				return err
+			if err == nil {
+				fmt.Fprintf(cmd.OutOrStdout(), "%s created\n", externalUid)
 			}
 
-			fmt.Fprintf(cmd.OutOrStdout(), "%s created\n", externalUid)
 			return err
 		},
 	}
