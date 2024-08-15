@@ -17,3 +17,6 @@
 aftra-cli
 dist/
 /scripts/__pycache__/
+
+# Local env
+.env-local
