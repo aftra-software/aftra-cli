@@ -24,10 +24,20 @@ jobs:
         with:
           go-version: stable
       - uses: goreleaser/goreleaser-action@v6
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           distribution: goreleaser
           version: latest
           args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - uses: goreleaser/goreleaser-action@v6
+        if: github.event_name == 'pull_request'
+        with:
+          distribution: goreleaser
+          version: latest
+          args: build --single-target
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
