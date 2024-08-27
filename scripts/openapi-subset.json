@@ -1433,6 +1433,15 @@
                     },
                     "score": {
                         "$ref": "#/components/schemas/OpportunityScore"
+                    },
+                    "background": {
+                        "type": "string"
+                    },
+                    "remediation": {
+                        "type": "string"
+                    },
+                    "references": {
+                        "type": "string"
                     }
                 },
                 "type": "object",
@@ -1717,6 +1726,17 @@
                     },
                     "config": {
                         "$ref": "#/components/schemas/SyndisScanConfig"
+                    },
+                    "labels": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labels",
+                        "default": [
+                            "__blank"
+                        ]
                     }
                 },
                 "type": "object",

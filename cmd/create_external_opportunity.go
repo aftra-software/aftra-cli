@@ -17,6 +17,9 @@ var (
 	entityName    string
 	externalScore int
 	description   string
+	background    string
+	remediation   string
+	references    string
 
 	opportunityExternalCmd = &cobra.Command{
 		Use:          "external-opportunity",
@@ -31,6 +34,9 @@ var (
 				Uid:         externalUid,
 				Score:       openapi.OpportunityScore(externalScore),
 				Description: description,
+				Background:  &background,
+				Remediation: &remediation,
+				References:  &references,
 			}
 
 			ctx := cmd.Context()
@@ -54,6 +60,9 @@ func init() {
 	opportunityExternalCmd.Flags().StringVar(&entityName, "entity", "", "Name of the entity that will be linked to this opportunity")
 	opportunityExternalCmd.Flags().IntVar(&externalScore, "score", -1, "Risk score of the opportunity (critical (5), high (4), medium (3), low (2), info (1), none (0), unknown (-1))")
 	opportunityExternalCmd.Flags().StringVar(&description, "description", "", "The description of the opportunity")
+	opportunityExternalCmd.Flags().StringVar(&background, "background", "", "The background of the opportunity")
+	opportunityExternalCmd.Flags().StringVar(&remediation, "remediation", "", "The remediation of the opportunity")
+	opportunityExternalCmd.Flags().StringVar(&references, "references", "", "The references of the opportunity")
 	opportunityExternalCmd.MarkFlagRequired("uid")
 	opportunityExternalCmd.MarkFlagRequired("name")
 	opportunityExternalCmd.MarkFlagRequired("entity")
