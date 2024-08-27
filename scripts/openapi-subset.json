@@ -84,6 +84,84 @@
                 }
             }
         },
+        "/api/companies/{company_pk}/opportunities/external/": {
+            "post": {
+                "tags": [
+                    "opportunities"
+                ],
+                "summary": "Create External Opportunity",
+                "operationId": "create_external_opportunity_api_companies__company_pk__opportunities_external__post",
+                "security": [
+                    {
+                        "HTTPBearer": []
+                    },
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "company_pk",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                        }
+                    },
+                    {
+                        "name": "parent_pk",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "identity",
+                        "in": "cookie",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateExternalOpportunity"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/companies/{parent_pk}/syndis-scans": {
             "get": {
                 "tags": [
@@ -1335,6 +1413,47 @@
                 ],
                 "title": "CreateOpportunity"
             },
+            "CreateExternalOpportunity": {
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "entity_name": {
+                        "type": "string",
+                        "title": "Entity Name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/OpportunityScore"
+                    },
+                    "background": {
+                        "type": "string"
+                    },
+                    "remediation": {
+                        "type": "string"
+                    },
+                    "references": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "uid",
+                    "name",
+                    "entity_name",
+                    "description",
+                    "score"
+                ],
+                "title": "CreateExternalOpportunity"
+            },
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
@@ -1607,6 +1726,17 @@
                     },
                     "config": {
                         "$ref": "#/components/schemas/SyndisScanConfig"
+                    },
+                    "labels": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labels",
+                        "default": [
+                            "__blank"
+                        ]
                     }
                 },
                 "type": "object",
