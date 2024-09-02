@@ -2247,6 +2247,14 @@
                     "field"
                 ],
                 "title": "OpportunitiesSortOrder"
+            },
+            "Order": {
+                "type": "string",
+                "enum": [
+                    "asc",
+                    "desc"
+                ],
+                "title": "Order"
             }
         }
     }

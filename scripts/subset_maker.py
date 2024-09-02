@@ -101,6 +101,7 @@ PATHS = [
     "components.schemas.BlobSignedUploadURLResponse",
     "components.schemas.OpportunitiesSearchBody",
     "components.schemas.OpportunitiesSortOrder",
+    "components.schemas.Order",
 ]
 
 EXCLUDE_PATHS = [
