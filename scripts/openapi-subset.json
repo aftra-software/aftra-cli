@@ -1285,7 +1285,7 @@
                             "schema": {
                                 "allOf": [
                                     {
-                                        "$ref": "#/components/schemas/SearchBody"
+                                        "$ref": "#/components/schemas/OpportunitiesSearchBody"
                                     }
                                 ],
                                 "default": {
@@ -1623,7 +1623,8 @@
                     "entity_name",
                     "timestamp_created",
                     "timestamp_last_updated",
-                    "last_seen"
+                    "last_seen",
+                    "resolution_days"
                 ],
                 "title": "SortOptions"
             },
@@ -2208,11 +2209,11 @@
                 ],
                 "title": "BlobSignedUploadURLResponse"
             },
-            "SearchBody": {
+            "OpportunitiesSearchBody": {
                 "properties": {
                     "sort": {
                         "items": {
-                            "$ref": "#/components/schemas/SortOrder"
+                            "$ref": "#/components/schemas/OpportunitiesSortOrder"
                         },
                         "type": "array",
                         "title": "Sort",
@@ -2225,20 +2226,19 @@
                     }
                 },
                 "type": "object",
-                "title": "SearchBody"
+                "title": "OpportunitiesSearchBody"
             },
-            "SortOrder": {
+            "OpportunitiesSortOrder": {
                 "properties": {
                     "field": {
                         "$ref": "#/components/schemas/SortOptions"
                     },
                     "order": {
-                        "type": "string",
-                        "enum": [
-                            "asc",
-                            "desc"
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Order"
+                            }
                         ],
-                        "title": "Order",
                         "default": "desc"
                     }
                 },
@@ -2246,7 +2246,15 @@
                 "required": [
                     "field"
                 ],
-                "title": "SortOrder"
+                "title": "OpportunitiesSortOrder"
+            },
+            "Order": {
+                "type": "string",
+                "enum": [
+                    "asc",
+                    "desc"
+                ],
+                "title": "Order"
             }
         }
     }

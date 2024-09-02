@@ -99,8 +99,9 @@ PATHS = [
     "components.schemas.Body_Submit_scan_results",
     "components.schemas.BlobUploadInfo",
     "components.schemas.BlobSignedUploadURLResponse",
-    "components.schemas.SearchBody",
-    "components.schemas.SortOrder",
+    "components.schemas.OpportunitiesSearchBody",
+    "components.schemas.OpportunitiesSortOrder",
+    "components.schemas.Order",
 ]
 
 EXCLUDE_PATHS = [
