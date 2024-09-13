@@ -3,9 +3,27 @@ import json
 from collections import defaultdict
 
 
-def get_subset(data, paths, exclude_paths, replace_with_raw_paths):
-    output = defaultdict(dict)
-    for path in paths:
+def get_referenced_objects(output):
+    referenced_objects = set()
+    def get_referenced_objects_recursively(data, path):
+        if isinstance(data, dict):
+            for key, value in data.items():
+                if key == "$ref":
+                    referenced_objects.add((value.split('#/')[-1].replace("/", ".")))
+                else:
+                    get_referenced_objects_recursively(value, f"{path}.{key}")
+        elif isinstance(data, list):
+            for idx, item in enumerate(data):
+                get_referenced_objects_recursively(item, f"{path}[{idx}]")
+    get_referenced_objects_recursively(output, "")
+    return set(referenced_objects)
+
+def get_included_paths_and_dependents(data, paths, output):
+    accounted_for = set()
+    path_list = list(paths)
+    for path in path_list:
+        if path in accounted_for:
+            continue
         focus_in = data
         focus_out = output
         steps = path.split(".")[:-1]
@@ -16,7 +34,18 @@ def get_subset(data, paths, exclude_paths, replace_with_raw_paths):
             out = focus_out.get(step, {})
             focus_out[step] = out
             focus_out = out
+
         focus_out[final_key] = focus_in[final_key]
+
+        referenced = get_referenced_objects(focus_out[final_key])
+        path_list.extend(referenced)
+        accounted_for.add(path)
+
+
+def get_subset(data, paths, exclude_paths, replace_with_raw_paths):
+    output = defaultdict(dict)
+
+    get_included_paths_and_dependents(data, paths, output)
 
     for path in exclude_paths:
         steps = path.split(".")[:-1]
@@ -71,37 +100,6 @@ PATHS = [
     "paths./api/integrations/syndis-scan/{scan_name}/scan.post",
     "paths./api/companies/{company_pk}/opportunities/{opportunity_uid}/",
     "paths./api/companies/{company_pk}/opportunities/v3",
-    "components.schemas.MaskedToken",
-    "components.schemas.SubmitLogEvent",
-    "components.schemas.CreateOpportunity",
-    "components.schemas.CreateExternalOpportunity",
-    "components.schemas.HTTPValidationError",
-    "components.schemas.OpportunityScore",
-    "components.schemas.PaginatedEntityCollection_SyndisScanEntity_",
-    "components.schemas.Secret",
-    "components.schemas.SyndisScanTypes",
-    "components.schemas.SyndisCISScanEntry",
-    "components.schemas.CISScanResult",
-    "components.schemas.ScoreLevel",
-    "components.schemas.SortOptions",
-    "components.schemas.OpportunityResolution",
-    "components.schemas.OpportunityScore",
-    "components.schemas.OpportunityModelType",
-    "components.schemas.ResolutionUpdate",
-    "components.schemas.SearchedOpportunitiesResponse",
-    "components.schemas.SyndisScanConfig",
-    "components.schemas.SyndisScanEntity",
-    "components.schemas.SyndisInternalScanEvent_SyndisCISResult_",
-    "components.schemas.SyndisInternalScanEvent_SyndisRiskScore_",
-    "components.schemas.SyndisCISResult",
-    "components.schemas.SyndisRiskScore",
-    "components.schemas.ValidationError",
-    "components.schemas.Body_Submit_scan_results",
-    "components.schemas.BlobUploadInfo",
-    "components.schemas.BlobSignedUploadURLResponse",
-    "components.schemas.OpportunitiesSearchBody",
-    "components.schemas.OpportunitiesSortOrder",
-    "components.schemas.Order",
 ]
 
 EXCLUDE_PATHS = [

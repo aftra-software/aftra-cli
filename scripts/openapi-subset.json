@@ -930,6 +930,22 @@
                         }
                     },
                     {
+                        "name": "external_id__exact",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "external_id__exists",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
                         "name": "parent_pk",
                         "in": "query",
                         "required": false,
@@ -1263,6 +1279,22 @@
                         }
                     },
                     {
+                        "name": "external_id__exact",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "external_id__exists",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
                         "name": "parent_pk",
                         "in": "query",
                         "required": false,
@@ -1331,48 +1363,6 @@
     },
     "components": {
         "schemas": {
-            "MaskedToken": {
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "id": {
-                        "type": "string",
-                        "title": "Id"
-                    },
-                    "company": {
-                        "type": "string",
-                        "title": "Company"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "name",
-                    "id",
-                    "company"
-                ],
-                "title": "MaskedToken"
-            },
-            "SubmitLogEvent": {
-                "properties": {
-                    "timestamp": {
-                        "type": "integer",
-                        "format": "int64",
-                        "title": "Timestamp"
-                    },
-                    "message": {
-                        "type": "string",
-                        "title": "Message"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "timestamp",
-                    "message"
-                ],
-                "title": "SubmitLogEvent"
-            },
             "CreateOpportunity": {
                 "properties": {
                     "uid": {
@@ -1412,6 +1402,19 @@
                     "score"
                 ],
                 "title": "CreateOpportunity"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
             },
             "CreateExternalOpportunity": {
                 "properties": {
@@ -1454,32 +1457,6 @@
                 ],
                 "title": "CreateExternalOpportunity"
             },
-            "HTTPValidationError": {
-                "properties": {
-                    "detail": {
-                        "items": {
-                            "$ref": "#/components/schemas/ValidationError"
-                        },
-                        "type": "array",
-                        "title": "Detail"
-                    }
-                },
-                "type": "object",
-                "title": "HTTPValidationError"
-            },
-            "OpportunityScore": {
-                "type": "integer",
-                "enum": [
-                    -1,
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
-                ],
-                "title": "OpportunityScore"
-            },
             "PaginatedEntityCollection_SyndisScanEntity_": {
                 "properties": {
                     "entities": {
@@ -1499,116 +1476,146 @@
                 ],
                 "title": "PaginatedEntityCollection[SyndisScanEntity]"
             },
-            "Secret": {
+            "BlobSignedUploadURLResponse": {
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "title": "Url"
+                    },
+                    "fields": {
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "type": "object",
+                        "title": "Fields"
+                    },
+                    "bucket": {
+                        "type": "string",
+                        "title": "Bucket"
+                    },
+                    "key": {
+                        "type": "string",
+                        "title": "Key"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "url",
+                    "fields",
+                    "bucket",
+                    "key"
+                ],
+                "title": "BlobSignedUploadURLResponse"
+            },
+            "MaskedToken": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name",
+                    "id",
+                    "company"
+                ],
+                "title": "MaskedToken"
+            },
+            "SyndisScanConfig": {
                 "properties": {
                     "type": {
+                        "$ref": "#/components/schemas/SyndisScanTypes"
+                    },
+                    "ranges": {
                         "type": "string",
-                        "title": "Type"
+                        "title": "Ranges"
                     },
-                    "secret": {
+                    "cronSchedule": {
                         "type": "string",
-                        "title": "Secret"
-                    },
-                    "filename": {
-                        "type": "string",
-                        "title": "Filename"
-                    },
-                    "commit_hash": {
-                        "type": "string",
-                        "title": "Commit Hash"
-                    },
-                    "line_number": {
-                        "type": "integer",
-                        "title": "Line Number"
-                    },
-                    "line_from": {
-                        "type": "integer",
-                        "title": "Line From",
-                        "default": 1
-                    },
-                    "repo_url": {
-                        "type": "string",
-                        "title": "Repo Url",
+                        "title": "Cronschedule",
                         "default": ""
-                    },
-                    "branch": {
-                        "type": "string"
-                    },
-                    "score": {
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/OpportunityScore"
-                            }
-                        ],
-                        "default": -1
                     }
                 },
                 "type": "object",
                 "required": [
                     "type",
-                    "secret",
-                    "filename",
-                    "commit_hash",
-                    "line_number"
+                    "ranges"
                 ],
-                "title": "Secret"
+                "title": "SyndisScanConfig"
             },
-            "SyndisScanTypes": {
-                "type": "string",
-                "enum": [
-                    "INTERNAL",
-                    "EXTERNAL",
-                    "SLOW",
-                    "COMPLIANCE"
-                ],
-                "title": "SyndisScanTypes"
-            },
-            "SyndisCISScanEntry": {
+            "SubmitLogEvent": {
                 "properties": {
-                    "result": {
-                        "$ref": "#/components/schemas/CISScanResult"
-                    },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "family": {
-                        "type": "string",
-                        "title": "Family"
-                    },
-                    "count": {
+                    "timestamp": {
                         "type": "integer",
-                        "title": "Count"
+                        "format": "int64",
+                        "title": "Timestamp"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "result",
-                    "name",
-                    "family",
-                    "count"
+                    "timestamp",
+                    "message"
                 ],
-                "title": "SyndisCISScanEntry"
+                "title": "SubmitLogEvent"
             },
-            "CISScanResult": {
-                "type": "string",
-                "enum": [
-                    "PASSED",
-                    "FAILED",
-                    "WARNING"
-                ],
-                "title": "CISScanResult"
+            "Body_Submit_scan_results": {
+                "properties": {
+                    "events": {
+                        "anyOf": [
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/SyndisInternalScanEvent_SyndisCISResult_"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "items": {
+                                    "$ref": "#/components/schemas/SyndisInternalScanEvent_SyndisRiskScore_"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "Events",
+                        "default": []
+                    },
+                    "blob_upload": {
+                        "$ref": "#/components/schemas/BlobUploadInfo"
+                    }
+                },
+                "type": "object",
+                "title": "Body_Submit scan results"
             },
-            "ScoreLevel": {
-                "type": "integer",
-                "enum": [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4
+            "ResolutionUpdate": {
+                "properties": {
+                    "resolution": {
+                        "$ref": "#/components/schemas/OpportunityResolution"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "resolution"
                 ],
-                "title": "ScoreLevel"
+                "title": "ResolutionUpdate"
             },
             "SortOptions": {
                 "type": "string",
@@ -1627,6 +1634,59 @@
                     "resolution_days"
                 ],
                 "title": "SortOptions"
+            },
+            "SearchedOpportunitiesResponse": {
+                "properties": {
+                    "opportunities": {
+                        "items": {
+                            "type": "object"
+                        },
+                        "type": "array",
+                        "title": "Opportunities"
+                    },
+                    "total": {
+                        "type": "integer",
+                        "title": "Total"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "opportunities",
+                    "total"
+                ],
+                "title": "SearchedOpportunitiesResponse"
+            },
+            "OpportunitiesSearchBody": {
+                "properties": {
+                    "sort": {
+                        "items": {
+                            "$ref": "#/components/schemas/OpportunitiesSortOrder"
+                        },
+                        "type": "array",
+                        "title": "Sort",
+                        "default": [
+                            {
+                                "field": "score",
+                                "order": "desc"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "title": "OpportunitiesSearchBody"
+            },
+            "OpportunityScore": {
+                "type": "integer",
+                "enum": [
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ],
+                "title": "OpportunityScore"
             },
             "OpportunityResolution": {
                 "type": "string",
@@ -1657,67 +1717,38 @@
                 ],
                 "title": "OpportunityModelType"
             },
-            "ResolutionUpdate": {
+            "ValidationError": {
                 "properties": {
-                    "resolution": {
-                        "$ref": "#/components/schemas/OpportunityResolution"
-                    },
-                    "comment": {
-                        "type": "string"
-                    },
-                    "dueDate": {
-                        "type": "string",
-                        "format": "date"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "resolution"
-                ],
-                "title": "ResolutionUpdate"
-            },
-            "SearchedOpportunitiesResponse": {
-                "properties": {
-                    "opportunities": {
+                    "loc": {
                         "items": {
-                            "type": "object"
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
                         },
                         "type": "array",
-                        "title": "Opportunities"
+                        "title": "Location"
                     },
-                    "total": {
-                        "type": "integer",
-                        "title": "Total"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "opportunities",
-                    "total"
-                ],
-                "title": "SearchedOpportunitiesResponse"
-            },
-            "SyndisScanConfig": {
-                "properties": {
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
                     "type": {
-                        "$ref": "#/components/schemas/SyndisScanTypes"
-                    },
-                    "ranges": {
                         "type": "string",
-                        "title": "Ranges"
-                    },
-                    "cronSchedule": {
-                        "type": "string",
-                        "title": "Cronschedule",
-                        "default": ""
+                        "title": "Error Type"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "type",
-                    "ranges"
+                    "loc",
+                    "msg",
+                    "type"
                 ],
-                "title": "SyndisScanConfig"
+                "title": "ValidationError"
             },
             "SyndisScanEntity": {
                 "properties": {
@@ -1749,170 +1780,15 @@
                 ],
                 "title": "SyndisScanEntity"
             },
-            "SyndisInternalScanEvent_SyndisCISResult_": {
-                "properties": {
-                    "folder_name": {
-                        "type": "string",
-                        "title": "Folder Name"
-                    },
-                    "scan_id": {
-                        "type": "string",
-                        "title": "Scan Id"
-                    },
-                    "scan_uuid": {
-                        "type": "string",
-                        "title": "Scan Uuid"
-                    },
-                    "scan_start": {
-                        "type": "string",
-                        "title": "Scan Start"
-                    },
-                    "scan_end": {
-                        "type": "string",
-                        "title": "Scan End"
-                    },
-                    "file_name": {
-                        "type": "string",
-                        "title": "File Name"
-                    },
-                    "plugin_id": {
-                        "type": "integer",
-                        "title": "Plugin Id"
-                    },
-                    "cve": {
-                        "type": "string",
-                        "title": "Cve"
-                    },
-                    "cvss": {
-                        "type": "number",
-                        "title": "Cvss"
-                    },
-                    "risk": {
-                        "$ref": "#/components/schemas/SyndisCISResult"
-                    },
-                    "host": {
-                        "type": "string",
-                        "title": "Host"
-                    },
-                    "protocol": {
-                        "type": "string",
-                        "title": "Protocol"
-                    },
-                    "port": {
-                        "type": "string",
-                        "title": "Port"
-                    },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "synopsis": {
-                        "type": "string",
-                        "title": "Synopsis"
-                    },
-                    "description": {
-                        "type": "string",
-                        "title": "Description"
-                    },
-                    "solution": {
-                        "type": "string",
-                        "title": "Solution"
-                    },
-                    "see_also": {
-                        "type": "string",
-                        "title": "See Also"
-                    },
-                    "plugin_output": {
-                        "type": "string",
-                        "title": "Plugin Output"
-                    },
-                    "stig_severity": {
-                        "type": "string",
-                        "title": "Stig Severity"
-                    },
-                    "cvss_v3_0_base_score": {
-                        "type": "number",
-                        "title": "Cvss V3 0 Base Score"
-                    },
-                    "cvss_temporal_score": {
-                        "type": "number",
-                        "title": "Cvss Temporal Score"
-                    },
-                    "cvss_v3_0_temporal_score": {
-                        "type": "number",
-                        "title": "Cvss V3 0 Temporal Score"
-                    },
-                    "risk_factor": {
-                        "type": "string",
-                        "title": "Risk Factor"
-                    },
-                    "bid": {
-                        "type": "string",
-                        "title": "Bid"
-                    },
-                    "xref": {
-                        "type": "string",
-                        "title": "Xref"
-                    },
-                    "mskb": {
-                        "type": "string",
-                        "title": "Mskb"
-                    },
-                    "plugin_publication_date": {
-                        "type": "string",
-                        "title": "Plugin Publication Date"
-                    },
-                    "plugin_modification_date": {
-                        "type": "string",
-                        "title": "Plugin Modification Date"
-                    },
-                    "metasploit": {
-                        "type": "string",
-                        "title": "Metasploit"
-                    },
-                    "core_impact": {
-                        "type": "string"
-                    },
-                    "canvas": {
-                        "type": "string",
-                        "title": "Canvas"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "folder_name",
-                    "scan_id",
-                    "scan_uuid",
-                    "scan_start",
-                    "scan_end",
-                    "file_name",
-                    "plugin_id",
-                    "cve",
-                    "cvss",
-                    "risk",
-                    "host",
-                    "protocol",
-                    "port",
-                    "name",
-                    "synopsis",
-                    "description",
-                    "solution",
-                    "see_also",
-                    "plugin_output",
-                    "stig_severity",
-                    "cvss_v3_0_base_score",
-                    "cvss_temporal_score",
-                    "cvss_v3_0_temporal_score",
-                    "risk_factor",
-                    "bid",
-                    "xref",
-                    "mskb",
-                    "plugin_publication_date",
-                    "plugin_modification_date",
-                    "metasploit",
-                    "canvas"
+            "SyndisScanTypes": {
+                "type": "string",
+                "enum": [
+                    "INTERNAL",
+                    "EXTERNAL",
+                    "SLOW",
+                    "COMPLIANCE"
                 ],
-                "title": "SyndisInternalScanEvent[SyndisCISResult]"
+                "title": "SyndisScanTypes"
             },
             "SyndisInternalScanEvent_SyndisRiskScore_": {
                 "properties": {
@@ -2079,87 +1955,6 @@
                 ],
                 "title": "SyndisInternalScanEvent[SyndisRiskScore]"
             },
-            "SyndisCISResult": {
-                "type": "string",
-                "enum": [
-                    "WARNING",
-                    "PASSED",
-                    "FAILED",
-                    "None"
-                ],
-                "title": "SyndisCISResult"
-            },
-            "SyndisRiskScore": {
-                "type": "string",
-                "enum": [
-                    "Low",
-                    "Medium",
-                    "High",
-                    "Critical",
-                    "None"
-                ],
-                "title": "SyndisRiskScore"
-            },
-            "ValidationError": {
-                "properties": {
-                    "loc": {
-                        "items": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "integer"
-                                }
-                            ]
-                        },
-                        "type": "array",
-                        "title": "Location"
-                    },
-                    "msg": {
-                        "type": "string",
-                        "title": "Message"
-                    },
-                    "type": {
-                        "type": "string",
-                        "title": "Error Type"
-                    }
-                },
-                "type": "object",
-                "required": [
-                    "loc",
-                    "msg",
-                    "type"
-                ],
-                "title": "ValidationError"
-            },
-            "Body_Submit_scan_results": {
-                "properties": {
-                    "events": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "$ref": "#/components/schemas/SyndisInternalScanEvent_SyndisCISResult_"
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "items": {
-                                    "$ref": "#/components/schemas/SyndisInternalScanEvent_SyndisRiskScore_"
-                                },
-                                "type": "array"
-                            }
-                        ],
-                        "title": "Events",
-                        "default": []
-                    },
-                    "blob_upload": {
-                        "$ref": "#/components/schemas/BlobUploadInfo"
-                    }
-                },
-                "type": "object",
-                "title": "Body_Submit scan results"
-            },
             "BlobUploadInfo": {
                 "properties": {
                     "key": {
@@ -2178,55 +1973,1807 @@
                 ],
                 "title": "BlobUploadInfo"
             },
-            "BlobSignedUploadURLResponse": {
+            "SyndisInternalScanEvent_SyndisCISResult_": {
                 "properties": {
-                    "url": {
+                    "folder_name": {
                         "type": "string",
-                        "title": "Url"
+                        "title": "Folder Name"
                     },
-                    "fields": {
-                        "additionalProperties": {
-                            "type": "string"
-                        },
-                        "type": "object",
-                        "title": "Fields"
-                    },
-                    "bucket": {
+                    "scan_id": {
                         "type": "string",
-                        "title": "Bucket"
+                        "title": "Scan Id"
                     },
-                    "key": {
+                    "scan_uuid": {
                         "type": "string",
-                        "title": "Key"
+                        "title": "Scan Uuid"
+                    },
+                    "scan_start": {
+                        "type": "string",
+                        "title": "Scan Start"
+                    },
+                    "scan_end": {
+                        "type": "string",
+                        "title": "Scan End"
+                    },
+                    "file_name": {
+                        "type": "string",
+                        "title": "File Name"
+                    },
+                    "plugin_id": {
+                        "type": "integer",
+                        "title": "Plugin Id"
+                    },
+                    "cve": {
+                        "type": "string",
+                        "title": "Cve"
+                    },
+                    "cvss": {
+                        "type": "number",
+                        "title": "Cvss"
+                    },
+                    "risk": {
+                        "$ref": "#/components/schemas/SyndisCISResult"
+                    },
+                    "host": {
+                        "type": "string",
+                        "title": "Host"
+                    },
+                    "protocol": {
+                        "type": "string",
+                        "title": "Protocol"
+                    },
+                    "port": {
+                        "type": "string",
+                        "title": "Port"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "synopsis": {
+                        "type": "string",
+                        "title": "Synopsis"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    },
+                    "solution": {
+                        "type": "string",
+                        "title": "Solution"
+                    },
+                    "see_also": {
+                        "type": "string",
+                        "title": "See Also"
+                    },
+                    "plugin_output": {
+                        "type": "string",
+                        "title": "Plugin Output"
+                    },
+                    "stig_severity": {
+                        "type": "string",
+                        "title": "Stig Severity"
+                    },
+                    "cvss_v3_0_base_score": {
+                        "type": "number",
+                        "title": "Cvss V3 0 Base Score"
+                    },
+                    "cvss_temporal_score": {
+                        "type": "number",
+                        "title": "Cvss Temporal Score"
+                    },
+                    "cvss_v3_0_temporal_score": {
+                        "type": "number",
+                        "title": "Cvss V3 0 Temporal Score"
+                    },
+                    "risk_factor": {
+                        "type": "string",
+                        "title": "Risk Factor"
+                    },
+                    "bid": {
+                        "type": "string",
+                        "title": "Bid"
+                    },
+                    "xref": {
+                        "type": "string",
+                        "title": "Xref"
+                    },
+                    "mskb": {
+                        "type": "string",
+                        "title": "Mskb"
+                    },
+                    "plugin_publication_date": {
+                        "type": "string",
+                        "title": "Plugin Publication Date"
+                    },
+                    "plugin_modification_date": {
+                        "type": "string",
+                        "title": "Plugin Modification Date"
+                    },
+                    "metasploit": {
+                        "type": "string",
+                        "title": "Metasploit"
+                    },
+                    "core_impact": {
+                        "type": "string"
+                    },
+                    "canvas": {
+                        "type": "string",
+                        "title": "Canvas"
                     }
                 },
                 "type": "object",
                 "required": [
-                    "url",
-                    "fields",
-                    "bucket",
-                    "key"
+                    "folder_name",
+                    "scan_id",
+                    "scan_uuid",
+                    "scan_start",
+                    "scan_end",
+                    "file_name",
+                    "plugin_id",
+                    "cve",
+                    "cvss",
+                    "risk",
+                    "host",
+                    "protocol",
+                    "port",
+                    "name",
+                    "synopsis",
+                    "description",
+                    "solution",
+                    "see_also",
+                    "plugin_output",
+                    "stig_severity",
+                    "cvss_v3_0_base_score",
+                    "cvss_temporal_score",
+                    "cvss_v3_0_temporal_score",
+                    "risk_factor",
+                    "bid",
+                    "xref",
+                    "mskb",
+                    "plugin_publication_date",
+                    "plugin_modification_date",
+                    "metasploit",
+                    "canvas"
                 ],
-                "title": "BlobSignedUploadURLResponse"
+                "title": "SyndisInternalScanEvent[SyndisCISResult]"
             },
-            "OpportunitiesSearchBody": {
+            "OpenPort": {
                 "properties": {
-                    "sort": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "open_port"
+                        ],
+                        "const": "open_port",
+                        "title": "Type",
+                        "default": "open_port"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "network"
+                        ],
+                        "const": "network",
+                        "title": "Group",
+                        "default": "network"
+                    },
+                    "entity": {
+                        "type": "string"
+                    },
+                    "entityName": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
                         "items": {
-                            "$ref": "#/components/schemas/OpportunitiesSortOrder"
+                            "type": "string"
                         },
                         "type": "array",
-                        "title": "Sort",
+                        "uniqueItems": true,
+                        "title": "Labelset",
                         "default": [
-                            {
-                                "field": "score",
-                                "order": "desc"
-                            }
+                            "__blank"
                         ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "ports": {
+                        "items": {
+                            "type": "integer"
+                        },
+                        "type": "array",
+                        "title": "Ports"
+                    },
+                    "organization": {
+                        "type": "string"
                     }
                 },
                 "type": "object",
-                "title": "OpportunitiesSearchBody"
+                "required": [
+                    "company",
+                    "uid",
+                    "ports"
+                ],
+                "title": "OpenPort"
+            },
+            "BurpVulnerability": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "burp_vulnerability"
+                        ],
+                        "const": "burp_vulnerability",
+                        "title": "Type",
+                        "default": "burp_vulnerability"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "vulnerabilities"
+                        ],
+                        "const": "vulnerabilities",
+                        "title": "Group",
+                        "default": "vulnerabilities"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^(Sub)?[Dd]omain-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "typeIndex": {
+                        "type": "string",
+                        "title": "Typeindex"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "origin": {
+                        "type": "string",
+                        "title": "Origin"
+                    },
+                    "path": {
+                        "type": "string",
+                        "title": "Path"
+                    },
+                    "background": {
+                        "type": "string",
+                        "title": "Background"
+                    },
+                    "remediation": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name",
+                    "typeIndex",
+                    "origin",
+                    "path",
+                    "background"
+                ],
+                "title": "BurpVulnerability"
+            },
+            "DomainRegistration": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "domain_registration"
+                        ],
+                        "const": "domain_registration",
+                        "title": "Type",
+                        "default": "domain_registration"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "domains"
+                        ],
+                        "const": "domains",
+                        "title": "Group",
+                        "default": "domains"
+                    },
+                    "entity": {
+                        "type": "string"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "unregisteredRegistrar": {
+                        "type": "string"
+                    },
+                    "archivedAccount": {
+                        "type": "string"
+                    },
+                    "spfError": {
+                        "type": "string"
+                    },
+                    "dmarcError": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entityName"
+                ],
+                "title": "DomainRegistration"
+            },
+            "WPVulnerability": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "wordpress_vulnerability"
+                        ],
+                        "const": "wordpress_vulnerability",
+                        "title": "Type",
+                        "default": "wordpress_vulnerability"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "vulnerabilities"
+                        ],
+                        "const": "vulnerabilities",
+                        "title": "Group",
+                        "default": "vulnerabilities"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^(Sub)?[Dd]omain-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "assetType": {
+                        "$ref": "#/components/schemas/WPAssetType"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "assetSlug": {
+                        "type": "string"
+                    },
+                    "cvss": {
+                        "type": "string"
+                    },
+                    "cwe": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Cwe",
+                        "default": []
+                    },
+                    "cve": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Cve",
+                        "default": []
+                    },
+                    "references": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "References",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName"
+                ],
+                "title": "WPVulnerability"
+            },
+            "ExposedServices": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "exposed_service"
+                        ],
+                        "const": "exposed_service",
+                        "title": "Type",
+                        "default": "exposed_service"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "human_exposure"
+                        ],
+                        "const": "human_exposure",
+                        "title": "Group",
+                        "default": "human_exposure"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^Account-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name"
+                ],
+                "title": "ExposedServices"
+            },
+            "WebApplicationVulnerability": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "web_app_vulnerability"
+                        ],
+                        "const": "web_app_vulnerability",
+                        "title": "Type",
+                        "default": "web_app_vulnerability"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "vulnerabilities"
+                        ],
+                        "const": "vulnerabilities",
+                        "title": "Group",
+                        "default": "vulnerabilities"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^(Sub)?[Dd]omain-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "nucleiTemplateId": {
+                        "type": "string",
+                        "title": "Nucleitemplateid"
+                    },
+                    "host": {
+                        "type": "string"
+                    },
+                    "extractedResults": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Extractedresults",
+                        "default": []
+                    },
+                    "cve": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Cve",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name",
+                    "nucleiTemplateId"
+                ],
+                "title": "WebApplicationVulnerability"
+            },
+            "InternalOpportunity": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "internal"
+                        ],
+                        "const": "internal",
+                        "title": "Type",
+                        "default": "internal"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "internal"
+                        ],
+                        "const": "internal",
+                        "title": "Group",
+                        "default": "internal"
+                    },
+                    "entity": {
+                        "type": "string"
+                    },
+                    "entityName": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Details"
+                    },
+                    "scanName": {
+                        "type": "string"
+                    },
+                    "host": {
+                        "type": "string"
+                    },
+                    "port": {
+                        "type": "integer"
+                    },
+                    "solution": {
+                        "type": "string"
+                    },
+                    "cvss": {
+                        "type": "string"
+                    },
+                    "synopsis": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "cve": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Cve",
+                        "default": []
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "name",
+                    "details"
+                ],
+                "title": "InternalOpportunity"
+            },
+            "SyndisCISScan": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "cis_scan"
+                        ],
+                        "const": "cis_scan",
+                        "title": "Type",
+                        "default": "cis_scan"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "internal"
+                        ],
+                        "const": "internal",
+                        "title": "Group",
+                        "default": "internal"
+                    },
+                    "entity": {
+                        "type": "string"
+                    },
+                    "entityName": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "entries": {
+                        "items": {
+                            "$ref": "#/components/schemas/SyndisCISScanEntry"
+                        },
+                        "type": "array",
+                        "title": "Entries"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "name",
+                    "entries"
+                ],
+                "title": "SyndisCISScan"
+            },
+            "GreenboneVulnerability": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "greenbone_vulnerability"
+                        ],
+                        "const": "greenbone_vulnerability",
+                        "title": "Type",
+                        "default": "greenbone_vulnerability"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "vulnerabilities"
+                        ],
+                        "const": "vulnerabilities",
+                        "title": "Group",
+                        "default": "vulnerabilities"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^(Sub)?[Dd]omain-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "affected": {
+                        "type": "string"
+                    },
+                    "summary": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Description"
+                    },
+                    "solution": {
+                        "type": "string"
+                    },
+                    "solutionType": {
+                        "type": "string"
+                    },
+                    "insight": {
+                        "type": "string"
+                    },
+                    "references": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "References"
+                    },
+                    "host": {
+                        "type": "string",
+                        "title": "Host"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name",
+                    "description",
+                    "references",
+                    "host"
+                ],
+                "title": "GreenboneVulnerability"
+            },
+            "SuspiciousDomain": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "suspicious_domain"
+                        ],
+                        "const": "suspicious_domain",
+                        "title": "Type",
+                        "default": "suspicious_domain"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "domains"
+                        ],
+                        "const": "domains",
+                        "title": "Group",
+                        "default": "domains"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^Domain-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "scoreDetails": {
+                        "additionalProperties": {
+                            "items": {
+                                "$ref": "#/components/schemas/IndividualScore"
+                            },
+                            "type": "array"
+                        },
+                        "type": "object",
+                        "title": "Scoredetails"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name",
+                    "scoreDetails"
+                ],
+                "title": "SuspiciousDomain"
+            },
+            "LeakedPassword": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "leaked_password"
+                        ],
+                        "const": "leaked_password",
+                        "title": "Type",
+                        "default": "leaked_password"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "human_exposure"
+                        ],
+                        "const": "human_exposure",
+                        "title": "Group",
+                        "default": "human_exposure"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^Account-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "passwordHint": {
+                        "type": "string",
+                        "title": "Passwordhint"
+                    },
+                    "leakName": {
+                        "type": "string",
+                        "title": "Leakname"
+                    },
+                    "leakYear": {
+                        "type": "integer",
+                        "title": "Leakyear"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name",
+                    "passwordHint",
+                    "leakName",
+                    "leakYear"
+                ],
+                "title": "LeakedPassword"
+            },
+            "ExternalOpportunity": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "external_vulnerability"
+                        ],
+                        "const": "external_vulnerability",
+                        "title": "Type",
+                        "default": "external_vulnerability"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "vulnerabilities"
+                        ],
+                        "const": "vulnerabilities",
+                        "title": "Group",
+                        "default": "vulnerabilities"
+                    },
+                    "entity": {
+                        "type": "string"
+                    },
+                    "entityName": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "background": {
+                        "type": "string"
+                    },
+                    "remediation": {
+                        "type": "string"
+                    },
+                    "references": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid"
+                ],
+                "title": "ExternalOpportunity"
+            },
+            "ExposedFileSecrets": {
+                "properties": {
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "uid": {
+                        "type": "string",
+                        "title": "Uid"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "exposed_secret"
+                        ],
+                        "const": "exposed_secret",
+                        "title": "Type",
+                        "default": "exposed_secret"
+                    },
+                    "group": {
+                        "type": "string",
+                        "enum": [
+                            "vulnerabilities"
+                        ],
+                        "const": "vulnerabilities",
+                        "title": "Group",
+                        "default": "vulnerabilities"
+                    },
+                    "entity": {
+                        "type": "string",
+                        "pattern": "^Repository-",
+                        "title": "Entity"
+                    },
+                    "entityName": {
+                        "type": "string",
+                        "title": "Entityname"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    },
+                    "resolution": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityResolution"
+                            }
+                        ],
+                        "default": "unacknowledged"
+                    },
+                    "labelSet": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "uniqueItems": true,
+                        "title": "Labelset",
+                        "default": [
+                            "__blank"
+                        ]
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "timestampCreated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Timestampcreated"
+                    },
+                    "timestampLastUpdated": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastSeen": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Lastseen"
+                    },
+                    "dueDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "resolutionDays": {
+                        "type": "integer"
+                    },
+                    "screenshot": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "externalId": {
+                        "type": "string"
+                    },
+                    "filename": {
+                        "type": "string",
+                        "title": "Filename"
+                    },
+                    "secrets": {
+                        "items": {
+                            "$ref": "#/components/schemas/Secret"
+                        },
+                        "type": "array",
+                        "title": "Secrets"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "company",
+                    "uid",
+                    "entity",
+                    "entityName",
+                    "name",
+                    "filename",
+                    "secrets"
+                ],
+                "title": "ExposedFileSecrets"
             },
             "OpportunitiesSortOrder": {
                 "properties": {
@@ -2248,6 +3795,133 @@
                 ],
                 "title": "OpportunitiesSortOrder"
             },
+            "SyndisRiskScore": {
+                "type": "string",
+                "enum": [
+                    "Low",
+                    "Medium",
+                    "High",
+                    "Critical",
+                    "None"
+                ],
+                "title": "SyndisRiskScore"
+            },
+            "SyndisCISResult": {
+                "type": "string",
+                "enum": [
+                    "WARNING",
+                    "PASSED",
+                    "FAILED",
+                    "None"
+                ],
+                "title": "SyndisCISResult"
+            },
+            "WPAssetType": {
+                "type": "string",
+                "enum": [
+                    "Plugin",
+                    "Theme"
+                ],
+                "title": "WPAssetType"
+            },
+            "SyndisCISScanEntry": {
+                "properties": {
+                    "result": {
+                        "$ref": "#/components/schemas/CISScanResult"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "family": {
+                        "type": "string",
+                        "title": "Family"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "title": "Count"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "result",
+                    "name",
+                    "family",
+                    "count"
+                ],
+                "title": "SyndisCISScanEntry"
+            },
+            "IndividualScore": {
+                "properties": {
+                    "score": {
+                        "$ref": "#/components/schemas/ScoreLevel"
+                    },
+                    "reason": {
+                        "type": "string",
+                        "title": "Reason"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "score",
+                    "reason"
+                ],
+                "title": "IndividualScore"
+            },
+            "Secret": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "title": "Type"
+                    },
+                    "secret": {
+                        "type": "string",
+                        "title": "Secret"
+                    },
+                    "filename": {
+                        "type": "string",
+                        "title": "Filename"
+                    },
+                    "commit_hash": {
+                        "type": "string",
+                        "title": "Commit Hash"
+                    },
+                    "line_number": {
+                        "type": "integer",
+                        "title": "Line Number"
+                    },
+                    "line_from": {
+                        "type": "integer",
+                        "title": "Line From",
+                        "default": 1
+                    },
+                    "repo_url": {
+                        "type": "string",
+                        "title": "Repo Url",
+                        "default": ""
+                    },
+                    "branch": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/OpportunityScore"
+                            }
+                        ],
+                        "default": -1
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "type",
+                    "secret",
+                    "filename",
+                    "commit_hash",
+                    "line_number"
+                ],
+                "title": "Secret"
+            },
             "Order": {
                 "type": "string",
                 "enum": [
@@ -2255,6 +3929,26 @@
                     "desc"
                 ],
                 "title": "Order"
+            },
+            "CISScanResult": {
+                "type": "string",
+                "enum": [
+                    "PASSED",
+                    "FAILED",
+                    "WARNING"
+                ],
+                "title": "CISScanResult"
+            },
+            "ScoreLevel": {
+                "type": "integer",
+                "enum": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4
+                ],
+                "title": "ScoreLevel"
             }
         }
     }
