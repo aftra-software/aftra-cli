@@ -1,6 +1,6 @@
 # aftra-cli
 
-Public API go binary for integration with AFTRA
+Public API go binary for integrating with Aftra
 
 Env Variables:
 
