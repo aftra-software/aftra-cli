@@ -10,9 +10,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/aftra-software/aftra-cli/pkg/openapi"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/spf13/cobra"
-	"github.com/syndis-software/aftra-cli/pkg/openapi"
 	"golang.org/x/exp/slices"
 )
 

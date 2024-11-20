@@ -10,8 +10,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/aftra-software/aftra-cli/pkg/openapi"
 	"github.com/stretchr/testify/assert"
-	"github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 func Test_ExecuteSubmit_Single_ServerResponseHandling(t *testing.T) {

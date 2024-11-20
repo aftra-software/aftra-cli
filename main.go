@@ -7,7 +7,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/syndis-software/aftra-cli/cmd"
+	"github.com/aftra-software/aftra-cli/cmd"
 )
 
 func main() {

@@ -6,8 +6,8 @@ package cmd
 import (
 	"fmt"
 
+	openapi "github.com/aftra-software/aftra-cli/pkg/openapi"
 	"github.com/spf13/cobra"
-	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 // companyCmd represents the company command

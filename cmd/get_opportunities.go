@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
+	openapi "github.com/aftra-software/aftra-cli/pkg/openapi"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/spf13/cobra"
-	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 // getCmd represents the get command

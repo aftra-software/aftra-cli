@@ -15,8 +15,8 @@ import (
 	"os"
 	"strings"
 
+	openapi "github.com/aftra-software/aftra-cli/pkg/openapi"
 	"github.com/spf13/cobra"
-	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 var (

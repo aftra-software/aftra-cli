@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
+	openapi "github.com/aftra-software/aftra-cli/pkg/openapi"
 )
 
 // rootCmd represents the base command when called without any subcommands
