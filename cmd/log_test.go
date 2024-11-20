@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/aftra-software/aftra-cli/pkg/openapi"
 	"github.com/stretchr/testify/assert"
-	"github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 func Test_ExecuteLog_Single(t *testing.T) {

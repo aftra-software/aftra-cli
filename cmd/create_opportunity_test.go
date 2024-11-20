@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"testing"
 
+	openapi "github.com/aftra-software/aftra-cli/pkg/openapi"
 	"github.com/stretchr/testify/assert"
-	openapi "github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 func Test_ExecuteCreateOpportunity(t *testing.T) {

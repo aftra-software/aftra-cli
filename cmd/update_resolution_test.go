@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/aftra-software/aftra-cli/pkg/openapi"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 	"github.com/stretchr/testify/assert"
-	"github.com/syndis-software/aftra-cli/pkg/openapi"
 )
 
 func Test_ExecuteUpdateResolution(t *testing.T) {
