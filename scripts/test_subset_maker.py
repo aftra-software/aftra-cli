@@ -21,7 +21,95 @@ def test_get_subset():
             {"paths": {"/some/url": {"post": {"post-stuff": 2}}}},
         ),
     ]:
-        result = get_subset(input, paths, exclude_paths=[])
+        result = get_subset(input, paths, exclude_paths=[], replace_with_raw_paths={})
+        assert result == expected, f"Failure. Actual {result}; Expected {expected}"
+
+
+def test_get_subset_auto_finds_components():
+    openapi_like_data = {
+        "paths": {
+            "/some/url": {
+                "get": {
+                    "responses": {
+                        "200": {
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "$ref": "#/components/schemas/HTTPValidationError"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                },
+                "post": {"post-stuff": 2},
+            }
+        },
+        "components": {
+            "schemas": {
+                "HTTPValidationError": {
+                    "properties": {
+                        "detail": {
+                            "items": {"$ref": "#/components/schemas/ValidationError"},
+                        }
+                    },
+                    "foo": "bar",
+                },
+                "Ignored": {"Something": "else"},
+                "ValidationError": {
+                    "title": "ValidationError",
+                },
+            }
+        },
+    }
+    for input, paths, expected in [
+        (
+            openapi_like_data,
+            ["paths./some/url.post"],
+            {"paths": {"/some/url": {"post": {"post-stuff": 2}}}},
+        ),
+        (
+            openapi_like_data,
+            ["paths./some/url.get"],
+            {
+                "paths": {
+                    "/some/url": {
+                        "get": {
+                            "responses": {
+                                "200": {
+                                    "content": {
+                                        "application/json": {
+                                            "schema": {
+                                                "$ref": "#/components/schemas/HTTPValidationError"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                        }
+                    }
+                },
+                "components": {
+                    "schemas": {
+                        "HTTPValidationError": {
+                            "properties": {
+                                "detail": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/ValidationError"
+                                    },
+                                }
+                            },
+                            "foo": "bar",
+                        },
+                        "ValidationError": {
+                            "title": "ValidationError",
+                        },
+                    }
+                },
+            },
+        ),
+    ]:
+        result = get_subset(input, paths, exclude_paths=[], replace_with_raw_paths={})
         assert result == expected, f"Failure. Actual {result}; Expected {expected}"
 
 
