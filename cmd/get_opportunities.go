@@ -78,7 +78,7 @@ Output is JSON format`,
 				return err
 			}
 
-			var order openapi.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParamsOrder = "asc"
+			var order openapi.Order = "asc"
 			var sort openapi.SortOptions = "timestamp_last_updated"
 
 			var startFrom = 0
@@ -95,15 +95,24 @@ Output is JSON format`,
 			}
 
 			for totalForSearch == -1 || totalFetched < totalForSearch {
-				params := openapi.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams{
-					TimestampLastUpdatedGte: &openapi_types.Date{lastUpdatedGte},
-					Sort:                    &sort,
-					Order:                   &order,
-					Limit:                   &batchSize,
-					StartFrom:               &startFrom,
+				params := openapi.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3PostParams{
+					Limit:     &batchSize,
+					StartFrom: &startFrom,
 				}
 
-				opportunities, err := openapi.DoSearchOpportunities(ctx, client, company, params)
+				body := openapi.OpportunitiesSearchBody{
+					TimestampLastUpdated: &openapi.RangeFilterDate{
+						Gte: &openapi_types.Date{Time: lastUpdatedGte},
+					},
+					Sort: &[]openapi.OpportunitiesSortOrder{
+						{
+							Field: sort,
+							Order: &order,
+						},
+					},
+				}
+
+				opportunities, err := openapi.DoSearchOpportunities(ctx, client, company, params, body)
 
 				if err != nil {
 					return err

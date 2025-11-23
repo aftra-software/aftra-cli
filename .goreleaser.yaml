@@ -2,7 +2,6 @@ version: 2
 before:
   hooks:
     - go get -v .
-    - go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.15.0
     - go generate ./...
 
 builds:

@@ -36,9 +36,9 @@ func DoCreateExternalOpportunity(ctx context.Context, client *ClientWithResponse
 	return CheckStatus(resp)
 }
 
-func DoSearchOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetParams) (*SearchedOpportunitiesResponse, error) {
+func DoSearchOpportunities(ctx context.Context, client *ClientWithResponses, companyPk string, params SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3PostParams, body OpportunitiesSearchBody) (*SearchedOpportunitiesResponse, error) {
 
-	resp, err := client.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3Get(ctx, companyPk, &params)
+	resp, err := client.SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3Post(ctx, companyPk, &params, SearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3PostJSONRequestBody(body))
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func DoSearchOpportunities(ctx context.Context, client *ClientWithResponses, com
 	if err != nil {
 		return nil, err
 	}
-	opportunities, err := ParseSearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3GetResponse(resp)
+	opportunities, err := ParseSearchOpportunitiesApiCompaniesCompanyPkOpportunitiesV3PostResponse(resp)
 
 	if err != nil {
 		return nil, err

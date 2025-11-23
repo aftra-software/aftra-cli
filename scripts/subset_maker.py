@@ -102,6 +102,19 @@ PATHS = [
     "components.schemas.OpportunitiesSearchBody",
     "components.schemas.OpportunitiesSortOrder",
     "components.schemas.Order",
+    "components.schemas.TokenType",
+    "components.schemas.RangeFilter_date_",
+    "components.schemas.TermsFilter_str_",
+    "components.schemas.ExistsFilter",
+    "components.schemas.ExactFilter_str_",
+    "components.schemas.OpportunityFilterNegatables",
+    "components.schemas.TermsFilter_OpportunityResolution_",
+    "components.schemas.TermsFilter_OpportunityScore_",
+    "components.schemas.TextFilter",
+    "components.schemas.TermsFilter_OpportunityModelType_",
+    "components.schemas.ScriptFilter_OpportunityScriptType_",
+    "components.schemas.OpportunityScriptType",
+    "components.schemas.GetTokenResponse",
 ]
 
 EXCLUDE_PATHS = [

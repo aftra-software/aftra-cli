@@ -79,7 +79,7 @@ var (
 				openapi.ResolutionUpdate{
 					Comment:    &commentStr,
 					DueDate:    dueDate,
-					Resolution: openapi.OpportunityResolution(resolutionStr),
+					Resolution: resolution,
 				},
 			)
 
