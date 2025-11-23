@@ -20,11 +20,13 @@ func Test_ExecuteGetToken(t *testing.T) {
 	tests := []test{
 		{
 			serverResponse:     200,
-			serverResponseData: "{\"company\": \"Company-123\", \"id\": \"123\", \"name\": \"FirstKey\"}",
+			serverResponseData: "{\"company\": \"Company-123\", \"company_name\": \"\", \"id\": \"123\", \"name\": \"FirstKey\", \"type\": \"\"}",
 			expectedOutput: `{
 	"company": "Company-123",
+	"company_name": "",
 	"id": "123",
-	"name": "FirstKey"
+	"name": "FirstKey",
+	"type": ""
 }
 `,
 		},

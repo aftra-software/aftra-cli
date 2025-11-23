@@ -4,7 +4,7 @@ import (
 	"context"
 )
 
-func DoGetTokenInfo(ctx context.Context, client *ClientWithResponses) (*MaskedToken, error) {
+func DoGetTokenInfo(ctx context.Context, client *ClientWithResponses) (*GetTokenResponse, error) {
 	resp, err := client.GetTokenInfo(ctx)
 
 	if err != nil {

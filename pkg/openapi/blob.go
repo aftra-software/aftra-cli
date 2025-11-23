@@ -13,6 +13,10 @@ func DoGetUploadURL(ctx context.Context, client *ClientWithResponses, companyPk 
 		return nil, err
 	}
 
+	if resp.JSON200 == nil {
+		return nil, CheckStatus(resp.HTTPResponse)
+	}
+
 	return resp.JSON200, nil
 
 }

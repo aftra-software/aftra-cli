@@ -15,6 +15,9 @@
                 "operationId": "create_opportunity_api_companies__company_pk__opportunities__post",
                 "security": [
                     {
+                        "jwt": []
+                    },
+                    {
                         "HTTPBearer": []
                     },
                     {
@@ -29,7 +32,9 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            "examples": [
+                                "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            ]
                         }
                     },
                     {
@@ -93,6 +98,9 @@
                 "operationId": "create_external_opportunity_api_companies__company_pk__opportunities_external__post",
                 "security": [
                     {
+                        "jwt": []
+                    },
+                    {
                         "HTTPBearer": []
                     },
                     {
@@ -107,7 +115,9 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            "examples": [
+                                "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            ]
                         }
                     },
                     {
@@ -169,7 +179,11 @@
                 ],
                 "summary": "List Company Syndisscans",
                 "operationId": "list company syndisscans",
+                "deprecated": true,
                 "security": [
+                    {
+                        "jwt": []
+                    },
                     {
                         "HTTPBearer": []
                     },
@@ -185,20 +199,14 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5",
+                            "examples": [
+                                "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            ],
                             "title": "Parent Pk"
                         }
                     },
                     {
                         "name": "search",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "marker",
                         "in": "query",
                         "required": false,
                         "schema": {
@@ -263,6 +271,9 @@
                 "operationId": "Get upload URL",
                 "security": [
                     {
+                        "jwt": []
+                    },
+                    {
                         "HTTPBearer": []
                     },
                     {
@@ -285,7 +296,9 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            "examples": [
+                                "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            ]
                         }
                     },
                     {
@@ -337,7 +350,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/MaskedToken"
+                                    "$ref": "#/components/schemas/GetTokenResponse"
                                 }
                             }
                         }
@@ -492,12 +505,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/components/schemas/Body_Submit_scan_results"
-                                    }
-                                ],
-                                "title": "Body"
+                                "$ref": "#/components/schemas/Body_Submit_scan_results"
                             }
                         }
                     }
@@ -536,6 +544,9 @@
                 "operationId": "Post update opportunity resolution",
                 "security": [
                     {
+                        "jwt": []
+                    },
+                    {
                         "HTTPBearer": []
                     },
                     {
@@ -550,7 +561,9 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            "examples": [
+                                "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            ]
                         }
                     },
                     {
@@ -610,368 +623,6 @@
             }
         },
         "/api/companies/{company_pk}/opportunities/v3": {
-            "get": {
-                "tags": [
-                    "opportunities"
-                ],
-                "summary": "Search Opportunities  Deprecated",
-                "operationId": "search_opportunities_api_companies__company_pk__opportunities_v3_get",
-                "deprecated": true,
-                "security": [
-                    {
-                        "HTTPBearer": []
-                    },
-                    {
-                        "APIKeyHeader": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "name": "company_pk",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                        }
-                    },
-                    {
-                        "name": "text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "sort",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/components/schemas/SortOptions"
-                                }
-                            ],
-                            "default": "score",
-                            "title": "Sort"
-                        }
-                    },
-                    {
-                        "name": "order",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "enum": [
-                                "asc",
-                                "desc"
-                            ],
-                            "type": "string",
-                            "default": "desc",
-                            "title": "Order"
-                        }
-                    },
-                    {
-                        "name": "start_from",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 0,
-                            "default": 0,
-                            "title": "Start From"
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "integer",
-                            "maximum": 1000,
-                            "minimum": 1,
-                            "default": 50,
-                            "title": "Limit"
-                        }
-                    },
-                    {
-                        "name": "resolution",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/OpportunityResolution"
-                            }
-                        }
-                    },
-                    {
-                        "name": "score",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/OpportunityScore"
-                            }
-                        }
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/OpportunityModelType"
-                            }
-                        }
-                    },
-                    {
-                        "name": "entity",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "group",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "label_set",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "label_set__exists",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "last_seen__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "last_seen__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "last_seen__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "last_seen__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "name__exact",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "entity_name__exact",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "parent_pk",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "identity",
-                        "in": "cookie",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/SearchedOpportunitiesResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found"
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "post": {
                 "tags": [
                     "opportunities"
@@ -980,6 +631,9 @@
                 "operationId": "search_opportunities_api_companies__company_pk__opportunities_v3_post",
                 "security": [
                     {
+                        "jwt": []
+                    },
+                    {
                         "HTTPBearer": []
                     },
                     {
@@ -994,15 +648,9 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
-                            "example": "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                        }
-                    },
-                    {
-                        "name": "text",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
+                            "examples": [
+                                "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
+                            ]
                         }
                     },
                     {
@@ -1026,240 +674,6 @@
                             "minimum": 1,
                             "default": 50,
                             "title": "Limit"
-                        }
-                    },
-                    {
-                        "name": "resolution",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/OpportunityResolution"
-                            }
-                        }
-                    },
-                    {
-                        "name": "score",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/OpportunityScore"
-                            }
-                        }
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/OpportunityModelType"
-                            }
-                        }
-                    },
-                    {
-                        "name": "entity",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "group",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "label_set",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "label_set__exists",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "last_seen__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "last_seen__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "last_seen__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "last_seen__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_created__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "timestamp_last_updated__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__lte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__gte",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__lt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "due_date__gt",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "date"
-                        }
-                    },
-                    {
-                        "name": "name__exact",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "entity_name__exact",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
                         }
                     },
                     {
@@ -1283,11 +697,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "allOf": [
-                                    {
-                                        "$ref": "#/components/schemas/OpportunitiesSearchBody"
-                                    }
-                                ],
+                                "$ref": "#/components/schemas/OpportunitiesSearchBody",
                                 "default": {
                                     "sort": [
                                         {
@@ -1295,8 +705,7 @@
                                             "order": "desc"
                                         }
                                     ]
-                                },
-                                "title": "Body"
+                                }
                             }
                         }
                     }
@@ -1333,6 +742,9 @@
         "schemas": {
             "MaskedToken": {
                 "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/TokenType"
+                    },
                     "name": {
                         "type": "string",
                         "title": "Name"
@@ -1348,11 +760,13 @@
                 },
                 "type": "object",
                 "required": [
+                    "type",
                     "name",
                     "id",
                     "company"
                 ],
-                "title": "MaskedToken"
+                "title": "MaskedToken",
+                "description": "Represents an API token, but without the actual raw token. This is\npresented when obtaining information about a token."
             },
             "SubmitLogEvent": {
                 "properties": {
@@ -1535,11 +949,7 @@
                         "type": "string"
                     },
                     "score": {
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/OpportunityScore"
-                            }
-                        ],
+                        "$ref": "#/components/schemas/OpportunityScore",
                         "default": -1
                     }
                 },
@@ -1644,10 +1054,12 @@
                     "exposed_secret",
                     "exposed_service",
                     "external_vulnerability",
+                    "microsoft_secure_score_control_profile",
                     "leaked_password",
                     "web_app_vulnerability",
                     "wordpress_vulnerability",
                     "burp_vulnerability",
+                    "burp_api_vulnerability",
                     "suspicious_domain",
                     "greenbone_vulnerability",
                     "open_port",
@@ -1671,9 +1083,6 @@
                     }
                 },
                 "type": "object",
-                "required": [
-                    "resolution"
-                ],
                 "title": "ResolutionUpdate"
             },
             "SearchedOpportunitiesResponse": {
@@ -1735,9 +1144,7 @@
                         "type": "array",
                         "uniqueItems": true,
                         "title": "Labels",
-                        "default": [
-                            "__blank"
-                        ]
+                        "default": []
                     }
                 },
                 "type": "object",
@@ -1793,6 +1200,12 @@
                     "host": {
                         "type": "string",
                         "title": "Host"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    },
+                    "cert_cname": {
+                        "type": "string"
                     },
                     "protocol": {
                         "type": "string",
@@ -1958,6 +1371,12 @@
                     "host": {
                         "type": "string",
                         "title": "Host"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    },
+                    "cert_cname": {
+                        "type": "string"
                     },
                     "protocol": {
                         "type": "string",
@@ -2211,6 +1630,75 @@
             },
             "OpportunitiesSearchBody": {
                 "properties": {
+                    "text": {
+                        "$ref": "#/components/schemas/TextFilter"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    },
+                    "entity": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "labelSet": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "entityName": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "externalId": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "uid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "resolutionActor": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "host": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "labelSetExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
+                    },
+                    "lastSeen": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "timestampCreated": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "timestampLastUpdated": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "dueDate": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "rescanTimestampExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
+                    },
+                    "externalIdExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
+                    },
+                    "script": {
+                        "$ref": "#/components/schemas/ScriptFilter_OpportunityScriptType_"
+                    },
+                    "negate": {
+                        "$ref": "#/components/schemas/OpportunityFilterNegatables"
+                    },
+                    "collectionUid": {
+                        "type": "string"
+                    },
                     "sort": {
                         "items": {
                             "$ref": "#/components/schemas/OpportunitiesSortOrder"
@@ -2234,11 +1722,7 @@
                         "$ref": "#/components/schemas/SortOptions"
                     },
                     "order": {
-                        "allOf": [
-                            {
-                                "$ref": "#/components/schemas/Order"
-                            }
-                        ],
+                        "$ref": "#/components/schemas/Order",
                         "default": "desc"
                     }
                 },
@@ -2255,6 +1739,167 @@
                     "desc"
                 ],
                 "title": "Order"
+            },
+            "TokenType": {
+                "type": "string",
+                "enum": [
+                    "USER",
+                    "INTERNAL",
+                    "SOC_INTEGRATION"
+                ],
+                "title": "TokenType"
+            },
+            "RangeFilter_date_": {
+                "properties": {
+                    "gt": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "gte": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "lt": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "lte": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                },
+                "type": "object",
+                "title": "RangeFilter[date]"
+            },
+            "TermsFilter_str_": {
+                "items": {
+                    "type": "string"
+                },
+                "type": "array",
+                "title": "TermsFilter[str]"
+            },
+            "ExistsFilter": {
+                "type": "boolean",
+                "title": "ExistsFilter",
+                "description": "Filter for checking for existence.\n\nFields with this type need to be annotated with an instance of ExistsFilterSearchKey"
+            },
+            "ExactFilter_str_": {
+                "type": "string",
+                "title": "ExactFilter[str]"
+            },
+            "OpportunityFilterNegatables": {
+                "properties": {
+                    "text": {
+                        "$ref": "#/components/schemas/TextFilter"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    },
+                    "entity": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "labelSet": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "entityName": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "externalId": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "uid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "resolutionActor": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "host": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    }
+                },
+                "type": "object",
+                "title": "OpportunityFilterNegatables"
+            },
+            "TermsFilter_OpportunityResolution_": {
+                "items": {
+                    "$ref": "#/components/schemas/OpportunityResolution"
+                },
+                "type": "array",
+                "title": "TermsFilter[OpportunityResolution]"
+            },
+            "TermsFilter_OpportunityScore_": {
+                "items": {
+                    "$ref": "#/components/schemas/OpportunityScore"
+                },
+                "type": "array",
+                "title": "TermsFilter[OpportunityScore]"
+            },
+            "TextFilter": {
+                "type": "string",
+                "title": "TextFilter",
+                "description": "Filter for text searching\n\nFields with this type need to be annotated with an instance of TextFilterFieldNames"
+            },
+            "TermsFilter_OpportunityModelType_": {
+                "items": {
+                    "$ref": "#/components/schemas/OpportunityModelType"
+                },
+                "type": "array",
+                "title": "TermsFilter[OpportunityModelType]"
+            },
+            "ScriptFilter_OpportunityScriptType_": {
+                "$ref": "#/components/schemas/OpportunityScriptType",
+                "title": "ScriptFilter[OpportunityScriptType]"
+            },
+            "OpportunityScriptType": {
+                "type": "string",
+                "enum": [
+                    "pending_confirmation"
+                ],
+                "title": "OpportunityScriptType"
+            },
+            "GetTokenResponse": {
+                "properties": {
+                    "type": {
+                        "$ref": "#/components/schemas/TokenType"
+                    },
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "company": {
+                        "type": "string",
+                        "title": "Company"
+                    },
+                    "company_name": {
+                        "type": "string",
+                        "title": "Company Name"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "type",
+                    "name",
+                    "id",
+                    "company",
+                    "company_name"
+                ],
+                "title": "GetTokenResponse"
             }
         }
     }

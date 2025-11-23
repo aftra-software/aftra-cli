@@ -2,7 +2,6 @@ version: 2
 before:
   hooks:
     - go get -v .
-    - go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.15.0
     - go generate ./...
 
 builds:
@@ -41,8 +40,8 @@ changelog:
 announce:
   slack:
     enabled: true
-    channel: "#vikingr-deployments"
-    username: VikingrDeployBot
+    channel: "#deployments"
+    username: CliDeployBot
     message_template: "New Release: {{ .ProjectName }} {{.Tag}} is published! Check it out at {{ .ReleaseURL }}"
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
