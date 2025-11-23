@@ -23,6 +23,12 @@ var (
 	submitCmd_filename string
 	submitCmd_message  string
 
+	// httpClientFactory is a function that creates HTTP clients for file uploads
+	// This can be overridden in tests
+	httpClientFactory = func() *http.Client {
+		return &http.Client{}
+	}
+
 	submitCmd = &cobra.Command{
 		Use:   "submit [scan-type] [scan-name] [scan-result]",
 		Args:  cobra.MatchAll(cobra.ExactArgs(2), cobra.OnlyValidArgs),
@@ -65,7 +71,8 @@ nessus format for syndis scans.
 					}
 
 					// 2 Upload the file
-					err = upload_file(uploadInfo.Url, contents, jsonFile.Name(), uploadInfo.Fields)
+					httpClient := httpClientFactory()
+					err = upload_file(uploadInfo.Url, contents, jsonFile.Name(), uploadInfo.Fields, httpClient)
 					if err != nil {
 						return err
 					}
@@ -134,7 +141,7 @@ func createMultipartForm(contents []byte, filename string, fields map[string]str
 	return b, w, nil
 }
 
-func upload_file(url string, contents []byte, filename string, fields map[string]string) error {
+func upload_file(url string, contents []byte, filename string, fields map[string]string, client *http.Client) error {
 	byteBuffer, multiWriter, err := createMultipartForm(contents, filename, fields)
 	if err != nil {
 		return err
@@ -147,7 +154,6 @@ func upload_file(url string, contents []byte, filename string, fields map[string
 	req.Header.Set("Content-Type", multiWriter.FormDataContentType())
 
 	// Submit the request
-	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err

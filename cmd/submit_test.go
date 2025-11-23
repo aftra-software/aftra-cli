@@ -226,6 +226,24 @@ func Test_ExecuteSubmit_File(t *testing.T) {
 				},
 				ResponseError: nil,
 			})
+			// Add mock response for the actual file upload to S3
+			// Note: "http://foo.com" has an empty path ""
+			mockDoer.AddResponse("", Response{
+				Response: http.Response{
+					StatusCode: 200,
+					Status:     "",
+					Body:       ioutil.NopCloser(bytes.NewBufferString("")),
+					Header:     header,
+				},
+				ResponseError: nil,
+			})
+
+			// Override the httpClientFactory to return a mock client
+			originalFactory := httpClientFactory
+			httpClientFactory = func() *http.Client {
+				return &http.Client{Transport: mockDoer}
+			}
+			defer func() { httpClientFactory = originalFactory }()
 
 			actual := new(bytes.Buffer)
 			rootCmd.SetOut(actual)

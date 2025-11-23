@@ -44,6 +44,11 @@ func (c *MockHTTP) Do(req *http.Request) (*http.Response, error) {
 	return &response.Response, response.ResponseError
 }
 
+// RoundTrip implements the http.RoundTripper interface
+func (c *MockHTTP) RoundTrip(req *http.Request) (*http.Response, error) {
+	return c.Do(req)
+}
+
 func (c *MockHTTP) CountRequests(path string) int {
 	count := 0
 	for _, req := range c.Requests {
