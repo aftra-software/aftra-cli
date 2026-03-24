@@ -1,53 +1,38 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "Web backend for aftra.io",
         "description": "The main api for aftra.io",
+        "title": "Web backend for aftra.io",
         "version": "0.1.0"
     },
     "paths": {
         "/api/companies/{company_pk}/opportunities/": {
             "post": {
-                "tags": [
-                    "opportunities"
-                ],
-                "summary": "Create Opportunity",
                 "operationId": "create_opportunity_api_companies__company_pk__opportunities__post",
-                "security": [
-                    {
-                        "jwt": []
-                    },
-                    {
-                        "HTTPBearer": []
-                    },
-                    {
-                        "APIKeyHeader": []
-                    }
-                ],
                 "parameters": [
                     {
-                        "name": "company_pk",
                         "in": "path",
+                        "name": "company_pk",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                             "examples": [
                                 "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                            ]
+                            ],
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "parent_pk",
                         "in": "query",
+                        "name": "parent_pk",
                         "required": false,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "identity",
                         "in": "cookie",
+                        "name": "identity",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -55,47 +40,38 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/CreateOpportunity"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
-            }
-        },
-        "/api/companies/{company_pk}/opportunities/external/": {
-            "post": {
-                "tags": [
-                    "opportunities"
-                ],
-                "summary": "Create External Opportunity",
-                "operationId": "create_external_opportunity_api_companies__company_pk__opportunities_external__post",
+                },
                 "security": [
                     {
                         "jwt": []
@@ -107,30 +83,39 @@
                         "APIKeyHeader": []
                     }
                 ],
+                "summary": "Create Opportunity",
+                "tags": [
+                    "opportunities"
+                ]
+            }
+        },
+        "/api/companies/{company_pk}/opportunities/external/": {
+            "post": {
+                "operationId": "create_external_opportunity_api_companies__company_pk__opportunities_external__post",
                 "parameters": [
                     {
-                        "name": "company_pk",
                         "in": "path",
+                        "name": "company_pk",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                             "examples": [
                                 "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                            ]
+                            ],
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "parent_pk",
                         "in": "query",
+                        "name": "parent_pk",
                         "required": false,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "identity",
                         "in": "cookie",
+                        "name": "identity",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -138,48 +123,38 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/CreateExternalOpportunity"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
-            }
-        },
-        "/api/companies/{parent_pk}/syndis-scans": {
-            "get": {
-                "tags": [
-                    "syndis-scans"
-                ],
-                "summary": "List Company Syndisscans",
-                "operationId": "list company syndisscans",
-                "deprecated": true,
+                },
                 "security": [
                     {
                         "jwt": []
@@ -191,43 +166,53 @@
                         "APIKeyHeader": []
                     }
                 ],
+                "summary": "Create External Opportunity",
+                "tags": [
+                    "opportunities"
+                ]
+            }
+        },
+        "/api/companies/{parent_pk}/syndis-scans": {
+            "get": {
+                "deprecated": true,
+                "operationId": "list company syndisscans",
                 "parameters": [
                     {
-                        "name": "parent_pk",
                         "in": "path",
+                        "name": "parent_pk",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                             "examples": [
                                 "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
                             ],
-                            "title": "Parent Pk"
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "title": "Parent Pk",
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "search",
                         "in": "query",
+                        "name": "search",
                         "required": false,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "limit",
                         "in": "query",
+                        "name": "limit",
                         "required": false,
                         "schema": {
-                            "type": "integer",
+                            "default": 100,
                             "maximum": 1000,
                             "minimum": 1,
-                            "default": 100,
-                            "title": "Limit"
+                            "title": "Limit",
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "identity",
                         "in": "cookie",
+                        "name": "identity",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -236,39 +221,29 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PaginatedEntityCollection_SyndisScanEntity_"
                                 }
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
-            }
-        },
-        "/api/companies/{parent_pk}/blobs/upload": {
-            "get": {
-                "tags": [
-                    "blobs"
-                ],
-                "summary": "Get Signed Upload Url",
-                "description": "Return information used for uploading a blob to storage.\nUseful if you want to make a large amount of data available to some backend process.\n\nTypical flow would be:\n\n    - Get signed URL and accompanying information from this URL\n    - Post a multi-part form using the signed URL, containing a section for each key, value\n      in `fields`, and the file data under a key of `file`.\n    - Notify the appropriate processing point in the API that upload is complete, sending\n      in key and bucket information.\n\nAn example usage of the flow is syndis_scan: submit_scan",
-                "operationId": "Get upload URL",
+                },
                 "security": [
                     {
                         "jwt": []
@@ -280,30 +255,40 @@
                         "APIKeyHeader": []
                     }
                 ],
+                "summary": "List Company Syndisscans",
+                "tags": [
+                    "syndis-scans"
+                ]
+            }
+        },
+        "/api/companies/{parent_pk}/blobs/upload": {
+            "get": {
+                "description": "Return information used for uploading a blob to storage.\nUseful if you want to make a large amount of data available to some backend process.\n\nTypical flow would be:\n\n    - Get signed URL and accompanying information from this URL\n    - Post a multi-part form using the signed URL, containing a section for each key, value\n      in `fields`, and the file data under a key of `file`.\n    - Notify the appropriate processing point in the API that upload is complete, sending\n      in key and bucket information.\n\nAn example usage of the flow is syndis_scan: submit_scan",
+                "operationId": "Get upload URL",
                 "parameters": [
                     {
-                        "name": "parent_pk",
                         "in": "path",
+                        "name": "parent_pk",
                         "required": true,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "company_pk",
                         "in": "query",
+                        "name": "company_pk",
                         "required": false,
                         "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                             "examples": [
                                 "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                            ]
+                            ],
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "identity",
                         "in": "cookie",
+                        "name": "identity",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -312,48 +297,59 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BlobSignedUploadURLResponse"
                                 }
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "HTTPBearer": []
+                    },
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "summary": "Get Signed Upload Url",
+                "tags": [
+                    "blobs"
+                ]
             }
         },
         "/api/token/": {
             "get": {
-                "tags": [
-                    "api_token"
-                ],
-                "summary": "Get Token Api",
                 "operationId": "Get token info",
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/GetTokenResponse"
                                 }
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
@@ -363,141 +359,136 @@
                     {
                         "APIKeyHeader": []
                     }
+                ],
+                "summary": "Get Token Api",
+                "tags": [
+                    "api_token"
                 ]
             }
         },
         "/api/integrations/syndis-scan/{scan_name}/config": {
             "get": {
-                "tags": [
-                    "integrations"
-                ],
-                "summary": "Get Config",
                 "operationId": "Get syndis config info",
-                "security": [
-                    {
-                        "APIKeyHeader": []
-                    }
-                ],
                 "parameters": [
                     {
-                        "name": "scan_name",
                         "in": "path",
+                        "name": "scan_name",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "title": "Scan Name"
+                            "title": "Scan Name",
+                            "type": "string"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SyndisScanConfig"
                                 }
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "summary": "Get Config",
+                "tags": [
+                    "integrations"
+                ]
             }
         },
         "/api/integrations/syndis-scan/{scan_name}/logs": {
             "post": {
-                "tags": [
-                    "integrations"
-                ],
-                "summary": "Submit Log",
                 "operationId": "Submit logs for scan",
-                "security": [
-                    {
-                        "APIKeyHeader": []
-                    }
-                ],
                 "parameters": [
                     {
-                        "name": "scan_name",
                         "in": "path",
+                        "name": "scan_name",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "title": "Scan Name"
+                            "title": "Scan Name",
+                            "type": "string"
                         }
                     }
                 ],
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "array",
                                 "items": {
                                     "$ref": "#/components/schemas/SubmitLogEvent"
                                 },
-                                "title": "Logs"
+                                "title": "Logs",
+                                "type": "array"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
-            }
-        },
-        "/api/integrations/syndis-scan/{scan_name}/scan": {
-            "post": {
-                "tags": [
-                    "integrations"
-                ],
-                "summary": "Submit Scan",
-                "operationId": "Submit scan results",
+                },
                 "security": [
                     {
                         "APIKeyHeader": []
                     }
                 ],
+                "summary": "Submit Log",
+                "tags": [
+                    "integrations"
+                ]
+            }
+        },
+        "/api/integrations/syndis-scan/{scan_name}/scan": {
+            "post": {
+                "operationId": "Submit scan results",
                 "parameters": [
                     {
-                        "name": "scan_name",
                         "in": "path",
+                        "name": "scan_name",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "title": "Scan Name"
+                            "title": "Scan Name",
+                            "type": "string"
                         }
                     }
                 ],
@@ -512,80 +503,74 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {}
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
-            }
-        },
-        "/api/companies/{company_pk}/opportunities/{opportunity_uid}/": {
-            "post": {
-                "tags": [
-                    "opportunities"
-                ],
-                "summary": "Post Update Resolution",
-                "operationId": "Post update opportunity resolution",
+                },
                 "security": [
-                    {
-                        "jwt": []
-                    },
-                    {
-                        "HTTPBearer": []
-                    },
                     {
                         "APIKeyHeader": []
                     }
                 ],
+                "summary": "Submit Scan",
+                "tags": [
+                    "integrations"
+                ]
+            }
+        },
+        "/api/companies/{company_pk}/opportunities/{opportunity_uid}/": {
+            "post": {
+                "operationId": "Post update opportunity resolution",
                 "parameters": [
                     {
-                        "name": "company_pk",
                         "in": "path",
+                        "name": "company_pk",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                             "examples": [
                                 "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                            ]
+                            ],
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "opportunity_uid",
                         "in": "path",
+                        "name": "opportunity_uid",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "title": "Opportunity Uid"
+                            "title": "Opportunity Uid",
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "parent_pk",
                         "in": "query",
+                        "name": "parent_pk",
                         "required": false,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "identity",
                         "in": "cookie",
+                        "name": "identity",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -593,14 +578,14 @@
                     }
                 ],
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/ResolutionUpdate"
                             }
                         }
-                    }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "204": {
@@ -610,25 +595,16 @@
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
-            }
-        },
-        "/api/companies/{company_pk}/opportunities/v3": {
-            "post": {
-                "tags": [
-                    "opportunities"
-                ],
-                "summary": "Search Opportunities",
-                "operationId": "search_opportunities_api_companies__company_pk__opportunities_v3_post",
+                },
                 "security": [
                     {
                         "jwt": []
@@ -640,53 +616,62 @@
                         "APIKeyHeader": []
                     }
                 ],
+                "summary": "Post Update Resolution",
+                "tags": [
+                    "opportunities"
+                ]
+            }
+        },
+        "/api/companies/{company_pk}/opportunities/v3": {
+            "post": {
+                "operationId": "search_opportunities_api_companies__company_pk__opportunities_v3_post",
                 "parameters": [
                     {
-                        "name": "company_pk",
                         "in": "path",
+                        "name": "company_pk",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
                             "examples": [
                                 "Company-8ccfcc01-da99-4f5a-8ad7-946d6a6f48f5"
-                            ]
+                            ],
+                            "pattern": "^Company-[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$",
+                            "type": "string"
                         }
                     },
                     {
+                        "in": "query",
                         "name": "start_from",
-                        "in": "query",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "minimum": 0,
                             "default": 0,
-                            "title": "Start From"
+                            "minimum": 0,
+                            "title": "Start From",
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "limit",
                         "in": "query",
+                        "name": "limit",
                         "required": false,
                         "schema": {
-                            "type": "integer",
+                            "default": 50,
                             "maximum": 1000,
                             "minimum": 1,
-                            "default": 50,
-                            "title": "Limit"
+                            "title": "Limit",
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "parent_pk",
                         "in": "query",
+                        "name": "parent_pk",
                         "required": false,
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "identity",
                         "in": "cookie",
+                        "name": "identity",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -697,7 +682,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/OpportunitiesSearchBody",
+                                "$ref": "#/components/schemas/OpportunitiesSearchBodyWithCollection",
                                 "default": {
                                     "sort": [
                                         {
@@ -712,53 +697,73 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SearchedOpportunitiesResponse"
                                 }
                             }
-                        }
+                        },
+                        "description": "Successful Response"
                     },
                     "404": {
                         "description": "Not found"
                     },
                     "422": {
-                        "description": "Validation Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
                                 }
                             }
-                        }
+                        },
+                        "description": "Validation Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "HTTPBearer": []
+                    },
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "summary": "Search Opportunities",
+                "tags": [
+                    "opportunities"
+                ]
             }
         }
     },
     "components": {
         "schemas": {
             "MaskedToken": {
+                "description": "Represents an API token, but without the actual raw token. This is\npresented when obtaining information about a token.",
                 "properties": {
-                    "type": {
-                        "$ref": "#/components/schemas/TokenType"
+                    "company": {
+                        "title": "Company",
+                        "type": "string"
                     },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
+                    "enabled": {
+                        "default": true,
+                        "title": "Enabled",
+                        "type": "boolean"
                     },
                     "id": {
-                        "type": "string",
-                        "title": "Id"
+                        "title": "Id",
+                        "type": "string"
                     },
-                    "company": {
-                        "type": "string",
-                        "title": "Company"
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TokenType"
                     }
                 },
-                "type": "object",
                 "required": [
                     "type",
                     "name",
@@ -766,37 +771,29 @@
                     "company"
                 ],
                 "title": "MaskedToken",
-                "description": "Represents an API token, but without the actual raw token. This is\npresented when obtaining information about a token."
+                "type": "object"
             },
             "SubmitLogEvent": {
                 "properties": {
-                    "timestamp": {
-                        "type": "integer",
-                        "format": "int64",
-                        "title": "Timestamp"
-                    },
                     "message": {
-                        "type": "string",
-                        "title": "Message"
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "format": "int64",
+                        "title": "Timestamp",
+                        "type": "integer"
                     }
                 },
-                "type": "object",
                 "required": [
                     "timestamp",
                     "message"
                 ],
-                "title": "SubmitLogEvent"
+                "title": "SubmitLogEvent",
+                "type": "object"
             },
             "CreateOpportunity": {
                 "properties": {
-                    "uid": {
-                        "type": "string",
-                        "title": "Uid"
-                    },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
                     "details": {
                         "additionalProperties": {
                             "anyOf": [
@@ -811,54 +808,61 @@
                                 }
                             ]
                         },
-                        "type": "object",
-                        "title": "Details"
+                        "title": "Details",
+                        "type": "object"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
                     },
                     "score": {
                         "$ref": "#/components/schemas/OpportunityScore"
+                    },
+                    "uid": {
+                        "title": "Uid",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "uid",
                     "name",
                     "details",
                     "score"
                 ],
-                "title": "CreateOpportunity"
+                "title": "CreateOpportunity",
+                "type": "object"
             },
             "CreateExternalOpportunity": {
                 "properties": {
-                    "uid": {
-                        "type": "string",
-                        "title": "Uid"
-                    },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "entity_name": {
-                        "type": "string",
-                        "title": "Entity Name"
+                    "background": {
+                        "type": "string"
                     },
                     "description": {
-                        "type": "string",
-                        "title": "Description"
+                        "title": "Description",
+                        "type": "string"
                     },
-                    "score": {
-                        "$ref": "#/components/schemas/OpportunityScore"
+                    "entity_name": {
+                        "title": "Entity Name",
+                        "type": "string"
                     },
-                    "background": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "references": {
                         "type": "string"
                     },
                     "remediation": {
                         "type": "string"
                     },
-                    "references": {
+                    "score": {
+                        "$ref": "#/components/schemas/OpportunityScore"
+                    },
+                    "uid": {
+                        "title": "Uid",
                         "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "uid",
                     "name",
@@ -866,7 +870,8 @@
                     "description",
                     "score"
                 ],
-                "title": "CreateExternalOpportunity"
+                "title": "CreateExternalOpportunity",
+                "type": "object"
             },
             "HTTPValidationError": {
                 "properties": {
@@ -874,15 +879,14 @@
                         "items": {
                             "$ref": "#/components/schemas/ValidationError"
                         },
-                        "type": "array",
-                        "title": "Detail"
+                        "title": "Detail",
+                        "type": "array"
                     }
                 },
-                "type": "object",
-                "title": "HTTPValidationError"
+                "title": "HTTPValidationError",
+                "type": "object"
             },
             "OpportunityScore": {
-                "type": "integer",
                 "enum": [
                     -1,
                     0,
@@ -892,7 +896,8 @@
                     4,
                     5
                 ],
-                "title": "OpportunityScore"
+                "title": "OpportunityScore",
+                "type": "integer"
             },
             "PaginatedEntityCollection_SyndisScanEntity_": {
                 "properties": {
@@ -900,60 +905,59 @@
                         "items": {
                             "$ref": "#/components/schemas/SyndisScanEntity"
                         },
-                        "type": "array",
-                        "title": "Entities"
+                        "title": "Entities",
+                        "type": "array"
                     },
                     "marker": {
                         "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "entities"
                 ],
-                "title": "PaginatedEntityCollection[SyndisScanEntity]"
+                "title": "PaginatedEntityCollection[SyndisScanEntity]",
+                "type": "object"
             },
             "Secret": {
                 "properties": {
-                    "type": {
-                        "type": "string",
-                        "title": "Type"
-                    },
-                    "secret": {
-                        "type": "string",
-                        "title": "Secret"
-                    },
-                    "filename": {
-                        "type": "string",
-                        "title": "Filename"
+                    "branch": {
+                        "type": "string"
                     },
                     "commit_hash": {
-                        "type": "string",
-                        "title": "Commit Hash"
+                        "title": "Commit Hash",
+                        "type": "string"
                     },
-                    "line_number": {
-                        "type": "integer",
-                        "title": "Line Number"
+                    "filename": {
+                        "title": "Filename",
+                        "type": "string"
                     },
                     "line_from": {
-                        "type": "integer",
+                        "default": 1,
                         "title": "Line From",
-                        "default": 1
+                        "type": "integer"
+                    },
+                    "line_number": {
+                        "title": "Line Number",
+                        "type": "integer"
                     },
                     "repo_url": {
-                        "type": "string",
+                        "default": "",
                         "title": "Repo Url",
-                        "default": ""
-                    },
-                    "branch": {
                         "type": "string"
                     },
                     "score": {
                         "$ref": "#/components/schemas/OpportunityScore",
                         "default": -1
+                    },
+                    "secret": {
+                        "title": "Secret",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Type",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "type",
                     "secret",
@@ -961,56 +965,56 @@
                     "commit_hash",
                     "line_number"
                 ],
-                "title": "Secret"
+                "title": "Secret",
+                "type": "object"
             },
             "SyndisScanTypes": {
-                "type": "string",
                 "enum": [
                     "INTERNAL",
                     "EXTERNAL",
                     "SLOW",
                     "COMPLIANCE"
                 ],
-                "title": "SyndisScanTypes"
+                "title": "SyndisScanTypes",
+                "type": "string"
             },
             "SyndisCISScanEntry": {
                 "properties": {
-                    "result": {
-                        "$ref": "#/components/schemas/CISScanResult"
-                    },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
+                    "count": {
+                        "title": "Count",
+                        "type": "integer"
                     },
                     "family": {
-                        "type": "string",
-                        "title": "Family"
+                        "title": "Family",
+                        "type": "string"
                     },
-                    "count": {
-                        "type": "integer",
-                        "title": "Count"
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "result": {
+                        "$ref": "#/components/schemas/CISScanResult"
                     }
                 },
-                "type": "object",
                 "required": [
                     "result",
                     "name",
                     "family",
                     "count"
                 ],
-                "title": "SyndisCISScanEntry"
+                "title": "SyndisCISScanEntry",
+                "type": "object"
             },
             "CISScanResult": {
-                "type": "string",
                 "enum": [
                     "PASSED",
                     "FAILED",
                     "WARNING"
                 ],
-                "title": "CISScanResult"
+                "title": "CISScanResult",
+                "type": "string"
             },
             "ScoreLevel": {
-                "type": "integer",
                 "enum": [
                     0,
                     1,
@@ -1018,12 +1022,12 @@
                     3,
                     4
                 ],
-                "title": "ScoreLevel"
+                "title": "ScoreLevel",
+                "type": "integer"
             },
             "SortOptions": {
-                "type": "string",
                 "enum": [
-                    "resolution",
+                    "sortable_resolution",
                     "score",
                     "sortable_type",
                     "entity",
@@ -1036,20 +1040,20 @@
                     "last_seen",
                     "resolution_days"
                 ],
-                "title": "SortOptions"
+                "title": "SortOptions",
+                "type": "string"
             },
             "OpportunityResolution": {
-                "type": "string",
                 "enum": [
                     "unacknowledged",
                     "accepted_risk",
                     "resolved",
                     "false_positive"
                 ],
-                "title": "OpportunityResolution"
+                "title": "OpportunityResolution",
+                "type": "string"
             },
             "OpportunityModelType": {
-                "type": "string",
                 "enum": [
                     "exposed_secret",
                     "exposed_service",
@@ -1065,25 +1069,29 @@
                     "open_port",
                     "domain_registration",
                     "internal",
-                    "cis_scan"
+                    "cis_scan",
+                    "acunetix_vulnerability",
+                    "acunetix_api_vulnerability",
+                    "clone_systems_vulnerability"
                 ],
-                "title": "OpportunityModelType"
+                "title": "OpportunityModelType",
+                "type": "string"
             },
             "ResolutionUpdate": {
                 "properties": {
-                    "resolution": {
-                        "$ref": "#/components/schemas/OpportunityResolution"
-                    },
                     "comment": {
                         "type": "string"
                     },
                     "dueDate": {
-                        "type": "string",
-                        "format": "date"
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/OpportunityResolution"
                     }
                 },
-                "type": "object",
-                "title": "ResolutionUpdate"
+                "title": "ResolutionUpdate",
+                "type": "object"
             },
             "SearchedOpportunitiesResponse": {
                 "properties": {
@@ -1091,207 +1099,206 @@
                         "items": {
                             "type": "object"
                         },
-                        "type": "array",
-                        "title": "Opportunities"
+                        "title": "Opportunities",
+                        "type": "array"
                     },
                     "total": {
-                        "type": "integer",
-                        "title": "Total"
+                        "title": "Total",
+                        "type": "integer"
                     }
                 },
-                "type": "object",
                 "required": [
                     "opportunities",
                     "total"
                 ],
-                "title": "SearchedOpportunitiesResponse"
+                "title": "SearchedOpportunitiesResponse",
+                "type": "object"
             },
             "SyndisScanConfig": {
                 "properties": {
-                    "type": {
-                        "$ref": "#/components/schemas/SyndisScanTypes"
+                    "cronSchedule": {
+                        "default": "",
+                        "title": "Cronschedule",
+                        "type": "string"
                     },
                     "ranges": {
-                        "type": "string",
-                        "title": "Ranges"
+                        "title": "Ranges",
+                        "type": "string"
                     },
-                    "cronSchedule": {
-                        "type": "string",
-                        "title": "Cronschedule",
-                        "default": ""
+                    "type": {
+                        "$ref": "#/components/schemas/SyndisScanTypes"
                     }
                 },
-                "type": "object",
                 "required": [
                     "type",
                     "ranges"
                 ],
-                "title": "SyndisScanConfig"
+                "title": "SyndisScanConfig",
+                "type": "object"
             },
             "SyndisScanEntity": {
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
                     "config": {
                         "$ref": "#/components/schemas/SyndisScanConfig"
                     },
                     "labels": {
+                        "default": [],
                         "items": {
                             "type": "string"
                         },
-                        "type": "array",
-                        "uniqueItems": true,
                         "title": "Labels",
-                        "default": []
+                        "type": "array",
+                        "uniqueItems": true
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "name",
                     "config",
                     "pk",
                     "sk"
                 ],
-                "title": "SyndisScanEntity"
+                "title": "SyndisScanEntity",
+                "type": "object"
             },
             "SyndisInternalScanEvent_SyndisCISResult_": {
                 "properties": {
-                    "folder_name": {
-                        "type": "string",
-                        "title": "Folder Name"
+                    "bid": {
+                        "title": "Bid",
+                        "type": "string"
                     },
-                    "scan_id": {
-                        "type": "string",
-                        "title": "Scan Id"
+                    "canvas": {
+                        "title": "Canvas",
+                        "type": "string"
                     },
-                    "scan_uuid": {
-                        "type": "string",
-                        "title": "Scan Uuid"
+                    "cert_cname": {
+                        "type": "string"
                     },
-                    "scan_start": {
-                        "type": "string",
-                        "title": "Scan Start"
-                    },
-                    "scan_end": {
-                        "type": "string",
-                        "title": "Scan End"
-                    },
-                    "file_name": {
-                        "type": "string",
-                        "title": "File Name"
-                    },
-                    "plugin_id": {
-                        "type": "integer",
-                        "title": "Plugin Id"
+                    "core_impact": {
+                        "type": "string"
                     },
                     "cve": {
-                        "type": "string",
-                        "title": "Cve"
+                        "title": "Cve",
+                        "type": "string"
                     },
                     "cvss": {
-                        "type": "number",
-                        "title": "Cvss"
+                        "title": "Cvss",
+                        "type": "number"
+                    },
+                    "cvss_temporal_score": {
+                        "title": "Cvss Temporal Score",
+                        "type": "number"
+                    },
+                    "cvss_v3_0_base_score": {
+                        "title": "Cvss V3 0 Base Score",
+                        "type": "number"
+                    },
+                    "cvss_v3_0_temporal_score": {
+                        "title": "Cvss V3 0 Temporal Score",
+                        "type": "number"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "file_name": {
+                        "title": "File Name",
+                        "type": "string"
+                    },
+                    "folder_name": {
+                        "title": "Folder Name",
+                        "type": "string"
+                    },
+                    "host": {
+                        "title": "Host",
+                        "type": "string"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    },
+                    "metasploit": {
+                        "title": "Metasploit",
+                        "type": "string"
+                    },
+                    "mskb": {
+                        "title": "Mskb",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "plugin_id": {
+                        "title": "Plugin Id",
+                        "type": "integer"
+                    },
+                    "plugin_modification_date": {
+                        "title": "Plugin Modification Date",
+                        "type": "string"
+                    },
+                    "plugin_output": {
+                        "title": "Plugin Output",
+                        "type": "string"
+                    },
+                    "plugin_publication_date": {
+                        "title": "Plugin Publication Date",
+                        "type": "string"
+                    },
+                    "port": {
+                        "title": "Port",
+                        "type": "string"
+                    },
+                    "protocol": {
+                        "title": "Protocol",
+                        "type": "string"
                     },
                     "risk": {
                         "$ref": "#/components/schemas/SyndisCISResult"
                     },
-                    "host": {
-                        "type": "string",
-                        "title": "Host"
-                    },
-                    "hostname": {
+                    "risk_factor": {
+                        "title": "Risk Factor",
                         "type": "string"
                     },
-                    "cert_cname": {
+                    "scan_end": {
+                        "title": "Scan End",
                         "type": "string"
                     },
-                    "protocol": {
-                        "type": "string",
-                        "title": "Protocol"
+                    "scan_id": {
+                        "title": "Scan Id",
+                        "type": "string"
                     },
-                    "port": {
-                        "type": "string",
-                        "title": "Port"
+                    "scan_start": {
+                        "title": "Scan Start",
+                        "type": "string"
                     },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "synopsis": {
-                        "type": "string",
-                        "title": "Synopsis"
-                    },
-                    "description": {
-                        "type": "string",
-                        "title": "Description"
-                    },
-                    "solution": {
-                        "type": "string",
-                        "title": "Solution"
+                    "scan_uuid": {
+                        "title": "Scan Uuid",
+                        "type": "string"
                     },
                     "see_also": {
-                        "type": "string",
-                        "title": "See Also"
-                    },
-                    "plugin_output": {
-                        "type": "string",
-                        "title": "Plugin Output"
-                    },
-                    "stig_severity": {
-                        "type": "string",
-                        "title": "Stig Severity"
-                    },
-                    "cvss_v3_0_base_score": {
-                        "type": "number",
-                        "title": "Cvss V3 0 Base Score"
-                    },
-                    "cvss_temporal_score": {
-                        "type": "number",
-                        "title": "Cvss Temporal Score"
-                    },
-                    "cvss_v3_0_temporal_score": {
-                        "type": "number",
-                        "title": "Cvss V3 0 Temporal Score"
-                    },
-                    "risk_factor": {
-                        "type": "string",
-                        "title": "Risk Factor"
-                    },
-                    "bid": {
-                        "type": "string",
-                        "title": "Bid"
-                    },
-                    "xref": {
-                        "type": "string",
-                        "title": "Xref"
-                    },
-                    "mskb": {
-                        "type": "string",
-                        "title": "Mskb"
-                    },
-                    "plugin_publication_date": {
-                        "type": "string",
-                        "title": "Plugin Publication Date"
-                    },
-                    "plugin_modification_date": {
-                        "type": "string",
-                        "title": "Plugin Modification Date"
-                    },
-                    "metasploit": {
-                        "type": "string",
-                        "title": "Metasploit"
-                    },
-                    "core_impact": {
+                        "title": "See Also",
                         "type": "string"
                     },
-                    "canvas": {
-                        "type": "string",
-                        "title": "Canvas"
+                    "solution": {
+                        "title": "Solution",
+                        "type": "string"
+                    },
+                    "stig_severity": {
+                        "title": "Stig Severity",
+                        "type": "string"
+                    },
+                    "synopsis": {
+                        "title": "Synopsis",
+                        "type": "string"
+                    },
+                    "xref": {
+                        "title": "Xref",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "folder_name",
                     "scan_id",
@@ -1325,144 +1332,144 @@
                     "metasploit",
                     "canvas"
                 ],
-                "title": "SyndisInternalScanEvent[SyndisCISResult]"
+                "title": "SyndisInternalScanEvent[SyndisCISResult]",
+                "type": "object"
             },
             "SyndisInternalScanEvent_SyndisRiskScore_": {
                 "properties": {
-                    "folder_name": {
-                        "type": "string",
-                        "title": "Folder Name"
+                    "bid": {
+                        "title": "Bid",
+                        "type": "string"
                     },
-                    "scan_id": {
-                        "type": "string",
-                        "title": "Scan Id"
+                    "canvas": {
+                        "title": "Canvas",
+                        "type": "string"
                     },
-                    "scan_uuid": {
-                        "type": "string",
-                        "title": "Scan Uuid"
+                    "cert_cname": {
+                        "type": "string"
                     },
-                    "scan_start": {
-                        "type": "string",
-                        "title": "Scan Start"
-                    },
-                    "scan_end": {
-                        "type": "string",
-                        "title": "Scan End"
-                    },
-                    "file_name": {
-                        "type": "string",
-                        "title": "File Name"
-                    },
-                    "plugin_id": {
-                        "type": "integer",
-                        "title": "Plugin Id"
+                    "core_impact": {
+                        "type": "string"
                     },
                     "cve": {
-                        "type": "string",
-                        "title": "Cve"
+                        "title": "Cve",
+                        "type": "string"
                     },
                     "cvss": {
-                        "type": "number",
-                        "title": "Cvss"
+                        "title": "Cvss",
+                        "type": "number"
+                    },
+                    "cvss_temporal_score": {
+                        "title": "Cvss Temporal Score",
+                        "type": "number"
+                    },
+                    "cvss_v3_0_base_score": {
+                        "title": "Cvss V3 0 Base Score",
+                        "type": "number"
+                    },
+                    "cvss_v3_0_temporal_score": {
+                        "title": "Cvss V3 0 Temporal Score",
+                        "type": "number"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "file_name": {
+                        "title": "File Name",
+                        "type": "string"
+                    },
+                    "folder_name": {
+                        "title": "Folder Name",
+                        "type": "string"
+                    },
+                    "host": {
+                        "title": "Host",
+                        "type": "string"
+                    },
+                    "hostname": {
+                        "type": "string"
+                    },
+                    "metasploit": {
+                        "title": "Metasploit",
+                        "type": "string"
+                    },
+                    "mskb": {
+                        "title": "Mskb",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "plugin_id": {
+                        "title": "Plugin Id",
+                        "type": "integer"
+                    },
+                    "plugin_modification_date": {
+                        "title": "Plugin Modification Date",
+                        "type": "string"
+                    },
+                    "plugin_output": {
+                        "title": "Plugin Output",
+                        "type": "string"
+                    },
+                    "plugin_publication_date": {
+                        "title": "Plugin Publication Date",
+                        "type": "string"
+                    },
+                    "port": {
+                        "title": "Port",
+                        "type": "string"
+                    },
+                    "protocol": {
+                        "title": "Protocol",
+                        "type": "string"
                     },
                     "risk": {
                         "$ref": "#/components/schemas/SyndisRiskScore"
                     },
-                    "host": {
-                        "type": "string",
-                        "title": "Host"
-                    },
-                    "hostname": {
+                    "risk_factor": {
+                        "title": "Risk Factor",
                         "type": "string"
                     },
-                    "cert_cname": {
+                    "scan_end": {
+                        "title": "Scan End",
                         "type": "string"
                     },
-                    "protocol": {
-                        "type": "string",
-                        "title": "Protocol"
+                    "scan_id": {
+                        "title": "Scan Id",
+                        "type": "string"
                     },
-                    "port": {
-                        "type": "string",
-                        "title": "Port"
+                    "scan_start": {
+                        "title": "Scan Start",
+                        "type": "string"
                     },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "synopsis": {
-                        "type": "string",
-                        "title": "Synopsis"
-                    },
-                    "description": {
-                        "type": "string",
-                        "title": "Description"
-                    },
-                    "solution": {
-                        "type": "string",
-                        "title": "Solution"
+                    "scan_uuid": {
+                        "title": "Scan Uuid",
+                        "type": "string"
                     },
                     "see_also": {
-                        "type": "string",
-                        "title": "See Also"
-                    },
-                    "plugin_output": {
-                        "type": "string",
-                        "title": "Plugin Output"
-                    },
-                    "stig_severity": {
-                        "type": "string",
-                        "title": "Stig Severity"
-                    },
-                    "cvss_v3_0_base_score": {
-                        "type": "number",
-                        "title": "Cvss V3 0 Base Score"
-                    },
-                    "cvss_temporal_score": {
-                        "type": "number",
-                        "title": "Cvss Temporal Score"
-                    },
-                    "cvss_v3_0_temporal_score": {
-                        "type": "number",
-                        "title": "Cvss V3 0 Temporal Score"
-                    },
-                    "risk_factor": {
-                        "type": "string",
-                        "title": "Risk Factor"
-                    },
-                    "bid": {
-                        "type": "string",
-                        "title": "Bid"
-                    },
-                    "xref": {
-                        "type": "string",
-                        "title": "Xref"
-                    },
-                    "mskb": {
-                        "type": "string",
-                        "title": "Mskb"
-                    },
-                    "plugin_publication_date": {
-                        "type": "string",
-                        "title": "Plugin Publication Date"
-                    },
-                    "plugin_modification_date": {
-                        "type": "string",
-                        "title": "Plugin Modification Date"
-                    },
-                    "metasploit": {
-                        "type": "string",
-                        "title": "Metasploit"
-                    },
-                    "core_impact": {
+                        "title": "See Also",
                         "type": "string"
                     },
-                    "canvas": {
-                        "type": "string",
-                        "title": "Canvas"
+                    "solution": {
+                        "title": "Solution",
+                        "type": "string"
+                    },
+                    "stig_severity": {
+                        "title": "Stig Severity",
+                        "type": "string"
+                    },
+                    "synopsis": {
+                        "title": "Synopsis",
+                        "type": "string"
+                    },
+                    "xref": {
+                        "title": "Xref",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "folder_name",
                     "scan_id",
@@ -1496,20 +1503,20 @@
                     "metasploit",
                     "canvas"
                 ],
-                "title": "SyndisInternalScanEvent[SyndisRiskScore]"
+                "title": "SyndisInternalScanEvent[SyndisRiskScore]",
+                "type": "object"
             },
             "SyndisCISResult": {
-                "type": "string",
                 "enum": [
                     "WARNING",
                     "PASSED",
                     "FAILED",
                     "None"
                 ],
-                "title": "SyndisCISResult"
+                "title": "SyndisCISResult",
+                "type": "string"
             },
             "SyndisRiskScore": {
-                "type": "string",
                 "enum": [
                     "Low",
                     "Medium",
@@ -1517,7 +1524,8 @@
                     "Critical",
                     "None"
                 ],
-                "title": "SyndisRiskScore"
+                "title": "SyndisRiskScore",
+                "type": "string"
             },
             "ValidationError": {
                 "properties": {
@@ -1532,28 +1540,31 @@
                                 }
                             ]
                         },
-                        "type": "array",
-                        "title": "Location"
+                        "title": "Location",
+                        "type": "array"
                     },
                     "msg": {
-                        "type": "string",
-                        "title": "Message"
+                        "title": "Message",
+                        "type": "string"
                     },
                     "type": {
-                        "type": "string",
-                        "title": "Error Type"
+                        "title": "Error Type",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "loc",
                     "msg",
                     "type"
                 ],
-                "title": "ValidationError"
+                "title": "ValidationError",
+                "type": "object"
             },
             "Body_Submit_scan_results": {
                 "properties": {
+                    "blob_upload": {
+                        "$ref": "#/components/schemas/BlobUploadInfo"
+                    },
                     "events": {
                         "anyOf": [
                             {
@@ -1569,90 +1580,72 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Events",
-                        "default": []
-                    },
-                    "blob_upload": {
-                        "$ref": "#/components/schemas/BlobUploadInfo"
+                        "default": [],
+                        "title": "Events"
                     }
                 },
-                "type": "object",
-                "title": "Body_Submit scan results"
+                "title": "Body_Submit scan results",
+                "type": "object"
             },
             "BlobUploadInfo": {
                 "properties": {
-                    "key": {
-                        "type": "string",
-                        "title": "Key"
-                    },
                     "bucket": {
-                        "type": "string",
-                        "title": "Bucket"
+                        "title": "Bucket",
+                        "type": "string"
+                    },
+                    "key": {
+                        "title": "Key",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "key",
                     "bucket"
                 ],
-                "title": "BlobUploadInfo"
+                "title": "BlobUploadInfo",
+                "type": "object"
             },
             "BlobSignedUploadURLResponse": {
                 "properties": {
-                    "url": {
-                        "type": "string",
-                        "title": "Url"
+                    "bucket": {
+                        "title": "Bucket",
+                        "type": "string"
                     },
                     "fields": {
                         "additionalProperties": {
                             "type": "string"
                         },
-                        "type": "object",
-                        "title": "Fields"
-                    },
-                    "bucket": {
-                        "type": "string",
-                        "title": "Bucket"
+                        "title": "Fields",
+                        "type": "object"
                     },
                     "key": {
-                        "type": "string",
-                        "title": "Key"
+                        "title": "Key",
+                        "type": "string"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "url",
                     "fields",
                     "bucket",
                     "key"
                 ],
-                "title": "BlobSignedUploadURLResponse"
+                "title": "BlobSignedUploadURLResponse",
+                "type": "object"
             },
             "OpportunitiesSearchBody": {
                 "properties": {
-                    "text": {
-                        "$ref": "#/components/schemas/TextFilter"
+                    "criticalEmailSentAt": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
                     },
-                    "resolution": {
-                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
-                    },
-                    "score": {
-                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
-                    },
-                    "type": {
-                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    "dueDate": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
                     },
                     "entity": {
                         "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "group": {
-                        "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "labelSet": {
-                        "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "name": {
-                        "$ref": "#/components/schemas/ExactFilter_str_"
                     },
                     "entityName": {
                         "$ref": "#/components/schemas/ExactFilter_str_"
@@ -1660,14 +1653,17 @@
                     "externalId": {
                         "$ref": "#/components/schemas/ExactFilter_str_"
                     },
-                    "uid": {
-                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    "externalIdExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
                     },
-                    "resolutionActor": {
+                    "group": {
                         "$ref": "#/components/schemas/TermsFilter_str_"
                     },
                     "host": {
                         "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "labelSet": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
                     },
                     "labelSetExists": {
                         "$ref": "#/components/schemas/ExistsFilter"
@@ -1675,46 +1671,155 @@
                     "lastSeen": {
                         "$ref": "#/components/schemas/RangeFilter_date_"
                     },
+                    "name": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "negate": {
+                        "$ref": "#/components/schemas/OpportunityFilterNegatables"
+                    },
+                    "rescanTimestampExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
+                    },
+                    "resolutionActor": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "scanSourceUid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
+                    },
+                    "script": {
+                        "$ref": "#/components/schemas/ScriptFilter_OpportunityScriptType_"
+                    },
+                    "sort": {
+                        "default": [
+                            {
+                                "field": "score",
+                                "order": "desc"
+                            }
+                        ],
+                        "items": {
+                            "$ref": "#/components/schemas/OpportunitiesSortOrder"
+                        },
+                        "title": "Sort",
+                        "type": "array"
+                    },
+                    "text": {
+                        "$ref": "#/components/schemas/TextFilter"
+                    },
                     "timestampCreated": {
                         "$ref": "#/components/schemas/RangeFilter_date_"
                     },
                     "timestampLastUpdated": {
                         "$ref": "#/components/schemas/RangeFilter_date_"
                     },
+                    "type": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    },
+                    "uid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    }
+                },
+                "title": "OpportunitiesSearchBody",
+                "type": "object"
+            },
+            "OpportunitiesSearchBodyWithCollection": {
+                "properties": {
+                    "collectionUid": {
+                        "type": "string"
+                    },
+                    "criticalEmailSentAt": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
                     "dueDate": {
                         "$ref": "#/components/schemas/RangeFilter_date_"
                     },
-                    "rescanTimestampExists": {
-                        "$ref": "#/components/schemas/ExistsFilter"
+                    "entity": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "entityName": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "externalId": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
                     },
                     "externalIdExists": {
                         "$ref": "#/components/schemas/ExistsFilter"
                     },
-                    "script": {
-                        "$ref": "#/components/schemas/ScriptFilter_OpportunityScriptType_"
+                    "group": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "host": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "labelSet": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "labelSetExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
+                    },
+                    "lastSeen": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
                     },
                     "negate": {
                         "$ref": "#/components/schemas/OpportunityFilterNegatables"
                     },
-                    "collectionUid": {
-                        "type": "string"
+                    "rescanTimestampExists": {
+                        "$ref": "#/components/schemas/ExistsFilter"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
+                    },
+                    "resolutionActor": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "scanSourceUid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
+                    },
+                    "script": {
+                        "$ref": "#/components/schemas/ScriptFilter_OpportunityScriptType_"
                     },
                     "sort": {
-                        "items": {
-                            "$ref": "#/components/schemas/OpportunitiesSortOrder"
-                        },
-                        "type": "array",
-                        "title": "Sort",
                         "default": [
                             {
                                 "field": "score",
                                 "order": "desc"
                             }
-                        ]
+                        ],
+                        "items": {
+                            "$ref": "#/components/schemas/OpportunitiesSortOrder"
+                        },
+                        "title": "Sort",
+                        "type": "array"
+                    },
+                    "text": {
+                        "$ref": "#/components/schemas/TextFilter"
+                    },
+                    "timestampCreated": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "timestampLastUpdated": {
+                        "$ref": "#/components/schemas/RangeFilter_date_"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    },
+                    "uid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
                     }
                 },
-                "type": "object",
-                "title": "OpportunitiesSearchBody"
+                "title": "OpportunitiesSearchBodyWithCollection",
+                "type": "object"
             },
             "OpportunitiesSortOrder": {
                 "properties": {
@@ -1726,92 +1831,71 @@
                         "default": "desc"
                     }
                 },
-                "type": "object",
                 "required": [
                     "field"
                 ],
-                "title": "OpportunitiesSortOrder"
+                "title": "OpportunitiesSortOrder",
+                "type": "object"
             },
             "Order": {
-                "type": "string",
                 "enum": [
                     "asc",
                     "desc"
                 ],
-                "title": "Order"
+                "title": "Order",
+                "type": "string"
             },
             "TokenType": {
-                "type": "string",
                 "enum": [
                     "USER",
                     "INTERNAL",
                     "SOC_INTEGRATION"
                 ],
-                "title": "TokenType"
+                "title": "TokenType",
+                "type": "string"
             },
             "RangeFilter_date_": {
                 "properties": {
                     "gt": {
-                        "type": "string",
-                        "format": "date"
+                        "format": "date",
+                        "type": "string"
                     },
                     "gte": {
-                        "type": "string",
-                        "format": "date"
+                        "format": "date",
+                        "type": "string"
                     },
                     "lt": {
-                        "type": "string",
-                        "format": "date"
+                        "format": "date",
+                        "type": "string"
                     },
                     "lte": {
-                        "type": "string",
-                        "format": "date"
+                        "format": "date",
+                        "type": "string"
                     }
                 },
-                "type": "object",
-                "title": "RangeFilter[date]"
+                "title": "RangeFilter[date]",
+                "type": "object"
             },
             "TermsFilter_str_": {
                 "items": {
                     "type": "string"
                 },
-                "type": "array",
-                "title": "TermsFilter[str]"
+                "title": "TermsFilter[str]",
+                "type": "array"
             },
             "ExistsFilter": {
-                "type": "boolean",
+                "description": "Filter for checking for existence.\n\nFields with this type need to be annotated with an instance of ExistsFilterSearchKey",
                 "title": "ExistsFilter",
-                "description": "Filter for checking for existence.\n\nFields with this type need to be annotated with an instance of ExistsFilterSearchKey"
+                "type": "boolean"
             },
             "ExactFilter_str_": {
-                "type": "string",
-                "title": "ExactFilter[str]"
+                "title": "ExactFilter[str]",
+                "type": "string"
             },
             "OpportunityFilterNegatables": {
                 "properties": {
-                    "text": {
-                        "$ref": "#/components/schemas/TextFilter"
-                    },
-                    "resolution": {
-                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
-                    },
-                    "score": {
-                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
-                    },
-                    "type": {
-                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
-                    },
                     "entity": {
                         "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "group": {
-                        "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "labelSet": {
-                        "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "name": {
-                        "$ref": "#/components/schemas/ExactFilter_str_"
                     },
                     "entityName": {
                         "$ref": "#/components/schemas/ExactFilter_str_"
@@ -1819,79 +1903,104 @@
                     "externalId": {
                         "$ref": "#/components/schemas/ExactFilter_str_"
                     },
-                    "uid": {
-                        "$ref": "#/components/schemas/TermsFilter_str_"
-                    },
-                    "resolutionActor": {
+                    "group": {
                         "$ref": "#/components/schemas/TermsFilter_str_"
                     },
                     "host": {
                         "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "labelSet": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
+                    },
+                    "resolutionActor": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
+                    },
+                    "text": {
+                        "$ref": "#/components/schemas/TextFilter"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    },
+                    "uid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
                     }
                 },
-                "type": "object",
-                "title": "OpportunityFilterNegatables"
+                "title": "OpportunityFilterNegatables",
+                "type": "object"
             },
             "TermsFilter_OpportunityResolution_": {
                 "items": {
                     "$ref": "#/components/schemas/OpportunityResolution"
                 },
-                "type": "array",
-                "title": "TermsFilter[OpportunityResolution]"
+                "title": "TermsFilter[OpportunityResolution]",
+                "type": "array"
             },
             "TermsFilter_OpportunityScore_": {
                 "items": {
                     "$ref": "#/components/schemas/OpportunityScore"
                 },
-                "type": "array",
-                "title": "TermsFilter[OpportunityScore]"
+                "title": "TermsFilter[OpportunityScore]",
+                "type": "array"
             },
             "TextFilter": {
-                "type": "string",
+                "description": "Filter for text searching\n\nFields with this type need to be annotated with an instance of TextFilterFieldNames",
                 "title": "TextFilter",
-                "description": "Filter for text searching\n\nFields with this type need to be annotated with an instance of TextFilterFieldNames"
+                "type": "string"
             },
             "TermsFilter_OpportunityModelType_": {
                 "items": {
                     "$ref": "#/components/schemas/OpportunityModelType"
                 },
-                "type": "array",
-                "title": "TermsFilter[OpportunityModelType]"
+                "title": "TermsFilter[OpportunityModelType]",
+                "type": "array"
             },
             "ScriptFilter_OpportunityScriptType_": {
                 "$ref": "#/components/schemas/OpportunityScriptType",
                 "title": "ScriptFilter[OpportunityScriptType]"
             },
             "OpportunityScriptType": {
-                "type": "string",
                 "enum": [
                     "pending_confirmation"
                 ],
-                "title": "OpportunityScriptType"
+                "title": "OpportunityScriptType",
+                "type": "string"
             },
             "GetTokenResponse": {
                 "properties": {
-                    "type": {
-                        "$ref": "#/components/schemas/TokenType"
-                    },
-                    "name": {
-                        "type": "string",
-                        "title": "Name"
-                    },
-                    "id": {
-                        "type": "string",
-                        "title": "Id"
-                    },
                     "company": {
-                        "type": "string",
-                        "title": "Company"
+                        "title": "Company",
+                        "type": "string"
                     },
                     "company_name": {
-                        "type": "string",
-                        "title": "Company Name"
+                        "title": "Company Name",
+                        "type": "string"
+                    },
+                    "enabled": {
+                        "default": true,
+                        "title": "Enabled",
+                        "type": "boolean"
+                    },
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TokenType"
                     }
                 },
-                "type": "object",
                 "required": [
                     "type",
                     "name",
@@ -1899,7 +2008,8 @@
                     "company",
                     "company_name"
                 ],
-                "title": "GetTokenResponse"
+                "title": "GetTokenResponse",
+                "type": "object"
             }
         }
     }
