@@ -99,7 +99,6 @@ PATHS = [
     "components.schemas.Body_Submit_scan_results",
     "components.schemas.BlobUploadInfo",
     "components.schemas.BlobSignedUploadURLResponse",
-    "components.schemas.OpportunitiesSearchBody",
     "components.schemas.OpportunitiesSearchBodyWithCollection",
     "components.schemas.OpportunitiesSortOrder",
     "components.schemas.Order",
