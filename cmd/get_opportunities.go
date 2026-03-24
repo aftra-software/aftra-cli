@@ -100,7 +100,7 @@ Output is JSON format`,
 					StartFrom: &startFrom,
 				}
 
-				body := openapi.OpportunitiesSearchBody{
+				body := openapi.OpportunitiesSearchBodyWithCollection{
 					TimestampLastUpdated: &openapi.RangeFilterDate{
 						Gte: &openapi_types.Date{Time: lastUpdatedGte},
 					},
