@@ -1638,6 +1638,9 @@
             },
             "OpportunitiesSearchBodyWithCollection": {
                 "properties": {
+                    "assignees": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
                     "collectionUid": {
                         "type": "string"
                     },
@@ -1678,7 +1681,7 @@
                         "$ref": "#/components/schemas/ExactFilter_str_"
                     },
                     "negate": {
-                        "$ref": "#/components/schemas/OpportunityFilterNegatables"
+                        "$ref": "#/components/schemas/CompanyOpportunityFilterNegatables"
                     },
                     "rescanTimestampExists": {
                         "$ref": "#/components/schemas/ExistsFilter"
@@ -1801,7 +1804,7 @@
                 "title": "ExactFilter[str]",
                 "type": "string"
             },
-            "OpportunityFilterNegatables": {
+            "OpportunityFilterNegatablesBase": {
                 "properties": {
                     "entity": {
                         "$ref": "#/components/schemas/TermsFilter_str_"
@@ -1843,7 +1846,55 @@
                         "$ref": "#/components/schemas/TermsFilter_str_"
                     }
                 },
-                "title": "OpportunityFilterNegatables",
+                "title": "OpportunityFilterNegatablesBase",
+                "type": "object"
+            },
+            "CompanyOpportunityFilterNegatables": {
+                "properties": {
+                    "assignees": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "entity": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "entityName": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "externalId": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "group": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "host": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "labelSet": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "name": {
+                        "$ref": "#/components/schemas/ExactFilter_str_"
+                    },
+                    "resolution": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityResolution_"
+                    },
+                    "resolutionActor": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    },
+                    "score": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityScore_"
+                    },
+                    "text": {
+                        "$ref": "#/components/schemas/TextFilter"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TermsFilter_OpportunityModelType_"
+                    },
+                    "uid": {
+                        "$ref": "#/components/schemas/TermsFilter_str_"
+                    }
+                },
+                "title": "CompanyOpportunityFilterNegatables",
                 "type": "object"
             },
             "TermsFilter_OpportunityResolution_": {
